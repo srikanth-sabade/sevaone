@@ -1,0 +1,20 @@
+name: sevaone
+
+services:
+  wso2is:
+    image: wso2/wso2is:7.3.0
+    restart: unless-stopped
+    ports:
+      - "9443:9443"
+    environment:
+      JAVA_OPTS: "-Xms512m -Xmx1024m"
+    entrypoint: ["/scripts/docker-entrypoint-seva.sh"]
+    volumes:
+      - ./wso2/docker-entrypoint-seva.sh:/scripts/docker-entrypoint-seva.sh:ro
+      - ./wso2/config-volume:/home/wso2carbon/wso2-config-volume:ro
+      - ./wso2/artifact-volume:/home/wso2carbon/wso2-artifact-volume:ro
+
+networks:
+  default:
+    name: sevaone-net
+    external: true

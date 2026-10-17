@@ -1,0 +1,283 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12105.275 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3091F7C0-EEE0-439E-B7D9-08FE1C41F2F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A1B2C3D4-E5F6-4789-9ABC-DEF012345601}"
+	ProjectSection(SolutionItems) = preProject
+		docs\AUTHENTICATION_APIS.md = docs\AUTHENTICATION_APIS.md
+		docs\COMPLETE_FLOW_WITH_PAYLOADS.md = docs\COMPLETE_FLOW_WITH_PAYLOADS.md
+		docs\DATABASE_SCHEMA.md = docs\DATABASE_SCHEMA.md
+		docs\DEPARTMENT_INTEGRATION_GUIDE.md = docs\DEPARTMENT_INTEGRATION_GUIDE.md
+		docs\ERROR_CODES.md = docs\ERROR_CODES.md
+		docs\TOKEN_FLOW.md = docs\TOKEN_FLOW.md
+		docs\USER_JOURNEY.md = docs\USER_JOURNEY.md
+		docs\WSO2_FLOW_WALKTHROUGH.md = docs\WSO2_FLOW_WALKTHROUGH.md
+		docs\WSO2_IS_APIM_SETUP.md = docs\WSO2_IS_APIM_SETUP.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "archive", "archive", "{C1D2E3F4-A5B6-4789-9ABC-DEF012345604}"
+	ProjectSection(SolutionItems) = preProject
+		docs\archive\API_FLOW.md = docs\archive\API_FLOW.md
+		docs\archive\ARCHITECTURE_DECISIONS_REPORT.md = docs\archive\ARCHITECTURE_DECISIONS_REPORT.md
+		docs\archive\CITIZEN_LOGIN_FLOW.html = docs\archive\CITIZEN_LOGIN_FLOW.html
+		docs\archive\E2E_CHECKLIST.md = docs\archive\E2E_CHECKLIST.md
+		docs\archive\FULL_PLATFORM_JOURNEY.md = docs\archive\FULL_PLATFORM_JOURNEY.md
+		docs\POSTGRES_FUNCTIONS_VS_PROCEDURES.md = docs\POSTGRES_FUNCTIONS_VS_PROCEDURES.md
+		docs\archive\README.md = docs\archive\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mocks", "Mocks", "{538F2A43-6114-6D32-FD9B-C27BFA77DD39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{B1C2D3E4-F5A6-4789-9ABC-DEF012345602}"
+	ProjectSection(SolutionItems) = preProject
+		database\flyway.conf = database\flyway.conf
+		database\migrations\R__seed_lookup.sql = database\migrations\R__seed_lookup.sql
+		database\migrations\R__seed_operator.sql = database\migrations\R__seed_operator.sql
+		database\migrations\V1__schemas.sql = database\migrations\V1__schemas.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{F1000000-0000-4000-8000-000000000001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tables", "tables", "{F2000000-0000-4000-8000-000000000001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discovery", "discovery", "{F2000000-0000-4000-8000-000000000002}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\tables\discovery\V2__department_master.sql = database\migrations\tables\discovery\V2__department_master.sql
+		database\migrations\tables\discovery\V3__sevaone_service_master.sql = database\migrations\tables\discovery\V3__sevaone_service_master.sql
+		database\migrations\tables\discovery\V4__sevaone_service_document.sql = database\migrations\tables\discovery\V4__sevaone_service_document.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "portal", "portal", "{F2000000-0000-4000-8000-000000000003}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\tables\portal\V5__sevaone_user.sql = database\migrations\tables\portal\V5__sevaone_user.sql
+		database\migrations\tables\portal\V6__operator_master.sql = database\migrations\tables\portal\V6__operator_master.sql
+		database\migrations\tables\portal\V7__sevaone_token.sql = database\migrations\tables\portal\V7__sevaone_token.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "orchestration", "orchestration", "{F2000000-0000-4000-8000-000000000004}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\tables\orchestration\V10__dept_user_ref.sql = database\migrations\tables\orchestration\V10__dept_user_ref.sql
+		database\migrations\tables\orchestration\V11__operator_wallet_txn.sql = database\migrations\tables\orchestration\V11__operator_wallet_txn.sql
+		database\migrations\tables\orchestration\V12__outbox_messages.sql = database\migrations\tables\orchestration\V12__outbox_messages.sql
+		database\migrations\tables\orchestration\V8__applications.sql = database\migrations\tables\orchestration\V8__applications.sql
+		database\migrations\tables\orchestration\V9__department_sessions.sql = database\migrations\tables\orchestration\V9__department_sessions.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "status", "status", "{F2000000-0000-4000-8000-000000000005}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\tables\status\V13__application_events.sql = database\migrations\tables\status\V13__application_events.sql
+		database\migrations\tables\status\V14__payment_status_post.sql = database\migrations\tables\status\V14__payment_status_post.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "audit", "audit", "{F2000000-0000-4000-8000-000000000006}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\tables\audit\V15__audit_logs.sql = database\migrations\tables\audit\V15__audit_logs.sql
+		database\migrations\tables\audit\V16__db_errors.sql = database\migrations\tables\audit\V16__db_errors.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notification", "notification", "{F2000000-0000-4000-8000-000000000007}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\tables\notification\V17__notifications.sql = database\migrations\tables\notification\V17__notifications.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "portal", "portal", "{F1000000-0000-4000-8000-000000000002}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\functions\portal\R__sp_delete_citizen.sql = database\migrations\functions\portal\R__sp_delete_citizen.sql
+		database\migrations\functions\portal\R__sp_get_citizen_by_aadhaar_hash.sql = database\migrations\functions\portal\R__sp_get_citizen_by_aadhaar_hash.sql
+		database\migrations\functions\portal\R__sp_get_citizen_by_id.sql = database\migrations\functions\portal\R__sp_get_citizen_by_id.sql
+		database\migrations\functions\portal\R__sp_get_citizen_by_mobile.sql = database\migrations\functions\portal\R__sp_get_citizen_by_mobile.sql
+		database\migrations\functions\portal\R__sp_get_citizen_by_sevaone_user_id.sql = database\migrations\functions\portal\R__sp_get_citizen_by_sevaone_user_id.sql
+		database\migrations\functions\portal\R__sp_get_citizen_by_username.sql = database\migrations\functions\portal\R__sp_get_citizen_by_username.sql
+		database\migrations\functions\portal\R__sp_get_citizen_by_wso2_subject.sql = database\migrations\functions\portal\R__sp_get_citizen_by_wso2_subject.sql
+		database\migrations\functions\portal\R__sp_get_operator_by_code.sql = database\migrations\functions\portal\R__sp_get_operator_by_code.sql
+		database\migrations\functions\portal\R__sp_get_operator_by_id.sql = database\migrations\functions\portal\R__sp_get_operator_by_id.sql
+		database\migrations\functions\portal\R__sp_get_token_by_hash.sql = database\migrations\functions\portal\R__sp_get_token_by_hash.sql
+		database\migrations\functions\portal\R__sp_get_token_by_id.sql = database\migrations\functions\portal\R__sp_get_token_by_id.sql
+		database\migrations\functions\portal\R__sp_insert_citizen.sql = database\migrations\functions\portal\R__sp_insert_citizen.sql
+		database\migrations\functions\portal\R__sp_insert_token.sql = database\migrations\functions\portal\R__sp_insert_token.sql
+		database\migrations\functions\portal\R__sp_try_deduct_wallet.sql = database\migrations\functions\portal\R__sp_try_deduct_wallet.sql
+		database\migrations\functions\portal\R__sp_try_redeem_token.sql = database\migrations\functions\portal\R__sp_try_redeem_token.sql
+		database\migrations\functions\portal\R__sp_update_citizen.sql = database\migrations\functions\portal\R__sp_update_citizen.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discovery", "discovery", "{F1000000-0000-4000-8000-000000000003}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\functions\discovery\R__sp_get_department_by_code.sql = database\migrations\functions\discovery\R__sp_get_department_by_code.sql
+		database\migrations\functions\discovery\R__sp_get_department_by_id.sql = database\migrations\functions\discovery\R__sp_get_department_by_id.sql
+		database\migrations\functions\discovery\R__sp_get_documents_by_scheme.sql = database\migrations\functions\discovery\R__sp_get_documents_by_scheme.sql
+		database\migrations\functions\discovery\R__sp_get_scheme_by_code.sql = database\migrations\functions\discovery\R__sp_get_scheme_by_code.sql
+		database\migrations\functions\discovery\R__sp_get_scheme_by_id.sql = database\migrations\functions\discovery\R__sp_get_scheme_by_id.sql
+		database\migrations\functions\discovery\R__sp_get_scheme_by_service_code.sql = database\migrations\functions\discovery\R__sp_get_scheme_by_service_code.sql
+		database\migrations\functions\discovery\R__sp_get_scheme_with_department_by_service_code.sql = database\migrations\functions\discovery\R__sp_get_scheme_with_department_by_service_code.sql
+		database\migrations\functions\discovery\R__sp_list_departments.sql = database\migrations\functions\discovery\R__sp_list_departments.sql
+		database\migrations\functions\discovery\R__sp_list_departments_with_scheme_count.sql = database\migrations\functions\discovery\R__sp_list_departments_with_scheme_count.sql
+		database\migrations\functions\discovery\R__sp_list_schemes.sql = database\migrations\functions\discovery\R__sp_list_schemes.sql
+		database\migrations\functions\discovery\R__sp_list_schemes_with_department.sql = database\migrations\functions\discovery\R__sp_list_schemes_with_department.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notification", "notification", "{F1000000-0000-4000-8000-000000000004}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\functions\notification\R__sp_get_pending_notifications.sql = database\migrations\functions\notification\R__sp_get_pending_notifications.sql
+		database\migrations\functions\notification\R__sp_insert_notification.sql = database\migrations\functions\notification\R__sp_insert_notification.sql
+		database\migrations\functions\notification\R__sp_mark_notification_sent.sql = database\migrations\functions\notification\R__sp_mark_notification_sent.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "orchestration", "orchestration", "{F1000000-0000-4000-8000-000000000005}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\functions\orchestration\R__sp_expire_department_session.sql = database\migrations\functions\orchestration\R__sp_expire_department_session.sql
+		database\migrations\functions\orchestration\R__sp_get_active_department_session.sql = database\migrations\functions\orchestration\R__sp_get_active_department_session.sql
+		database\migrations\functions\orchestration\R__sp_get_active_department_sessions_by_citizen.sql = database\migrations\functions\orchestration\R__sp_get_active_department_sessions_by_citizen.sql
+		database\migrations\functions\orchestration\R__sp_get_applications_by_citizen.sql = database\migrations\functions\orchestration\R__sp_get_applications_by_citizen.sql
+		database\migrations\functions\orchestration\R__sp_get_applications_for_kpi.sql = database\migrations\functions\orchestration\R__sp_get_applications_for_kpi.sql
+		database\migrations\functions\orchestration\R__sp_get_application_by_department_reference.sql = database\migrations\functions\orchestration\R__sp_get_application_by_department_reference.sql
+		database\migrations\functions\orchestration\R__sp_get_application_by_id.sql = database\migrations\functions\orchestration\R__sp_get_application_by_id.sql
+		database\migrations\functions\orchestration\R__sp_get_application_by_reference.sql = database\migrations\functions\orchestration\R__sp_get_application_by_reference.sql
+		database\migrations\functions\orchestration\R__sp_get_application_with_names_by_reference.sql = database\migrations\functions\orchestration\R__sp_get_application_with_names_by_reference.sql
+		database\migrations\functions\orchestration\R__sp_get_application_with_names_for_citizen.sql = database\migrations\functions\orchestration\R__sp_get_application_with_names_for_citizen.sql
+		database\migrations\functions\orchestration\R__sp_get_inflight_applications.sql = database\migrations\functions\orchestration\R__sp_get_inflight_applications.sql
+		database\migrations\functions\orchestration\R__sp_get_pending_outbox_messages.sql = database\migrations\functions\orchestration\R__sp_get_pending_outbox_messages.sql
+		database\migrations\functions\orchestration\R__sp_get_wallet_txn_by_idempotency_key.sql = database\migrations\functions\orchestration\R__sp_get_wallet_txn_by_idempotency_key.sql
+		database\migrations\functions\orchestration\R__sp_insert_department_session.sql = database\migrations\functions\orchestration\R__sp_insert_department_session.sql
+		database\migrations\functions\orchestration\R__sp_insert_outbox_message.sql = database\migrations\functions\orchestration\R__sp_insert_outbox_message.sql
+		database\migrations\functions\orchestration\R__sp_insert_wallet_txn.sql = database\migrations\functions\orchestration\R__sp_insert_wallet_txn.sql
+		database\migrations\functions\orchestration\R__sp_list_applications_with_names_for_citizen.sql = database\migrations\functions\orchestration\R__sp_list_applications_with_names_for_citizen.sql
+		database\migrations\functions\orchestration\R__sp_mark_outbox_failed.sql = database\migrations\functions\orchestration\R__sp_mark_outbox_failed.sql
+		database\migrations\functions\orchestration\R__sp_mark_outbox_published.sql = database\migrations\functions\orchestration\R__sp_mark_outbox_published.sql
+		database\migrations\functions\orchestration\R__sp_reassign_applications.sql = database\migrations\functions\orchestration\R__sp_reassign_applications.sql
+		database\migrations\functions\orchestration\R__sp_submit_application.sql = database\migrations\functions\orchestration\R__sp_submit_application.sql
+		database\migrations\functions\orchestration\R__sp_update_application_status.sql = database\migrations\functions\orchestration\R__sp_update_application_status.sql
+		database\migrations\functions\orchestration\R__sp_upsert_dept_user_ref.sql = database\migrations\functions\orchestration\R__sp_upsert_dept_user_ref.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "status", "status", "{F1000000-0000-4000-8000-000000000006}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\functions\status\R__sp_get_payment_status_by_idempotency_key.sql = database\migrations\functions\status\R__sp_get_payment_status_by_idempotency_key.sql
+		database\migrations\functions\status\R__sp_get_timeline.sql = database\migrations\functions\status\R__sp_get_timeline.sql
+		database\migrations\functions\status\R__sp_insert_application_event.sql = database\migrations\functions\status\R__sp_insert_application_event.sql
+		database\migrations\functions\status\R__sp_insert_payment_status_post.sql = database\migrations\functions\status\R__sp_insert_payment_status_post.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "audit", "audit", "{F1000000-0000-4000-8000-000000000007}"
+	ProjectSection(SolutionItems) = preProject
+		database\migrations\functions\audit\R__sp_get_audit_logs_by_citizen.sql = database\migrations\functions\audit\R__sp_get_audit_logs_by_citizen.sql
+		database\migrations\functions\audit\R__sp_insert_audit_log.sql = database\migrations\functions\audit\R__sp_insert_audit_log.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{C1D2E3F4-A5B6-4789-9ABC-DEF012345603}"
+	ProjectSection(SolutionItems) = preProject
+		docker\.dockerignore = docker\.dockerignore
+		docker\caddy\Caddyfile = docker\caddy\Caddyfile
+		docker\docker-compose.yml = docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{D1E2F3A4-B5C6-4789-9ABC-DEF012345604}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\flyway-migrate.sh = scripts\flyway-migrate.sh
+		scripts\healthcheck.sh = scripts\healthcheck.sh
+		scripts\wait-for-it.sh = scripts\wait-for-it.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E1F2A3B4-C5D6-4789-9ABC-DEF012345605}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\wso2\api-definitions.yaml = deploy\wso2\api-definitions.yaml
+		deploy\wso2\apim-connector-overrides.toml = deploy\wso2\apim-connector-overrides.toml
+		deploy\k8s\base\configmap.yaml = deploy\k8s\base\configmap.yaml
+		deploy\k8s\base\deployment.yaml = deploy\k8s\base\deployment.yaml
+		deploy\wso2\Dockerfile = deploy\wso2\Dockerfile
+		deploy\wso2-apim\Dockerfile = deploy\wso2-apim\Dockerfile
+		deploy\wso2\email-otp-fragment.toml = deploy\wso2\email-otp-fragment.toml
+		deploy\k8s\base\ai-namespace\embeddings-deployment.yaml = deploy\k8s\base\ai-namespace\embeddings-deployment.yaml
+		deploy\wso2-apim\entrypoint.sh = deploy\wso2-apim\entrypoint.sh
+		deploy\k8s\base\ai-namespace\gpu-nodepool.yaml = deploy\k8s\base\ai-namespace\gpu-nodepool.yaml
+		deploy\k8s\base\hpa.yaml = deploy\k8s\base\hpa.yaml
+		deploy\k8s\overlays\dev\kustomization.yaml = deploy\k8s\overlays\dev\kustomization.yaml
+		deploy\k8s\overlays\sit\kustomization.yaml = deploy\k8s\overlays\sit\kustomization.yaml
+		deploy\k8s\overlays\uat\kustomization.yaml = deploy\k8s\overlays\uat\kustomization.yaml
+		deploy\k8s\overlays\prod\kustomization.yaml = deploy\k8s\overlays\prod\kustomization.yaml
+		deploy\wso2\local-overrides.toml = deploy\wso2\local-overrides.toml
+		deploy\nginx\nginx.conf = deploy\nginx\nginx.conf
+		deploy\wso2\provision.sh = deploy\wso2\provision.sh
+		deploy\wso2-apim\provision.sh = deploy\wso2-apim\provision.sh
+		deploy\k8s\base\secret.yaml = deploy\k8s\base\secret.yaml
+		deploy\k8s\base\service.yaml = deploy\k8s\base\service.yaml
+		deploy\wso2\start-local.sh = deploy\wso2\start-local.sh
+		deploy\wso2\throttle-policies.yaml = deploy\wso2\throttle-policies.yaml
+		deploy\k8s\base\ai-namespace\vllm-deployment.yaml = deploy\k8s\base\ai-namespace\vllm-deployment.yaml
+		deploy\nginx\waf-rules.conf = deploy\nginx\waf-rules.conf
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevaOne.Business", "SevaOne.Business\SevaOne.Business.csproj", "{3F6E58D1-1B32-46A6-B3D7-D53C137DF474}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevaOne.Domain", "SevaOne.Domain\SevaOne.Domain.csproj", "{A2CA9A14-C730-424E-B3CB-A10C5EE25C1D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevaOne.Infrastructure", "SevaOne.Infrastructure\SevaOne.Infrastructure.csproj", "{D70B25F4-646D-40C0-9CB0-76BCBE12F61E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevaOne.Services", "SevaOne.Services\SevaOne.Services.csproj", "{60FC05F7-669F-4DBF-AB0A-8289E94C1C94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevaOne.ArchitectureTests", "tests\SevaOne.ArchitectureTests\SevaOne.ArchitectureTests.csproj", "{0C886925-613D-4D7C-AE52-CFC4AF36BA44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevaOne.IntegrationTests", "tests\SevaOne.IntegrationTests\SevaOne.IntegrationTests.csproj", "{7FD54621-2548-4600-B368-CC9E329E9CDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SevaOne.UnitTests", "tests\SevaOne.UnitTests\SevaOne.UnitTests.csproj", "{FD09E82B-1B37-43F5-8AE4-39541EA04D8F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F6E58D1-1B32-46A6-B3D7-D53C137DF474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F6E58D1-1B32-46A6-B3D7-D53C137DF474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F6E58D1-1B32-46A6-B3D7-D53C137DF474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F6E58D1-1B32-46A6-B3D7-D53C137DF474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2CA9A14-C730-424E-B3CB-A10C5EE25C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2CA9A14-C730-424E-B3CB-A10C5EE25C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2CA9A14-C730-424E-B3CB-A10C5EE25C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2CA9A14-C730-424E-B3CB-A10C5EE25C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D70B25F4-646D-40C0-9CB0-76BCBE12F61E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70B25F4-646D-40C0-9CB0-76BCBE12F61E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70B25F4-646D-40C0-9CB0-76BCBE12F61E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70B25F4-646D-40C0-9CB0-76BCBE12F61E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60FC05F7-669F-4DBF-AB0A-8289E94C1C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60FC05F7-669F-4DBF-AB0A-8289E94C1C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60FC05F7-669F-4DBF-AB0A-8289E94C1C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60FC05F7-669F-4DBF-AB0A-8289E94C1C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C886925-613D-4D7C-AE52-CFC4AF36BA44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C886925-613D-4D7C-AE52-CFC4AF36BA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C886925-613D-4D7C-AE52-CFC4AF36BA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C886925-613D-4D7C-AE52-CFC4AF36BA44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FD54621-2548-4600-B368-CC9E329E9CDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FD54621-2548-4600-B368-CC9E329E9CDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FD54621-2548-4600-B368-CC9E329E9CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FD54621-2548-4600-B368-CC9E329E9CDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD09E82B-1B37-43F5-8AE4-39541EA04D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD09E82B-1B37-43F5-8AE4-39541EA04D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD09E82B-1B37-43F5-8AE4-39541EA04D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD09E82B-1B37-43F5-8AE4-39541EA04D8F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C1D2E3F4-A5B6-4789-9ABC-DEF012345604} = {A1B2C3D4-E5F6-4789-9ABC-DEF012345601}
+		{F1000000-0000-4000-8000-000000000001} = {B1C2D3E4-F5A6-4789-9ABC-DEF012345602}
+		{F2000000-0000-4000-8000-000000000001} = {B1C2D3E4-F5A6-4789-9ABC-DEF012345602}
+		{F2000000-0000-4000-8000-000000000002} = {F2000000-0000-4000-8000-000000000001}
+		{F2000000-0000-4000-8000-000000000003} = {F2000000-0000-4000-8000-000000000001}
+		{F2000000-0000-4000-8000-000000000004} = {F2000000-0000-4000-8000-000000000001}
+		{F2000000-0000-4000-8000-000000000005} = {F2000000-0000-4000-8000-000000000001}
+		{F2000000-0000-4000-8000-000000000006} = {F2000000-0000-4000-8000-000000000001}
+		{F2000000-0000-4000-8000-000000000007} = {F2000000-0000-4000-8000-000000000001}
+		{F1000000-0000-4000-8000-000000000002} = {F1000000-0000-4000-8000-000000000001}
+		{F1000000-0000-4000-8000-000000000003} = {F1000000-0000-4000-8000-000000000001}
+		{F1000000-0000-4000-8000-000000000004} = {F1000000-0000-4000-8000-000000000001}
+		{F1000000-0000-4000-8000-000000000005} = {F1000000-0000-4000-8000-000000000001}
+		{F1000000-0000-4000-8000-000000000006} = {F1000000-0000-4000-8000-000000000001}
+		{F1000000-0000-4000-8000-000000000007} = {F1000000-0000-4000-8000-000000000001}
+		{0C886925-613D-4D7C-AE52-CFC4AF36BA44} = {3091F7C0-EEE0-439E-B7D9-08FE1C41F2F5}
+		{7FD54621-2548-4600-B368-CC9E329E9CDE} = {3091F7C0-EEE0-439E-B7D9-08FE1C41F2F5}
+		{FD09E82B-1B37-43F5-8AE4-39541EA04D8F} = {3091F7C0-EEE0-439E-B7D9-08FE1C41F2F5}
+	EndGlobalSection
+EndGlobal

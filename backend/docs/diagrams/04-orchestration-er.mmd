@@ -1,0 +1,6 @@
+﻿erDiagram
+    sevaone_user ||--o{ applications : "citizen_id"
+    applications ||--o{ application_events : "via status schema"
+    sevaone_user ||--o{ department_sessions : "citizen_id"
+    sevaone_user ||--o{ dept_user_ref : "citizen_id"
+    operator_master ||--o{ operator_wallet_txn : "operator_id"

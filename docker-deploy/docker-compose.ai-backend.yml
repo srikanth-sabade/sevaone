@@ -1,0 +1,33 @@
+name: sevaone
+
+# AI Discovery backend (ai_backend/) -- a separate Python/FastAPI service, not part of the
+# .NET backend. Required: setup-stack.sh always brings this up, and fails early if
+# ai_backend/.env is missing a real OPENAI_API_KEY, the same way it fails early on a missing
+# DigiLocker secret -- this service is part of the mandatory stack, not a nice-to-have.
+services:
+  ai-backend:
+    build:
+      context: ../ai_backend
+      dockerfile: Dockerfile
+    container_name: sevaone-ai-backend
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    env_file:
+      - ../ai_backend/.env
+    volumes:
+      - ../ai_backend/data:/app/data
+      - ai_backend_hf_cache:/root/.cache/huggingface
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  ai_backend_hf_cache:
+
+networks:
+  default:
+    name: sevaone-net
+    external: true

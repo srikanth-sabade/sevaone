@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SevaOne — One Portal, Every Service</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <!-- Fonts are self-hosted via @font-face in src/styles.css (DM Sans, Space Grotesk,
+         Noto Sans Kannada) with no external font-CDN link, so the portal renders without
+         stalling on firewalled KSWAN / offline kiosk networks. -->
+  </head>
+  <body>
+    <!-- The skip link is rendered by Shell.tsx via t('skipToContent') so it follows the
+         selected language. A static copy here would duplicate the landmark and could
+         never be translated, so it deliberately lives in React only. -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

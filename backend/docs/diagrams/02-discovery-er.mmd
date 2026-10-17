@@ -1,0 +1,6 @@
+﻿erDiagram
+    department_master ||--o{ department_master : "parent"
+    department_master ||--o| department_onboarding : "1:1"
+    department_master ||--o{ sevaone_service_master : "department_id"
+    department_master ||--o{ sevaone_service_master : "sub_department_id"
+    sevaone_service_master ||--o{ sevaone_service_document : "scheme_id"

@@ -1,0 +1,45 @@
+name: sevaone
+
+services:
+  # One-shot: a new named volume is created root-owned (APIM's solr directory does not exist in the
+  # image, so there is nothing to copy ownership from), but APIM runs as uid 10001 and must write its
+  # search index there. Runs before wso2apim and exits.
+  wso2apim-solr-init:
+    image: alpine:3.20
+    restart: "no"
+    command: ["chown", "-R", "10001:10001", "/solr"]
+    volumes:
+      - wso2apim_solr:/solr
+
+  wso2apim:
+    image: wso2/wso2am:4.7.0
+    restart: unless-stopped
+    depends_on:
+      wso2apim-solr-init:
+        condition: service_completed_successfully
+    ports:
+      - "8244:8243"
+      - "9444:9443"
+    environment:
+      JAVA_OPTS: "-Xms512m -Xmx1024m"
+    entrypoint: ["/scripts/entrypoint.sh"]
+    volumes:
+      - ./wso2-apim/entrypoint.sh:/scripts/entrypoint.sh:ro
+      - ./wso2-apim/config-volume:/home/wso2carbon/wso2-config-volume:ro
+      - ./wso2-apim/artifact-volume:/home/wso2carbon/wso2-artifact-volume:ro
+      # APIM's registry search index. WSO2 records how far it has indexed (the "lastaccesstime"
+      # registry resource) in the Postgres carbon database, but keeps the index itself here. Without
+      # this volume a recreated container loses the index while the database still says "already
+      # indexed", so existing APIs vanish from Publisher search and wso2apim-provision fails with a
+      # permanent 409 ("API already exists"). Persisting it keeps the two in step. If this volume is
+      # ever removed on its own, delete the lastaccesstime row from wso2apim_carbon (reg_resource,
+      # reg_path /_system/local/repository/components/org.wso2.carbon.registry/indexing) to re-index.
+      - wso2apim_solr:/home/wso2carbon/wso2am-4.7.0/solr
+
+volumes:
+  wso2apim_solr:
+
+networks:
+  default:
+    name: sevaone-net
+    external: true
