@@ -1,0 +1,206 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Reports and Dashboards",
+  "output": "m16-reports.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "Case data replica",
+   "sublabel": "read-only copy",
+   "pos": [
+    290,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "etl",
+   "type": "backend",
+   "label": "Reporting Feed",
+   "sublabel": "events into the store",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rep",
+   "type": "database",
+   "label": "Reporting store",
+   "sublabel": "PostgreSQL",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "dash",
+   "type": "backend",
+   "label": "Dashboard Tool",
+   "sublabel": "open source (Superset)",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "user",
+   "type": "external",
+   "label": "Department heads",
+   "sublabel": "view and export",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "who may see",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "export",
+   "type": "backend",
+   "label": "Exports",
+   "sublabel": "PDF and Excel",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "bus-etl",
+   "to": "etl",
+   "from": "bus",
+   "label": "events",
+   "variant": "dashed"
+  },
+  {
+   "id": "pg-etl",
+   "to": "etl",
+   "from": "pg",
+   "label": "read"
+  },
+  {
+   "id": "etl-rep",
+   "to": "rep",
+   "from": "etl",
+   "label": "load"
+  },
+  {
+   "id": "rep-dash",
+   "to": "dash",
+   "from": "rep",
+   "label": "query"
+  },
+  {
+   "id": "user-dash",
+   "to": "dash",
+   "from": "user",
+   "label": "view"
+  },
+  {
+   "id": "dash-iam",
+   "to": "iam",
+   "from": "dash",
+   "label": "who may see"
+  },
+  {
+   "id": "dash-export",
+   "to": "export",
+   "from": "dash",
+   "label": "export"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Reports read from a copy of the data, not the live tables",
+    "Events keep the copy up to date; a nightly read fills gaps",
+    "Dashboards show received, pending, overdue, payments and grievances"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "A read replica and a reporting store on PostgreSQL",
+    "Apache Superset as the dashboard tool",
+    "Kafka events for the feed"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Each measure is defined and agreed before a dashboard is built",
+    "Access follows the same roles and offices as everything else",
+    "Exports are logged"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the feed lags the dashboard shows when it was last updated",
+    "A broken report never touches live cases",
+    "Totals can be checked against case counts"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,206 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Moving Karnataka",
+  "output": "m20-migration.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "src",
+   "type": "external",
+   "label": "Karnataka export",
+   "sublabel": "from the current system",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "stage",
+   "type": "database",
+   "label": "Staging area",
+   "sublabel": "raw copy kept",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rep",
+   "type": "backend",
+   "label": "Problem Report",
+   "sublabel": "what did not fit",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "map",
+   "type": "backend",
+   "label": "Mapping and Checks",
+   "sublabel": "to the new model",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "open cases resume",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "load",
+   "type": "backend",
+   "label": "Loader",
+   "sublabel": "services, applications, files",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cmp",
+   "type": "backend",
+   "label": "Comparison",
+   "sublabel": "counts and samples match",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "tgt",
+   "type": "database",
+   "label": "New platform data",
+   "sublabel": "PostgreSQL + storage",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "src-stage",
+   "to": "stage",
+   "from": "src",
+   "label": "copy"
+  },
+  {
+   "id": "stage-map",
+   "to": "map",
+   "from": "stage",
+   "label": "read"
+  },
+  {
+   "id": "map-rep",
+   "to": "rep",
+   "from": "map",
+   "label": "mismatches"
+  },
+  {
+   "id": "map-load",
+   "to": "load",
+   "from": "map",
+   "label": "good rows"
+  },
+  {
+   "id": "load-tgt",
+   "to": "tgt",
+   "from": "load",
+   "label": "write",
+   "variant": "emphasis"
+  },
+  {
+   "id": "load-wf",
+   "to": "wf",
+   "from": "load",
+   "label": "open cases"
+  },
+  {
+   "id": "load-cmp",
+   "to": "cmp",
+   "from": "load",
+   "label": "counts"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The export is copied as it is into a staging area, never altered",
+    "Mapping turns it into the new model and reports what does not fit",
+    "The Loader writes services, applications, files, documents and payment references"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "A staging schema in PostgreSQL",
+    "An import service that can be re-run safely",
+    "Comparison reports and rehearsal runs"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Old application numbers and certificate QR checks keep working",
+    "Every row keeps where it came from",
+    "Open cases are restarted at the right step, not from the beginning"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "Rows that fail mapping go to a report, not silently dropped",
+    "A rehearsal is repeated until the numbers match",
+    "Cutover has a rollback that keeps decisions and payments made since"
+   ]
+  }
+ ]
+}

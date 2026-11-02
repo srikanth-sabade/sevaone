@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.json",
+    "sha256": "b2095d14a74987f0ba2f0db10f6e62baa0f2034b77b07cab696f26dce32ac015",
+    "bytes": 3582
+  },
+  "artifact": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+    "sha256": "14e1f3ac8fef9c1cfa8724027564cce3841e3b7f00232e75aaee17a29c2d2c72",
+    "bytes": 820985
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "fail"
+  },
+  "failedStage": "browser-check",
+  "diagnostics": [
+    {
+      "code": "viewer/evidence-path-conflict",
+      "severity": "error",
+      "message": "browser-check will not replace the existing unowned evidence path \"/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json\".",
+      "subject": {
+        "artifact": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "evidencePath": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json"
+      },
+      "evidence": {
+        "reason": {
+          "code": "ownership-artifact-mismatch"
+        }
+      },
+      "supportedFixes": [
+        "move the conflicting file aside, or choose a separate --out-dir, then rerun browser-check"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.finalize.json",
+    "summaryReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.finalize-summary.json",
+    "browserCheckReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-18T09:16:30.403Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 356
+}

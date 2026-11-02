@@ -1,0 +1,479 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "New Service Platform: High-Level Technical Flow",
+    "output": "technical-flow.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "citizen",
+      "type": "external",
+      "label": "Citizens",
+      "sublabel": "web + mobile app",
+      "pos": [
+        40,
+        160
+      ],
+      "size": [
+        120,
+        60
+      ]
+    },
+    {
+      "id": "officer",
+      "type": "external",
+      "label": "Officers",
+      "sublabel": "web workspace",
+      "pos": [
+        40,
+        280
+      ],
+      "size": [
+        120,
+        60
+      ]
+    },
+    {
+      "id": "admin",
+      "type": "external",
+      "label": "Service owners",
+      "sublabel": "set up services",
+      "pos": [
+        40,
+        400
+      ],
+      "size": [
+        120,
+        60
+      ]
+    },
+    {
+      "id": "iam",
+      "type": "security",
+      "label": "WSO2 Identity Server",
+      "sublabel": "sign-in, roles, states",
+      "pos": [
+        230,
+        160
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "OAuth2 / OIDC"
+    },
+    {
+      "id": "apim",
+      "type": "cloud",
+      "label": "WSO2 API Manager",
+      "sublabel": "the one front door",
+      "pos": [
+        230,
+        280
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "gateway"
+    },
+    {
+      "id": "studio",
+      "type": "backend",
+      "label": "Service Studio",
+      "sublabel": "forms, rules, versions",
+      "pos": [
+        450,
+        40
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "app",
+      "type": "backend",
+      "label": "Application Service",
+      "sublabel": "drafts, submit, track",
+      "pos": [
+        450,
+        160
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "wf",
+      "type": "backend",
+      "label": "Workflow Engine",
+      "sublabel": "routing, tasks, actions",
+      "pos": [
+        450,
+        280
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "org",
+      "type": "backend",
+      "label": "Office Directory",
+      "sublabel": "offices, areas, states",
+      "pos": [
+        450,
+        400
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "pg",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "a schema per state",
+      "pos": [
+        680,
+        40
+      ],
+      "size": [
+        120,
+        420
+      ]
+    },
+    {
+      "id": "bus",
+      "type": "messagebus",
+      "label": "Event bus",
+      "sublabel": "Kafka",
+      "pos": [
+        890,
+        40
+      ],
+      "size": [
+        120,
+        420
+      ]
+    },
+    {
+      "id": "pay",
+      "type": "backend",
+      "label": "Payments",
+      "sublabel": "fees, receipts, matching",
+      "pos": [
+        1100,
+        40
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "notif",
+      "type": "backend",
+      "label": "Notifications",
+      "sublabel": "SMS, email, WhatsApp",
+      "pos": [
+        1100,
+        160
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "audit",
+      "type": "backend",
+      "label": "Reports and Audit",
+      "sublabel": "history, dashboards",
+      "pos": [
+        1100,
+        280
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "doc",
+      "type": "backend",
+      "label": "Documents",
+      "sublabel": "certificates, signing",
+      "pos": [
+        1100,
+        400
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "files",
+      "type": "database",
+      "label": "Object storage",
+      "sublabel": "files, certificates",
+      "pos": [
+        1100,
+        540
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "mi",
+      "type": "backend",
+      "label": "WSO2 Micro Integrator",
+      "sublabel": "talks to other systems",
+      "pos": [
+        1330,
+        40
+      ],
+      "size": [
+        150,
+        300
+      ]
+    },
+    {
+      "id": "ext",
+      "type": "external",
+      "label": "Other systems",
+      "sublabel": "banks, DigiLocker, SMS, depts",
+      "pos": [
+        1330,
+        400
+      ],
+      "size": [
+        150,
+        60
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "WSO2 access layer",
+      "wraps": [
+        "iam",
+        "apim"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Platform services",
+      "wraps": [
+        "studio",
+        "app",
+        "wf",
+        "org"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Event-driven services",
+      "wraps": [
+        "pay",
+        "notif",
+        "audit",
+        "doc"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "citizen-signin",
+      "from": "citizen",
+      "to": "iam",
+      "label": "sign in",
+      "variant": "security"
+    },
+    {
+      "id": "citizen-apim",
+      "from": "citizen",
+      "to": "apim",
+      "label": "apply"
+    },
+    {
+      "id": "officer-apim",
+      "from": "officer",
+      "to": "apim",
+      "label": "decide"
+    },
+    {
+      "id": "admin-apim",
+      "from": "admin",
+      "to": "apim",
+      "label": "design"
+    },
+    {
+      "id": "apim-iam",
+      "from": "apim",
+      "to": "iam",
+      "label": "check token",
+      "variant": "security"
+    },
+    {
+      "id": "apim-app",
+      "from": "apim",
+      "to": "app",
+      "label": "apply"
+    },
+    {
+      "id": "apim-wf",
+      "from": "apim",
+      "to": "wf",
+      "label": "tasks"
+    },
+    {
+      "id": "apim-studio",
+      "from": "apim",
+      "to": "studio",
+      "label": "design"
+    },
+    {
+      "id": "app-wf",
+      "from": "app",
+      "to": "wf",
+      "label": "start case",
+      "variant": "emphasis"
+    },
+    {
+      "id": "wf-org",
+      "from": "wf",
+      "to": "org",
+      "label": "who handles"
+    },
+    {
+      "id": "studio-pg",
+      "from": "studio",
+      "to": "pg"
+    },
+    {
+      "id": "app-pg",
+      "from": "app",
+      "to": "pg"
+    },
+    {
+      "id": "wf-pg",
+      "from": "wf",
+      "to": "pg"
+    },
+    {
+      "id": "org-pg",
+      "from": "org",
+      "to": "pg"
+    },
+    {
+      "id": "pg-bus",
+      "from": "pg",
+      "to": "bus",
+      "label": "outbox",
+      "variant": "dashed"
+    },
+    {
+      "id": "bus-pay",
+      "from": "bus",
+      "to": "pay",
+      "variant": "dashed"
+    },
+    {
+      "id": "bus-notif",
+      "from": "bus",
+      "to": "notif",
+      "variant": "dashed"
+    },
+    {
+      "id": "bus-audit",
+      "from": "bus",
+      "to": "audit",
+      "variant": "dashed"
+    },
+    {
+      "id": "bus-doc",
+      "from": "bus",
+      "to": "doc",
+      "variant": "dashed"
+    },
+    {
+      "id": "doc-files",
+      "from": "doc",
+      "to": "files",
+      "label": "store"
+    },
+    {
+      "id": "pay-mi",
+      "from": "pay",
+      "to": "mi"
+    },
+    {
+      "id": "notif-mi",
+      "from": "notif",
+      "to": "mi"
+    },
+    {
+      "id": "doc-mi",
+      "from": "doc",
+      "to": "mi"
+    },
+    {
+      "id": "mi-ext",
+      "from": "mi",
+      "to": "ext",
+      "label": "APIs",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Sign-in and access",
+      "items": [
+        "WSO2 Identity Server handles sign-in, roles and one set of users per state",
+        "WSO2 API Manager is the only way in: token check, limits, versions, API portal for departments",
+        "Officers get access by office and role, not by designation alone"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "How an application moves",
+      "items": [
+        "Citizen applies through the front door",
+        "Application Service saves it and starts a case in the Workflow Engine",
+        "Office Directory says which office and role handle it",
+        "Every change also leaves an event on the bus"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Events do the follow-up work",
+      "items": [
+        "Payments, messages, certificates and history all react to events",
+        "A failure in one does not undo the application",
+        "Payments are matched against bank records, not trusted from the browser"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "What we use and why",
+      "items": [
+        "Kafka for events: proven at scale and open source",
+        "WSO2 Micro Integrator for all outside connections, so every one is built and watched the same way",
+        "One PostgreSQL with a separate schema per state, so states stay apart without many databases",
+        "S3-compatible object storage for files and certificates, hosted by the government"
+      ]
+    }
+  ]
+}

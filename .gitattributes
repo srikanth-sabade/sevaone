@@ -1,0 +1,9 @@
+# Normalize line endings on commit; check out as-is (no CRLF/LF churn on every checkout).
+* text=auto eol=lf
+
+*.cs text
+*.sql text
+*.json text
+*.md text
+*.yml text
+*.props text

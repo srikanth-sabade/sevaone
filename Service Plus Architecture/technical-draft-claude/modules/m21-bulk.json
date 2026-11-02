@@ -1,0 +1,193 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Bulk Processing",
+  "output": "m21-bulk.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "officer",
+   "type": "external",
+   "label": "Officer",
+   "sublabel": "selects many cases",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bulk",
+   "type": "backend",
+   "label": "Bulk Processing",
+   "sublabel": "one request, many cases",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "q",
+   "type": "messagebus",
+   "label": "Job queue",
+   "sublabel": "Kafka",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wk",
+   "type": "backend",
+   "label": "Batch Worker",
+   "sublabel": "one case at a time",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "acts on each case",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rep",
+   "type": "backend",
+   "label": "Result Report",
+   "sublabel": "done and failed",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "officer-apim",
+   "from": "officer",
+   "to": "apim",
+   "label": "select cases"
+  },
+  {
+   "id": "apim-bulk",
+   "from": "apim",
+   "to": "bulk",
+   "label": "bulk action"
+  },
+  {
+   "id": "bulk-q",
+   "from": "bulk",
+   "to": "q",
+   "label": "one job each",
+   "variant": "dashed"
+  },
+  {
+   "id": "q-wk",
+   "from": "q",
+   "to": "wk",
+   "label": "take job",
+   "variant": "dashed"
+  },
+  {
+   "id": "wk-wf",
+   "from": "wk",
+   "to": "wf",
+   "label": "act on case",
+   "variant": "emphasis"
+  },
+  {
+   "id": "wk-rep",
+   "from": "wk",
+   "to": "rep",
+   "label": "result"
+  },
+  {
+   "id": "rep-officer",
+   "from": "rep",
+   "to": "officer",
+   "label": "download"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The officer selects many cases and one action",
+    "Each case becomes its own job, handled one at a time in the Workflow Engine",
+    "A report lists what worked and what failed"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "A Kafka queue for the jobs",
+    "The same Workflow Engine and access checks as single actions"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Every case still passes the access check",
+    "Each case keeps its own history entry",
+    "The same action ID is used as for a single case"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A failed case does not stop the rest",
+    "Failed cases are listed and can be retried",
+    "Running the same bulk request twice does not double-act"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p2-security.json",
+    "sha256": "fe722c5cdd16d04a5ce08032b25ec31e841154e6b94fe6ad1fafd6662d3eb489",
+    "bytes": 4545
+  },
+  "artifact": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p2-security.html",
+    "sha256": "8cc29078fb0f60309edc945b541e495c20438826bdb503dd51a53bfedd8abcbb",
+    "bytes": 828003
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "fail"
+  },
+  "failedStage": "browser-check",
+  "diagnostics": [
+    {
+      "code": "viewer/evidence-path-conflict",
+      "severity": "error",
+      "message": "browser-check will not replace the existing unowned evidence path \"/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/p2-security/p2-security.browser-check.json\".",
+      "subject": {
+        "artifact": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p2-security.html",
+        "evidencePath": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/p2-security/p2-security.browser-check.json"
+      },
+      "evidence": {
+        "reason": {
+          "code": "ownership-artifact-mismatch"
+        }
+      },
+      "supportedFixes": [
+        "move the conflicting file aside, or choose a separate --out-dir, then rerun browser-check"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/p2-security/p2-security.finalize.json",
+    "summaryReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/p2-security/p2-security.finalize-summary.json",
+    "browserCheckReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/p2-security/p2-security.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-18T09:16:30.403Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 342
+}

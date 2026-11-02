@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/candidate.json",
+    "sha256": "c24661232666362aa1b9d1bd0a6261c1bc62105c85caf3195cd0897873d1bbdd",
+    "bytes": 8876
+  },
+  "artifact": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/technical-flow.html",
+    "sha256": "a0fe01857fdd22a139e789c0ebd0929537dbdb40b8233797b2f9a66f195ebdd5",
+    "bytes": 848900
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/review-2/technical-flow.finalize.json",
+    "summaryReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/review-2/technical-flow.finalize-summary.json",
+    "browserCheckReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/review-2/technical-flow.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-18T09:16:30.403Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1483,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 1,
+      "routesOverSuggestedBends": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "id": "apim-app",
+            "from": "apim",
+            "to": "app",
+            "label": "apply",
+            "collectionIndex": 5,
+            "artifactIndex": 6
+          },
+          "right": {
+            "id": "apim-studio",
+            "from": "apim",
+            "to": "studio",
+            "label": "design",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "point": [
+            415,
+            277
+          ],
+          "sharedNode": "apim"
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "apim-studio",
+            "from": "apim",
+            "to": "studio",
+            "label": "design",
+            "collectionIndex": 7,
+            "artifactIndex": 8
+          },
+          "bends": 6,
+          "stretch": 1.206
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "apim → app and apim → studio cross next to apim: move node app or studio so the two reach apim from different sides (for example one level with it, one directly above or below it).",
+      "apim → studio needs 6 bends: move node apim or studio so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

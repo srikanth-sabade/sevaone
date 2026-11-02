@@ -1,0 +1,226 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Rules and Fees",
+  "output": "m06-rules.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "owner",
+   "type": "external",
+   "label": "Service owner",
+   "sublabel": "edits rule tables",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "asks the rules",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "editor",
+   "type": "backend",
+   "label": "Rules Editor",
+   "sublabel": "tables, no code",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rl",
+   "type": "database",
+   "label": "Rule library",
+   "sublabel": "versioned",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "eng",
+   "type": "backend",
+   "label": "Rules Engine",
+   "sublabel": "decision tables",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "route choices",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "fee",
+   "type": "backend",
+   "label": "Fee Calculator",
+   "sublabel": "amount due",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pay",
+   "type": "backend",
+   "label": "Payments",
+   "sublabel": "fee due",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "owner-apim",
+   "to": "apim",
+   "from": "owner",
+   "label": "edit"
+  },
+  {
+   "id": "apim-editor",
+   "to": "editor",
+   "from": "apim",
+   "label": "edit"
+  },
+  {
+   "id": "editor-rl",
+   "to": "rl",
+   "from": "editor",
+   "label": "save"
+  },
+  {
+   "id": "app-eng",
+   "to": "eng",
+   "from": "app",
+   "label": "documents, fee"
+  },
+  {
+   "id": "eng-rl",
+   "to": "rl",
+   "from": "eng",
+   "label": "read rules"
+  },
+  {
+   "id": "eng-wf",
+   "to": "wf",
+   "from": "eng",
+   "label": "which path"
+  },
+  {
+   "id": "eng-fee",
+   "to": "fee",
+   "from": "eng",
+   "label": "inputs"
+  },
+  {
+   "id": "fee-pay",
+   "to": "pay",
+   "from": "fee",
+   "label": "amount",
+   "variant": "emphasis"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Rules are tables: if the applicant is in this category, ask for these documents and this fee",
+    "The Application Service asks the Rules Engine at the moment of applying",
+    "The same engine can pick the path in the workflow"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "A decision-table rules engine (DMN)",
+    "PostgreSQL for versioned rule tables",
+    "Fee Calculator feeding Payments"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Rules are versioned with the service and published together",
+    "Ordinary changes need no code; special cases use a reviewed extension",
+    "Fee exemptions are rules, not manual edits"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If no rule matches, the application cannot continue and an admin is told",
+    "A rule error never charges the citizen",
+    "Every decision records which rule version was used"
+   ]
+  }
+ ]
+}

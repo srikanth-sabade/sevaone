@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m22-derived.json",
+    "sha256": "a0e143e40f9708d35a8b37a86e9bc9fc5d1a58ef4fdaa02fd2bf909a91bbd177",
+    "bytes": 3030
+  },
+  "artifact": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m22-derived.html",
+    "sha256": "f44554c53fde2c1a85549a04f8a295b042b3462081f7cd61885fb6fd38dc6a3d",
+    "bytes": 817103
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/m22-derived/m22-derived.finalize.json",
+    "summaryReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/m22-derived/m22-derived.finalize-summary.json",
+    "browserCheckReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-3/m22-derived/m22-derived.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-18T09:16:30.403Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1303
+}

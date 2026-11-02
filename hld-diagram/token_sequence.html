@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif}#w{padding:10px}</style></head><body><div id="w"><pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor C as Citizen / Operator
+    participant S as SevaOne (EDCS)<br/>Login and redirect
+    participant D as Department Application<br/>(URL 1)
+    participant A as SevaOne API<br/>(URL 2 receiver)
+    participant DB as SevaOne Database
+    participant G as Department or Sakala (GSE)<br/>Status API (URL 3)
+
+    Note over C,G: Network rule: SevaOne servers and department servers are allow-listed in both directions
+
+    Note over C,S: Step 1: Login through Seva Sindhu
+    C->>S: Log in (Citizen, or assisted mode as a K1 / B1 / G1 / AJSK / BSK franchise)
+    S->>S: Issue the Token and the unique edcsApplicationRefNo
+    S-->>C: Auto-submitting POST form for the department
+
+    Note over C,D: Step 2: URL 1, the Department URL (provided by the department)
+    C->>D: POST UserId, edcsApplicationRefNo, Token, assistedmode, ServiceId (mobile, digilockerid if required)
+    D->>D: Verify the token received from SevaOne
+    D-->>C: HTTP 200, access allowed
+    C->>D: Fill the application form and pay the department fee
+
+    Note over D,DB: Step 3: URL 2, the acknowledgement receiver (provided by SevaOne)
+    D->>D: Generate the final acknowledgement
+    D->>A: POST .../api/TokenIntegration/department-update (JSON, Authorization: Basic)
+    Note right of D: UserId, DepartmentApplicationRefNo, EdcsApplicationRefNo, Token,<br/>payment status, fee date, fee, payment reference,<br/>acknowledgement file type, date and base64 file
+    alt URL 2 call succeeds
+        A->>DB: Save the response
+        A->>DB: Set status to SUCCESS
+        A-->>D: {DepartmentApplicationUpdateId, EdcsApplicationRefNo, DepartmentApplicationRefNo}
+        D-->>C: Redirect the browser back to SevaOne
+        C->>S: Return to SevaOne
+        S->>DB: Read the saved response
+        S-->>C: Print the acknowledgement
+    else URL 2 call fails
+        A-->>D: {"Message": "Data Not Inserted"}
+        A->>DB: Show the transaction as Failed
+        Note over D,A: The department calls URL 2 again until it succeeds
+    end
+
+    Note over S,G: Step 4: URL 3, status check (provided by the department or Sakala GSE)
+    loop Whenever SevaOne needs the status
+        S->>G: POST {GscNumber}
+        G-->>S: Application status
+    end
+
+</pre></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{noteBkgColor:'#F5F3FF',noteBorderColor:'#B9B3E6',noteTextColor:'#1E1B4B'},securityLevel:'loose',sequence:{useMaxWidth:false,mirrorActors:true,actorMargin:70,width:200,height:56,boxMargin:10,messageMargin:42,noteMargin:12,wrap:false,showSequenceNumbers:true,messageFontSize:15,noteFontSize:14,actorFontSize:15}});</script></body></html>

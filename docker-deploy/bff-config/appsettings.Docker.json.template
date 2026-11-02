@@ -1,0 +1,48 @@
+{
+  "ConnectionStrings": {
+    "SevaOneDb": "Host=postgres;Port=5432;Database=sevaone;Username=sevaone;Password=sevaone",
+    "Redis": "redis:6379"
+  },
+  "Connectors": {
+    "RevenueBaseUrl": "http://nadakacheri:8080",
+    "HubBaseUrl": "http://department-hub:8080"
+  },
+  "AiBackend": {
+    "BaseUrl": "http://101.53.138.83:8000"
+  },
+  "AiIngestion": {
+    "BaseUrl": "http://101.53.138.83:8000"
+  },
+  "AiMonitor": {
+    "BaseUrl": "",
+    "ApiKey": "",
+    "ApiKeyFile": ""
+  },
+  "Wso2CitizenIssuer": {
+    "TokenEndpoint": "https://wso2is:9443/oauth2/token",
+    "ScimBaseUrl": "https://wso2is:9443"
+  },
+  "Wso2OperatorIssuer": {
+    "TokenEndpoint": "https://wso2is:9443/oauth2/token"
+  },
+  "Wso2GovAdminIssuer": {
+    "TokenEndpoint": "https://wso2is:9443/oauth2/token"
+  },
+  "Wso2Apim": {
+    "BaseUrl": "https://wso2apim:8243"
+  },
+  "Kafka": {
+    "Enabled": true,
+    "BootstrapServers": "kafka:29092"
+  },
+  "Frontend": {
+    "PublicOrigin": "http://__PUBLIC_HOSTNAME__"
+  },
+  "DigiLocker": {
+    "CallbackUrl": "http://__PUBLIC_HOSTNAME__:5080/api/v1/auth/digilocker/callback"
+  },
+  "Cookies": {
+    "Secure": false,
+    "SameSite": "Lax"
+  }
+}

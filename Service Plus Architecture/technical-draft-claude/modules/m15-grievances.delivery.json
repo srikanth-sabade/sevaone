@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "253d5716-302c-4ce6-ad26-e1e1b4718b7c",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m15-grievances.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m15-grievances.html",
+  "specification": {
+    "sha256": "d43b6058d911983e6ca5007af7288c0bebd3af8be40987d7981a96b14a6e1a8f",
+    "bytes": 3549
+  },
+  "artifact": {
+    "sha256": "190727368f38e0526578253c50d0dd8de3a20a37b9d3cfcb977514d217a0d37a",
+    "bytes": 821800
+  }
+}

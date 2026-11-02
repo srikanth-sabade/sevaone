@@ -1,0 +1,295 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Security",
+  "output": "p2-security.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "users",
+   "type": "external",
+   "label": "Internet users",
+   "sublabel": "citizens, officers",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "waf",
+   "type": "cloud",
+   "label": "Firewall and WAF",
+   "sublabel": "blocks attacks, TLS",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "keys, limits",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "sign-in, MFA",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "svc",
+   "type": "backend",
+   "label": "Platform services",
+   "sublabel": "encrypted traffic",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "vault",
+   "type": "security",
+   "label": "Secrets vault",
+   "sublabel": "keys and passwords",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "hsm",
+   "type": "security",
+   "label": "Signing keys (HSM)",
+   "sublabel": "certificate signing",
+   "pos": [
+    1040,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "db",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "encrypted, per-state keys",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "audit",
+   "type": "backend",
+   "label": "Audit Log",
+   "sublabel": "write once",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "siem",
+   "type": "backend",
+   "label": "Security monitoring",
+   "sublabel": "alerts on odd activity",
+   "pos": [
+    790,
+    400
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bak",
+   "type": "database",
+   "label": "Encrypted backups",
+   "sublabel": "copies kept apart",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "users-waf",
+   "from": "users",
+   "to": "waf",
+   "label": "HTTPS"
+  },
+  {
+   "id": "waf-apim",
+   "from": "waf",
+   "to": "apim",
+   "label": "clean traffic"
+  },
+  {
+   "id": "apim-iam",
+   "from": "apim",
+   "to": "iam",
+   "label": "check token"
+  },
+  {
+   "id": "apim-svc",
+   "from": "apim",
+   "to": "svc",
+   "label": "encrypted"
+  },
+  {
+   "id": "svc-vault",
+   "from": "svc",
+   "to": "vault",
+   "label": "get secrets"
+  },
+  {
+   "id": "svc-hsm",
+   "from": "svc",
+   "to": "hsm",
+   "label": "sign"
+  },
+  {
+   "id": "svc-db",
+   "from": "svc",
+   "to": "db",
+   "label": "encrypted"
+  },
+  {
+   "id": "svc-audit",
+   "from": "svc",
+   "to": "audit",
+   "label": "every action"
+  },
+  {
+   "id": "audit-siem",
+   "from": "audit",
+   "to": "siem",
+   "label": "watch"
+  },
+  {
+   "id": "db-bak",
+   "from": "db",
+   "to": "bak",
+   "label": "copy"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Traffic is cleaned at the edge, then every call is checked at the API Manager",
+    "Services run in a private zone and use secrets from a vault, never from files",
+    "Certificates are signed with keys held in a hardware module"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "WSO2 Identity Server for sign-in and MFA",
+    "A secrets vault, an HSM for signing, TLS everywhere",
+    "Encrypted storage with a separate key per state"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "No service talks to the internet directly",
+    "Every action is written once and cannot be edited",
+    "Support staff reach a state only with approval"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A strange pattern raises an alert to the support team",
+    "A leaked key can be replaced without stopping services",
+    "Backups are encrypted and restores are rehearsed"
+   ]
+  }
+ ],
+ "boundaries": [
+  {
+   "kind": "security-group",
+   "label": "Public zone",
+   "wraps": [
+    "waf"
+   ]
+  },
+  {
+   "kind": "security-group",
+   "label": "Gateway zone",
+   "wraps": [
+    "apim",
+    "iam"
+   ]
+  },
+  {
+   "kind": "region",
+   "label": "Private zone",
+   "wraps": [
+    "svc",
+    "vault",
+    "hsm",
+    "db",
+    "audit",
+    "siem",
+    "bak"
+   ]
+  }
+ ]
+}

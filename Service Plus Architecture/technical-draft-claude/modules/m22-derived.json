@@ -1,0 +1,191 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Derived Services",
+  "output": "m22-derived.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "case approved",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "der",
+   "type": "backend",
+   "label": "Derived Service Rule",
+   "sublabel": "what can follow",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cat",
+   "type": "backend",
+   "label": "Catalogue Service",
+   "sublabel": "offers the next service",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pre",
+   "type": "backend",
+   "label": "Prefill",
+   "sublabel": "copies known data",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "new draft",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cit",
+   "type": "external",
+   "label": "Citizen",
+   "sublabel": "continues",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "wf-bus",
+   "from": "wf",
+   "to": "bus",
+   "label": "approved",
+   "variant": "dashed"
+  },
+  {
+   "id": "bus-der",
+   "from": "bus",
+   "to": "der",
+   "label": "event",
+   "variant": "dashed"
+  },
+  {
+   "id": "der-cat",
+   "from": "der",
+   "to": "cat",
+   "label": "offer"
+  },
+  {
+   "id": "der-pre",
+   "from": "der",
+   "to": "pre",
+   "label": "prefill"
+  },
+  {
+   "id": "pre-app",
+   "from": "pre",
+   "to": "app",
+   "label": "draft"
+  },
+  {
+   "id": "app-cit",
+   "from": "app",
+   "to": "cit",
+   "label": "ready"
+  },
+  {
+   "id": "cat-cit",
+   "from": "cat",
+   "to": "cit",
+   "label": "offered"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "When a case is approved, a rule decides which service can follow, for example a licence after a registration",
+    "The citizen is offered it and the new draft is prefilled from the first case",
+    "The two applications stay linked"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Rules in the same rule tables",
+    "Events on Kafka, prefill by the Application Service"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "The follow-on service has its own rules, fees and workflow",
+    "Prefilled data can be changed by the citizen",
+    "The link to the first case is kept"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the first case is later cancelled the follow-on is flagged",
+    "If prefill fails the citizen starts a normal blank form"
+   ]
+  }
+ ]
+}

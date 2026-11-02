@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "7fb88d9b-da01-48ee-9ee3-18de98b0ed7d",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p2-security.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p2-security.html",
+  "specification": {
+    "sha256": "fe722c5cdd16d04a5ce08032b25ec31e841154e6b94fe6ad1fafd6662d3eb489",
+    "bytes": 4545
+  },
+  "artifact": {
+    "sha256": "8cc29078fb0f60309edc945b541e495c20438826bdb503dd51a53bfedd8abcbb",
+    "bytes": 828003
+  }
+}

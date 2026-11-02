@@ -1,0 +1,228 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "History and Operations",
+  "output": "m18-audit.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "svc",
+   "type": "backend",
+   "label": "Every service",
+   "sublabel": "sends events and logs",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "obs",
+   "type": "backend",
+   "label": "Monitoring",
+   "sublabel": "Prometheus, Grafana",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "audit",
+   "type": "backend",
+   "label": "Audit Log",
+   "sublabel": "write once, never changed",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "trace",
+   "type": "backend",
+   "label": "Logs and Traces",
+   "sublabel": "OpenTelemetry, Loki",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "alert",
+   "type": "external",
+   "label": "Support team",
+   "sublabel": "gets alarms",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "adb",
+   "type": "database",
+   "label": "Audit store",
+   "sublabel": "append only (PostgreSQL)",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "jobs",
+   "type": "backend",
+   "label": "Background Jobs",
+   "sublabel": "retries, schedules",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "backup",
+   "type": "database",
+   "label": "Backups",
+   "sublabel": "daily, restores tested",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "svc-bus",
+   "to": "bus",
+   "from": "svc",
+   "label": "events",
+   "variant": "dashed"
+  },
+  {
+   "id": "bus-audit",
+   "to": "audit",
+   "from": "bus",
+   "label": "every action",
+   "variant": "dashed"
+  },
+  {
+   "id": "svc-obs",
+   "to": "obs",
+   "from": "svc",
+   "label": "health"
+  },
+  {
+   "id": "svc-trace",
+   "to": "trace",
+   "from": "svc",
+   "label": "logs"
+  },
+  {
+   "id": "audit-adb",
+   "to": "adb",
+   "from": "audit",
+   "label": "append"
+  },
+  {
+   "id": "obs-alert",
+   "to": "alert",
+   "from": "obs",
+   "label": "alarm"
+  },
+  {
+   "id": "adb-backup",
+   "to": "backup",
+   "from": "adb",
+   "label": "copy"
+  },
+  {
+   "id": "jobs-bus",
+   "to": "bus",
+   "from": "jobs",
+   "label": "retry",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Every action, decision, setting change and sign-in becomes an event",
+    "The Audit Log writes each one once and never changes it",
+    "Monitoring and traces show how the system is doing"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Kafka and an append-only PostgreSQL audit store",
+    "Prometheus and Grafana for monitoring",
+    "OpenTelemetry and Loki for traces and logs"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Audit records cannot be edited or deleted by anyone",
+    "Backups are tested by restoring them",
+    "Security checks are part of every module"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "An alarm goes to the support team when a service fails",
+    "Failed background jobs are retried and then listed",
+    "A recovery plan is rehearsed, not only written"
+   ]
+  }
+ ]
+}

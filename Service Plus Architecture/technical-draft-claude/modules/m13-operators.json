@@ -1,0 +1,211 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Operators and Centres",
+  "output": "m13-operators.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "admin",
+   "type": "external",
+   "label": "Centre admin",
+   "sublabel": "onboards operators",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "operator",
+   "type": "external",
+   "label": "Operator",
+   "sublabel": "applies for a citizen",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "who is calling",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "op",
+   "type": "backend",
+   "label": "Operator Service",
+   "sublabel": "centres, operators, services",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apps",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "records who assisted",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "dir",
+   "type": "backend",
+   "label": "Office Directory",
+   "sublabel": "a centre is an office",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "operator data",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "admin-apim",
+   "to": "apim",
+   "from": "admin",
+   "label": "onboard"
+  },
+  {
+   "id": "operator-apim",
+   "to": "apim",
+   "from": "operator",
+   "label": "apply"
+  },
+  {
+   "id": "apim-iam",
+   "to": "iam",
+   "from": "apim",
+   "label": "check token"
+  },
+  {
+   "id": "apim-op",
+   "to": "op",
+   "from": "apim",
+   "label": "manage"
+  },
+  {
+   "id": "apim-apps",
+   "to": "apps",
+   "from": "apim",
+   "label": "apply"
+  },
+  {
+   "id": "op-dir",
+   "to": "dir",
+   "from": "op",
+   "label": "centre"
+  },
+  {
+   "id": "op-pg",
+   "to": "pg",
+   "from": "op",
+   "label": "operators"
+  },
+  {
+   "id": "apps-op",
+   "to": "op",
+   "from": "apps",
+   "label": "assisted by"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "A centre is added to the directory and its operators are onboarded",
+    "The operator signs in and applies for a citizen",
+    "The application records both the citizen and the operator who helped"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Operator Service on PostgreSQL",
+    "Office Directory for centres",
+    "Spreadsheet import for operator lists"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "The applicant is always the citizen, never the operator",
+    "Operators see only the services their centre may offer",
+    "Wallets or commissions are added only if the government's model needs them"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "An operator removed mid-way keeps their past work on record",
+    "Unverified operator accounts cannot apply",
+    "Assisted applications can be listed by centre and operator"
+   ]
+  }
+ ]
+}

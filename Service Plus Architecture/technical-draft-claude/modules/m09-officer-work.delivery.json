@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "c09afa30-f47e-4ff7-a741-18b8e90fab00",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m09-officer-work.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m09-officer-work.html",
+  "specification": {
+    "sha256": "8fbc5397b6d6a792b07682854dc75de7391819adb4e02fe07420cca6e55d8bbc",
+    "bytes": 3896
+  },
+  "artifact": {
+    "sha256": "87d950e2034274063ec71aaac2160d0e22694c583c01f7ac127deb8a724fe789",
+    "bytes": 824482
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4811f147-f430-4475-8f15-d56dd1a8cf88",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m13-operators.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m13-operators.html",
+  "specification": {
+    "sha256": "6fb57b76cfed44f7c5d528b80de04df62475aee03e92f1e8a34ad0e6fd7c3798",
+    "bytes": 3431
+  },
+  "artifact": {
+    "sha256": "4d7dc67372c680c556e49d85cbf9d6bc9c8003edbde0288e595dcd5ba093cfdc",
+    "bytes": 820697
+  }
+}

@@ -1,0 +1,278 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "Payment, Including When It Is Unclear",
+  "output": "s2-payment.html",
+  "quality_profile": "showcase"
+ },
+ "participants": [
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizen",
+   "sublabel": "pays a fee"
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "App Service",
+   "sublabel": "needs the fee"
+  },
+  {
+   "id": "pay",
+   "type": "backend",
+   "label": "Payment Service",
+   "sublabel": "records everything"
+  },
+  {
+   "id": "mi",
+   "type": "backend",
+   "label": "Micro Integrator",
+   "sublabel": "gateway link"
+  },
+  {
+   "id": "gw",
+   "type": "external",
+   "label": "Payment gateway",
+   "sublabel": "takes the money"
+  },
+  {
+   "id": "bank",
+   "type": "external",
+   "label": "Bank and treasury",
+   "sublabel": "daily files"
+  },
+  {
+   "id": "match",
+   "type": "backend",
+   "label": "Matching Job",
+   "sublabel": "bank vs records"
+  }
+ ],
+ "segments": [
+  {
+   "from": 146,
+   "to": 336,
+   "label": "Normal payment"
+  },
+  {
+   "from": 338,
+   "to": 464,
+   "label": "Matching"
+  },
+  {
+   "from": 466,
+   "to": 528,
+   "label": "Duplicate"
+  },
+  {
+   "from": 530,
+   "to": 656,
+   "label": "No answer"
+  }
+ ],
+ "messages": [
+  {
+   "id": "m0",
+   "from": "app",
+   "to": "pay",
+   "y": 160,
+   "label": "fee due",
+   "variant": "default"
+  },
+  {
+   "id": "m1",
+   "from": "pay",
+   "to": "citizen",
+   "y": 192,
+   "label": "go to payment page",
+   "variant": "return"
+  },
+  {
+   "id": "m2",
+   "from": "citizen",
+   "to": "gw",
+   "y": 224,
+   "label": "pays",
+   "variant": "security"
+  },
+  {
+   "id": "m3",
+   "from": "gw",
+   "to": "mi",
+   "y": 256,
+   "label": "signed callback",
+   "variant": "security"
+  },
+  {
+   "id": "m4",
+   "from": "mi",
+   "to": "pay",
+   "y": 288,
+   "label": "payment result",
+   "variant": "default"
+  },
+  {
+   "id": "m5",
+   "from": "pay",
+   "to": "app",
+   "y": 320,
+   "label": "paid, not yet matched",
+   "variant": "dashed"
+  },
+  {
+   "id": "m6",
+   "from": "bank",
+   "to": "mi",
+   "y": 352,
+   "label": "daily file",
+   "variant": "dashed"
+  },
+  {
+   "id": "m7",
+   "from": "mi",
+   "to": "match",
+   "y": 384,
+   "label": "file",
+   "variant": "dashed"
+  },
+  {
+   "id": "m8",
+   "from": "match",
+   "to": "pay",
+   "y": 416,
+   "label": "matched",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m9",
+   "from": "pay",
+   "to": "app",
+   "y": 448,
+   "label": "confirmed",
+   "variant": "dashed"
+  },
+  {
+   "id": "m10",
+   "from": "gw",
+   "to": "mi",
+   "y": 480,
+   "label": "same callback again",
+   "variant": "dashed"
+  },
+  {
+   "id": "m11",
+   "from": "mi",
+   "to": "pay",
+   "y": 512,
+   "label": "ignored: same transaction",
+   "variant": "return"
+  },
+  {
+   "id": "m12",
+   "from": "pay",
+   "to": "mi",
+   "y": 544,
+   "label": "no answer: check status",
+   "variant": "default"
+  },
+  {
+   "id": "m13",
+   "from": "mi",
+   "to": "gw",
+   "y": 576,
+   "label": "status?",
+   "variant": "default"
+  },
+  {
+   "id": "m14",
+   "from": "gw",
+   "to": "mi",
+   "y": 608,
+   "label": "paid or failed",
+   "variant": "return"
+  },
+  {
+   "id": "m15",
+   "from": "mi",
+   "to": "pay",
+   "y": 640,
+   "label": "result",
+   "variant": "return"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "app",
+   "from": 155,
+   "to": 458
+  },
+  {
+   "participant": "pay",
+   "from": 155,
+   "to": 650
+  },
+  {
+   "participant": "citizen",
+   "from": 187,
+   "to": 234
+  },
+  {
+   "participant": "gw",
+   "from": 219,
+   "to": 618
+  },
+  {
+   "participant": "mi",
+   "from": 251,
+   "to": 650
+  },
+  {
+   "participant": "bank",
+   "from": 347,
+   "to": 362
+  },
+  {
+   "participant": "match",
+   "from": 379,
+   "to": 426
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The Payment Service keeps the amount due, the attempt, the receipt and the money received as four separate things",
+    "A gateway callback marks the attempt; a later bank file confirms it",
+    "Only after matching is the payment confirmed to the application"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "A browser return or a screenshot never counts as proof",
+    "A repeated callback is ignored by its transaction number"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Payment never approves a case",
+    "Each state uses its own collection accounts and gateways"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "No answer from the gateway: the status is asked for again until it settles",
+    "If the application cannot be saved after payment, the money stays tied to the application and is applied or refunded",
+    "Anything unmatched goes to a finance problem list"
+   ]
+  }
+ ]
+}

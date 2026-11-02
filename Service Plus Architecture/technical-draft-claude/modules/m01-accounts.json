@@ -1,0 +1,287 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Accounts and Sign-in",
+  "output": "m01-accounts.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizens",
+   "sublabel": "web + mobile app",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "officer",
+   "type": "external",
+   "label": "Officers and staff",
+   "sublabel": "web workspace",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "admin",
+   "type": "external",
+   "label": "Department admin",
+   "sublabel": "onboards officers",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "idb",
+   "type": "database",
+   "label": "Identity store",
+   "sublabel": "users, passwords",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "sign-in, OTP, MFA",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "acct",
+   "type": "backend",
+   "label": "Account Service",
+   "sublabel": "register, verify, onboard",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "org",
+   "type": "backend",
+   "label": "Office Directory",
+   "sublabel": "offices and postings",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "profiles, workspace links",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mi",
+   "type": "backend",
+   "label": "WSO2 Micro Integrator",
+   "sublabel": "OTP, DigiLocker, Aadhaar",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "audit",
+   "type": "backend",
+   "label": "Reports and Audit",
+   "sublabel": "who signed in, when",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ext",
+   "type": "external",
+   "label": "Other systems",
+   "sublabel": "SMS, email, DigiLocker",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "citizen-iam",
+   "to": "iam",
+   "from": "citizen",
+   "label": "sign in"
+  },
+  {
+   "id": "officer-iam",
+   "to": "iam",
+   "from": "officer",
+   "label": "sign in"
+  },
+  {
+   "id": "admin-acct",
+   "to": "acct",
+   "from": "admin",
+   "label": "onboard"
+  },
+  {
+   "id": "iam-idb",
+   "to": "idb",
+   "from": "iam",
+   "label": "users"
+  },
+  {
+   "id": "iam-acct",
+   "to": "acct",
+   "from": "iam",
+   "label": "token"
+  },
+  {
+   "id": "acct-pg",
+   "to": "pg",
+   "from": "acct",
+   "label": "profiles"
+  },
+  {
+   "id": "acct-org",
+   "to": "org",
+   "from": "acct",
+   "label": "posting"
+  },
+  {
+   "id": "acct-bus",
+   "to": "bus",
+   "from": "acct",
+   "label": "events",
+   "variant": "dashed"
+  },
+  {
+   "id": "acct-mi",
+   "to": "mi",
+   "from": "acct",
+   "label": "send OTP"
+  },
+  {
+   "id": "mi-ext",
+   "to": "ext",
+   "from": "mi",
+   "label": "APIs"
+  },
+  {
+   "id": "bus-audit",
+   "to": "audit",
+   "from": "bus",
+   "label": "log",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "A citizen registers and confirms the phone or email with a one-time code",
+    "An officer is added by an administrator, then activates the account",
+    "Sign-in happens only in the identity server; every service trusts its token"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "WSO2 Identity Server for accounts, passwords, OTP and MFA",
+    "Account Service for registration steps and approvals",
+    "PostgreSQL for profiles; Micro Integrator for SMS, email, DigiLocker and Aadhaar"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "One person, one account; citizen and officer work are separate workspaces",
+    "An officer cannot give themselves authority",
+    "A closed account keeps its history"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the code never arrives the account stays pending; the person can retry or use recovery",
+    "Locked or suspended accounts cannot sign in but nothing is deleted",
+    "Every sign-in and change is logged"
+   ]
+  }
+ ]
+}

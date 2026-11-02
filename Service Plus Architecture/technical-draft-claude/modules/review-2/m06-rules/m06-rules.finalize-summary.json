@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.json",
+    "sha256": "b2095d14a74987f0ba2f0db10f6e62baa0f2034b77b07cab696f26dce32ac015",
+    "bytes": 3582
+  },
+  "artifact": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+    "sha256": "14e1f3ac8fef9c1cfa8724027564cce3841e3b7f00232e75aaee17a29c2d2c72",
+    "bytes": 820985
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-2/m06-rules/m06-rules.finalize.json",
+    "summaryReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-2/m06-rules/m06-rules.finalize-summary.json",
+    "browserCheckReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/review-2/m06-rules/m06-rules.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-18T09:16:30.403Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1366,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "eng-rl",
+            "from": "eng",
+            "to": "rl",
+            "label": "read rules",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "bends": 3,
+          "stretch": 1
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "eng → rl needs 3 bends: move node eng or rl so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

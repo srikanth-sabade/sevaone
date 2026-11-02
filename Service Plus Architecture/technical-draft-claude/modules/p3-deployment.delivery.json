@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4ed3c4c8-8e28-4d41-9a8c-7459effe4b7e",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p3-deployment.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p3-deployment.html",
+  "specification": {
+    "sha256": "55561f281692a21903f39cd03f9fdc87c9617131afc4c6344f13a157b9bc2c07",
+    "bytes": 4951
+  },
+  "artifact": {
+    "sha256": "b80470a5a2ff384eb377f4b30369dafe6a0d02aa8a92955ca92ba8f283044253",
+    "bytes": 831473
+  }
+}

@@ -1,0 +1,232 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Payments",
+  "output": "m11-payments.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizens",
+   "sublabel": "pay a fee",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pay",
+   "type": "backend",
+   "label": "Payment Service",
+   "sublabel": "fee, attempt, receipt",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "match",
+   "type": "backend",
+   "label": "Matching Job",
+   "sublabel": "bank file vs records",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ledger",
+   "type": "database",
+   "label": "Payment records",
+   "sublabel": "kept separately",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mi",
+   "type": "backend",
+   "label": "WSO2 Micro Integrator",
+   "sublabel": "gateways and files",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "gw",
+   "type": "external",
+   "label": "Payment gateways",
+   "sublabel": "BharatKosh, SBI ePay",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bank",
+   "type": "external",
+   "label": "Bank and treasury",
+   "sublabel": "daily files",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "citizen-apim",
+   "to": "apim",
+   "from": "citizen",
+   "label": "pay"
+  },
+  {
+   "id": "apim-pay",
+   "to": "pay",
+   "from": "apim",
+   "label": "pay"
+  },
+  {
+   "id": "pay-ledger",
+   "to": "ledger",
+   "from": "pay",
+   "label": "records"
+  },
+  {
+   "id": "pay-mi",
+   "to": "mi",
+   "from": "pay",
+   "label": "start payment"
+  },
+  {
+   "id": "mi-gw",
+   "to": "gw",
+   "from": "mi",
+   "label": "APIs"
+  },
+  {
+   "id": "mi-bank",
+   "to": "bank",
+   "from": "mi",
+   "label": "files"
+  },
+  {
+   "id": "mi-match",
+   "to": "match",
+   "from": "mi",
+   "label": "files"
+  },
+  {
+   "id": "match-pay",
+   "to": "pay",
+   "from": "match",
+   "label": "matched"
+  },
+  {
+   "id": "pay-bus",
+   "to": "bus",
+   "from": "pay",
+   "label": "paid",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The Payment Service keeps four things apart: the amount due, the attempt, the receipt and the money received",
+    "A gateway reply or callback changes the attempt; a later matching job confirms it against bank files",
+    "A paid event lets the application move on"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Micro Integrator for gateway links",
+    "PostgreSQL for payment records",
+    "A scheduled Matching Job; Kafka for the paid event"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "A browser return or screenshot never proves payment",
+    "Payment never approves a case",
+    "Duplicate callbacks are ignored by transaction number"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A payment still pending is checked again until it settles",
+    "If the case save fails after payment the money is held against the application and refunded or applied",
+    "Unmatched transactions go to a finance problem list"
+   ]
+  }
+ ]
+}

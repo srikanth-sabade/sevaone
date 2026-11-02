@@ -1,0 +1,11 @@
+﻿flowchart TB
+    A["discovery.sevaone_service_master<br/>catalog: what citizen applies for"]
+    B["portal.sevaone_user<br/>identity: who is applying"]
+    C["portal.sevaone_token<br/>30-min one-time apply pass"]
+    D["Department portal redeems token<br/>(API — no dept DB write)"]
+    E["orchestration.dept_user_ref<br/>dept has seen citizen before"]
+    F["orchestration.applications<br/>created on apply-complete"]
+    G["status.application_events<br/>append-only status history"]
+    H["portal.sevaone_token<br/>10-min return pass (new row)"]
+    I["Citizen browser returns to SevaOne"]
+    A --> B --> C --> D --> E --> F --> G --> H --> I

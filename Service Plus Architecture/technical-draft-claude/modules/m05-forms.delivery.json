@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "29e2e596-4ba4-485e-be8d-ac36b9af3fd0",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m05-forms.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m05-forms.html",
+  "specification": {
+    "sha256": "218c5bbf591ddec7b546c3066aa2d04ecfcade90779029ee5b78f7a2d47c5350",
+    "bytes": 3989
+  },
+  "artifact": {
+    "sha256": "28d1fbbc5f163f229f45728f73d8f64e9b2569fdf83546f49b3f25635a46742e",
+    "bytes": 824756
+  }
+}

@@ -1,0 +1,130 @@
+# -----------------------------------------------------------------------------
+# Dot-directories (local tooling, IDE, caches) — never commit
+# e.g. .claude/, .vs/, .idea/, .vscode/, .dotnet/, .nuget/, .cursor/
+# Dot-FILES like .editorconfig / .gitattributes / .gitignore stay trackable.
+# -----------------------------------------------------------------------------
+.*/
+# GitHub Actions workflows are project config, not local tooling.
+!.github/
+
+# -----------------------------------------------------------------------------
+# Secrets & local env
+# All real credentials and keys live in docs/secrets/ (and docs/secrets/keys/).
+# That whole folder is ignored on purpose - never commit it, even if asked.
+# -----------------------------------------------------------------------------
+[Ss]ecrets/
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+# Credential documents that get dropped loose into docs/ by mistake
+*[Cc]redentials*.txt
+*[Cc]redentials*.md
+*[Cc]redentials*.docx
+
+# Rendered from *.template files by docker-deploy/scripts/setup-stack.sh -
+# hostname-specific per environment, not source of truth.
+docker-deploy/wso2/config-volume/repository/conf/deployment.toml
+docker-deploy/wso2-apim/config-volume/repository/conf/deployment.toml
+docker-deploy/bff-config/appsettings.Docker.json
+appsettings.*.local.json
+**/appsettings.Local.json
+
+# -----------------------------------------------------------------------------
+# OS
+# -----------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# -----------------------------------------------------------------------------
+# .NET / Visual Studio
+# -----------------------------------------------------------------------------
+bin/
+obj/
+out/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.rsuser
+*.dbmdl
+*.jfm
+*.pidb
+*.svclog
+project.lock.json
+artifacts/
+TestResults/
+[Tt]est[Rr]esult*/
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+publish/
+PublishProfiles/
+*.publishproj
+*.pubxml.user
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+__pycache__/
+*.pyc
+.venv/
+venv/
+.hf_cache/
+# HuggingFace model cache (e.g. ai-backend/hub/models--BAAI--bge-m3) - large
+# binary model weights, re-downloadable, never source.
+hub/
+# Local RAG runtime databases, vector indexes, and quality traces are generated state.
+apps/Artificial-Intelligence/ai-sevaone/data/
+
+# -----------------------------------------------------------------------------
+# Node / frontend tooling
+# -----------------------------------------------------------------------------
+node_modules/
+dist/
+dist-ssr/
+coverage/
+*.tsbuildinfo
+.npm
+.pnpm-store
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# -----------------------------------------------------------------------------
+# Local downloads / third-party installs
+# -----------------------------------------------------------------------------
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+MailHog
+MailHog.exe
+
+# -----------------------------------------------------------------------------
+# Misc
+# -----------------------------------------------------------------------------
+*.log
+*.tmp
+*.temp
+*.swp
+*~
+.cache/
+tmp/
+temp/
+
+# Compatibility symlink to docs/secrets/keys, kept for the systemd SSH tunnel units that still use the old path
+/Secrets

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "ec06cdda-f91b-4d81-845e-79a8636f024b",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/workflow.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/workflow.html",
+  "specification": {
+    "sha256": "e236f25d008ae85cd35bc98e1f3c0751cf212d5f6c9722d6b10506915079f5d3",
+    "bytes": 5652
+  },
+  "artifact": {
+    "sha256": "68cdcb08991f512950a50d505a3376d5c456f078530cf39f969157d7d988e53f",
+    "bytes": 841514
+  }
+}

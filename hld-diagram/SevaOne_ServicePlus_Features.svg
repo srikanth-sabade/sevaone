@@ -1,0 +1,291 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3400" height="2102" viewBox="0 0 3400 2102" font-family="'Inter','Noto Sans','Carlito',sans-serif">
+<defs>
+<filter id="sh" x="-5%" y="-5%" width="110%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1B2A41" flood-opacity="0.14"/></filter>
+<marker id="ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#475569"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2563EB"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#EA580C"/></marker>
+<marker id="ap" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#7C3AED"/></marker>
+<linearGradient id="cyl" x1="0" x2="1"><stop offset="0" stop-color="#C7D2FE"/><stop offset="0.5" stop-color="#EEF2FF"/><stop offset="1" stop-color="#C7D2FE"/></linearGradient>
+<linearGradient id="cylg" x1="0" x2="1"><stop offset="0" stop-color="#D1D5DB"/><stop offset="0.5" stop-color="#F3F4F6"/><stop offset="1" stop-color="#D1D5DB"/></linearGradient>
+<linearGradient id="hdr" x1="0" x2="1"><stop offset="0" stop-color="#0F172A"/><stop offset="1" stop-color="#1E3A8A"/></linearGradient>
+</defs>
+<rect width="3400" height="2300" fill="#FFFFFF"/>
+<rect x="0" y="0" width="3400" height="92" fill="url(#hdr)"/>
+<text x="48" y="45" font-size="32" font-weight="700" fill="#FFFFFF">Service Plus: Everything We Know It Does</text>
+<text x="48" y="73" font-size="15" fill="#C7D2FE">Feature view, drawn only from the NIC deck (22 slides) and the API documents. Dashed amber boxes are not disclosed or are future plans.</text>
+<g font-size="13.5" fill="#E2E8F0"><rect x="2760" y="30" width="26" height="16" rx="4" fill="#fff"/><text x="2794" y="43">Stated by NIC</text><rect x="2930" y="30" width="26" height="16" rx="4" fill="#FFFBF2" stroke="#F2B173" stroke-dasharray="4 3"/><text x="2964" y="43">Not disclosed / planned</text><text x="2760" y="76">M1 to M25 are the module numbers used in the architecture documents.</text></g>
+<rect x="60" y="130" width="1040" height="303" rx="20" fill="#EAF2FF" stroke="#6E96E8" stroke-width="1.8"/><circle cx="90" cy="160" r="15" fill="#6E96E8"/><text x="90" y="166" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">1</text><text x="116" y="167" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Platform at a glance</text>
+<g filter="url(#sh)"><rect x="84.0" y="190" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="220" font-size="19" font-weight="700" fill="#0F172A">3,564 services</text>
+<text x="100.0" y="248" font-size="14" fill="#475569">• Configured on the platform</text>
+<g filter="url(#sh)"><rect x="420.6666666666667" y="190" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="436.6666666666667" y="220" font-size="19" font-weight="700" fill="#0F172A">345 million applications</text>
+<text x="436.6666666666667" y="248" font-size="14" fill="#475569">• Received to date</text>
+<g filter="url(#sh)"><rect x="757.3333333333334" y="190" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="773.3333333333334" y="220" font-size="19" font-weight="700" fill="#0F172A">33.6 billion revenue</text>
+<text x="773.3333333333334" y="248" font-size="14" fill="#475569">• Collected (currency not stated)</text>
+<g filter="url(#sh)"><rect x="84.0" y="299" width="318.6666666666667" height="110" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="329" font-size="19" font-weight="700" fill="#0F172A">5.8 billion DBT</text>
+<text x="100.0" y="357" font-size="14" fill="#475569">• Direct benefit transfer disbursed</text>
+<g filter="url(#sh)"><rect x="420.6666666666667" y="299" width="318.6666666666667" height="110" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="436.6666666666667" y="329" font-size="19" font-weight="700" fill="#0F172A">36 States/UTs</text>
+<text x="436.6666666666667" y="357" font-size="14" fill="#475569">• Plus 18 central departments, under</text>
+<text x="436.6666666666667" y="376" font-size="14" fill="#475569">different brand names</text>
+<g filter="url(#sh)"><rect x="757.3333333333334" y="299" width="318.6666666666667" height="110" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="773.3333333333334" y="329" font-size="19" font-weight="700" fill="#0F172A">Metadata-based framework</text>
+<text x="773.3333333333334" y="357" font-size="14" fill="#475569">• Low-code / no-code design,</text>
+<text x="773.3333333333334" y="376" font-size="14" fill="#475569">configure, run</text>
+<rect x="60" y="473" width="1040" height="418" rx="20" fill="#E8F7EF" stroke="#4DB583" stroke-width="1.8"/><circle cx="90" cy="503" r="15" fill="#4DB583"/><text x="90" y="509" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">2</text><text x="116" y="510" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">What it serves</text>
+<g filter="url(#sh)"><rect x="84.0" y="533" width="487.0" height="148" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="563" font-size="19" font-weight="700" fill="#0F172A">Service categories</text>
+<text x="100.0" y="591" font-size="14" fill="#475569">• Government to Citizen (G2C)</text>
+<text x="100.0" y="610" font-size="14" fill="#475569">• Government to Business (G2B)</text>
+<text x="100.0" y="629" font-size="14" fill="#475569">• Government to Employee (G2E)</text>
+<text x="100.0" y="648" font-size="14" fill="#475569">• Government to Government (G2G)</text>
+<g filter="url(#sh)"><rect x="589.0" y="533" width="487.0" height="148" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="605.0" y="563" font-size="19" font-weight="700" fill="#0F172A">Service types</text>
+<text x="605.0" y="591" font-size="14" fill="#475569">• Statutory</text>
+<text x="605.0" y="610" font-size="14" fill="#475569">• Regulatory</text>
+<text x="605.0" y="629" font-size="14" fill="#475569">• Developmental</text>
+<text x="605.0" y="648" font-size="14" fill="#475569">• Consumer utility</text>
+<g filter="url(#sh)"><rect x="84.0" y="699" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="729" font-size="19" font-weight="700" fill="#0F172A">Why ServicePlus (NIC claims)</text>
+<text x="100.0" y="757" font-size="14" fill="#475569">• Rapid rollout, services available around the clock</text>
+<text x="100.0" y="776" font-size="14" fill="#475569">• One configurable platform for the whole service lifecycle</text>
+<text x="100.0" y="795" font-size="14" fill="#475569">• Multi-tenant architecture</text>
+<text x="100.0" y="814" font-size="14" fill="#475569">• SSL/TLS encryption and OAuth 2.0</text>
+<rect x="524.0" y="837" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="542.5" y="851" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M19</text>
+<g filter="url(#sh)"><rect x="589.0" y="699" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="605.0" y="729" font-size="19" font-weight="700" fill="#0F172A">Focus areas</text>
+<text x="605.0" y="757" font-size="14" fill="#475569">• In-built tools to design, configure and run services</text>
+<text x="605.0" y="776" font-size="14" fill="#475569">• Agility: any government entity can roll out at any level</text>
+<text x="605.0" y="795" font-size="14" fill="#475569">• Unified framework for service delivery and grievance</text>
+<text x="605.0" y="814" font-size="14" fill="#475569">redressal</text>
+<rect x="60" y="931" width="1040" height="252" rx="20" fill="#F1EDFF" stroke="#9B83F0" stroke-width="1.8"/><circle cx="90" cy="961" r="15" fill="#9B83F0"/><text x="90" y="967" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">3</text><text x="116" y="968" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Branded deployments and entry points</text>
+<g filter="url(#sh)"><rect x="84.0" y="991" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="1021" font-size="19" font-weight="700" fill="#0F172A">Named deployments</text>
+<text x="100.0" y="1049" font-size="14" fill="#475569">• Saral Haryana, SevaSindhu Karnataka</text>
+<text x="100.0" y="1068" font-size="14" fill="#475569">• RTPS Bihar, Excise Department Kerala</text>
+<text x="100.0" y="1087" font-size="14" fill="#475569">• eDistrict Tripura and Odisha</text>
+<text x="100.0" y="1106" font-size="14" fill="#475569">• JanSugam Jammu &amp; Kashmir, JharSewa Jharkhand</text>
+<rect x="531.0" y="1129" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="546.0" y="1143" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M4</text>
+<g filter="url(#sh)"><rect x="589.0" y="991" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="605.0" y="1021" font-size="19" font-weight="700" fill="#0F172A">Separate pages and URLs</text>
+<text x="605.0" y="1049" font-size="14" fill="#475569">• One URL or page for each service</text>
+<text x="605.0" y="1068" font-size="14" fill="#475569">• One for a department</text>
+<text x="605.0" y="1087" font-size="14" fill="#475569">• One for an entire state</text>
+<rect x="1036.0" y="1129" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="1051.0" y="1143" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M4</text>
+<rect x="60" y="1223" width="1040" height="413" rx="20" fill="#E6F6F7" stroke="#4BB6BD" stroke-width="1.8"/><circle cx="90" cy="1253" r="15" fill="#4BB6BD"/><text x="90" y="1259" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">4</text><text x="116" y="1260" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Service definition lifecycle (slide 19)</text>
+<g filter="url(#sh)"><rect x="84.0" y="1283" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="1313" font-size="19" font-weight="700" fill="#0F172A">1  Service Definer Guide</text>
+<text x="100.0" y="1341" font-size="14" fill="#475569">• Fill in the guide</text>
+<g filter="url(#sh)"><rect x="420.6666666666667" y="1283" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="436.6666666666667" y="1313" font-size="19" font-weight="700" fill="#0F172A">2  Tenancy extension</text>
+<text x="436.6666666666667" y="1341" font-size="14" fill="#475569">• Implement</text>
+<g filter="url(#sh)"><rect x="757.3333333333334" y="1283" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="773.3333333333334" y="1313" font-size="19" font-weight="700" fill="#0F172A">3  Configure</text>
+<text x="773.3333333333334" y="1341" font-size="14" fill="#475569">• Configure the service</text>
+<g filter="url(#sh)"><rect x="84.0" y="1392" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="1422" font-size="19" font-weight="700" fill="#0F172A">4  Test</text>
+<text x="100.0" y="1450" font-size="14" fill="#475569">• Test the service</text>
+<g filter="url(#sh)"><rect x="420.6666666666667" y="1392" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="436.6666666666667" y="1422" font-size="19" font-weight="700" fill="#0F172A">5  Train</text>
+<text x="436.6666666666667" y="1450" font-size="14" fill="#475569">• Train the officials</text>
+<g filter="url(#sh)"><rect x="757.3333333333334" y="1392" width="318.6666666666667" height="91" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="773.3333333333334" y="1422" font-size="19" font-weight="700" fill="#0F172A">6  Freeze</text>
+<text x="773.3333333333334" y="1450" font-size="14" fill="#475569">• Freeze the service</text>
+<g filter="url(#sh)"><rect x="84.0" y="1501" width="318.6666666666667" height="111" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="100.0" y="1531" font-size="19" font-weight="700" fill="#0F172A">7  Activate units</text>
+<text x="100.0" y="1559" font-size="14" fill="#475569">• Activate service units</text>
+<g filter="url(#sh)"><rect x="420.6666666666667" y="1501" width="318.6666666666667" height="111" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="436.6666666666667" y="1531" font-size="19" font-weight="700" fill="#0F172A">8  Assign users</text>
+<text x="436.6666666666667" y="1559" font-size="14" fill="#475569">• Assign users</text>
+<g filter="url(#sh)"><rect x="757.3333333333334" y="1501" width="318.6666666666667" height="111" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="773.3333333333334" y="1531" font-size="19" font-weight="700" fill="#0F172A">9  Launch</text>
+<text x="773.3333333333334" y="1559" font-size="14" fill="#475569">• Launch the service</text>
+<rect x="1029.0" y="1582" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="1047.5" y="1596" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M17</text>
+<rect x="1180" y="130" width="1040" height="700" rx="20" fill="#FFF3E6" stroke="#EE9A4D" stroke-width="1.8"/><circle cx="1210" cy="160" r="15" fill="#EE9A4D"/><text x="1210" y="166" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">5</text><text x="1236" y="167" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Design time: tools for service owners (no code)</text>
+<g filter="url(#sh)"><rect x="1204.0" y="190" width="487.0" height="206" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1220.0" y="220" font-size="19" font-weight="700" fill="#0F172A">Form Designer</text>
+<text x="1220.0" y="248" font-size="14" fill="#475569">• Drag and drop, multi-page, multilingual</text>
+<text x="1220.0" y="267" font-size="14" fill="#475569">• Forms for applicants and officials</text>
+<text x="1220.0" y="286" font-size="14" fill="#475569">• Special fields, user-defined JavaScript insertion</text>
+<text x="1220.0" y="305" font-size="14" fill="#475569">• Link fields across forms, predefined formats</text>
+<text x="1220.0" y="324" font-size="14" fill="#475569">• Built-in, server-side and API-based validation</text>
+<text x="1220.0" y="343" font-size="14" fill="#475569">• Help text at form and field level</text>
+<rect x="1651.0" y="366" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="1666.0" y="380" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M5</text>
+<g filter="url(#sh)"><rect x="1709.0" y="190" width="487.0" height="206" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1725.0" y="220" font-size="19" font-weight="700" fill="#0F172A">Process Flow Designer</text>
+<text x="1725.0" y="248" font-size="14" fill="#475569">• Drag and drop workflow</text>
+<text x="1725.0" y="267" font-size="14" fill="#475569">• Conditional logic</text>
+<text x="1725.0" y="286" font-size="14" fill="#475569">• Fork and merge using gateways</text>
+<text x="1725.0" y="305" font-size="14" fill="#475569">• Timer tasks and webservice tasks</text>
+<text x="1725.0" y="324" font-size="14" fill="#475569">• Real-time workflow monitoring</text>
+<text x="1725.0" y="343" font-size="14" fill="#475569">• Customizable workflows</text>
+<rect x="2156.0" y="366" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="2171.0" y="380" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M7</text>
+<g filter="url(#sh)"><rect x="1204.0" y="414" width="487.0" height="206" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1220.0" y="444" font-size="19" font-weight="700" fill="#0F172A">Document Designer</text>
+<text x="1220.0" y="472" font-size="14" fill="#475569">• Integrated editor with form values and system variables</text>
+<text x="1220.0" y="491" font-size="14" fill="#475569">• Acknowledgement, delivery, rejection, intermediate</text>
+<text x="1220.0" y="510" font-size="14" fill="#475569">certificates</text>
+<text x="1220.0" y="529" font-size="14" fill="#475569">• HTML, XML, spreadsheet, PDF</text>
+<text x="1220.0" y="548" font-size="14" fill="#475569">• Data-based conditions, QR code, DSC stamp, watermark</text>
+<text x="1220.0" y="567" font-size="14" fill="#475569">• Unique URL per certificate</text>
+<rect x="1644.0" y="590" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="1662.5" y="604" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M10</text>
+<g filter="url(#sh)"><rect x="1709.0" y="414" width="487.0" height="206" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1725.0" y="444" font-size="19" font-weight="700" fill="#0F172A">Notification Designer</text>
+<text x="1725.0" y="472" font-size="14" fill="#475569">• SMS, email, Sandes, WhatsApp</text>
+<text x="1725.0" y="491" font-size="14" fill="#475569">• Trigger points: accept, reject, process</text>
+<text x="1725.0" y="510" font-size="14" fill="#475569">• User-defined content and triggers</text>
+<text x="1725.0" y="529" font-size="14" fill="#475569">• Smart selection of phone and email contacts</text>
+<text x="1725.0" y="548" font-size="14" fill="#475569">• OTP verification of mobile and email</text>
+<text x="1725.0" y="567" font-size="14" fill="#475569">• Dedicated bulk notification module</text>
+<rect x="2149.0" y="590" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2167.5" y="604" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M12</text>
+<g filter="url(#sh)"><rect x="1204.0" y="638" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1220.0" y="668" font-size="19" font-weight="700" fill="#0F172A">Organisation structure</text>
+<text x="1220.0" y="696" font-size="14" fill="#475569">• Full structure and hierarchy of any department</text>
+<text x="1220.0" y="715" font-size="14" fill="#475569">• Designations that exist in the organisation</text>
+<text x="1220.0" y="734" font-size="14" fill="#475569">• Inter-departmental mapping by jurisdiction</text>
+<text x="1220.0" y="753" font-size="14" fill="#475569">• Electoral constituency data and mapping</text>
+<rect x="1651.0" y="776" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="1666.0" y="790" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M2</text>
+<g filter="url(#sh)"><rect x="1709.0" y="638" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1725.0" y="668" font-size="19" font-weight="700" fill="#0F172A">Service wizard and versions</text>
+<text x="1725.0" y="696" font-size="14" fill="#475569">• Wizard-style configuration of services</text>
+<text x="1725.0" y="715" font-size="14" fill="#475569">• Launch new services in minutes</text>
+<text x="1725.0" y="734" font-size="14" fill="#475569">• Grievance redressal policy for each service</text>
+<text x="1725.0" y="753" font-size="14" fill="#475569">• Service versioning: major and minor</text>
+<rect x="2149.0" y="776" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2167.5" y="790" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M17</text>
+<rect x="1180" y="870" width="1040" height="643" rx="20" fill="#EAF2FF" stroke="#6E96E8" stroke-width="1.8"/><circle cx="1210" cy="900" r="15" fill="#6E96E8"/><text x="1210" y="906" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">6</text><text x="1236" y="907" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Run time: applicants, officials and operators</text>
+<g filter="url(#sh)"><rect x="1204.0" y="930" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1220.0" y="960" font-size="19" font-weight="700" fill="#0F172A">Applicant</text>
+<text x="1220.0" y="988" font-size="14" fill="#475569">• Apply by self or through assisted mode</text>
+<text x="1220.0" y="1007" font-size="14" fill="#475569">• Track application status online</text>
+<text x="1220.0" y="1026" font-size="14" fill="#475569">• Status alerts for submitted applications</text>
+<text x="1220.0" y="1045" font-size="14" fill="#475569">• Lodge grievances for service failures</text>
+<rect x="1651.0" y="1068" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="1666.0" y="1082" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M8</text>
+<g filter="url(#sh)"><rect x="1709.0" y="930" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1725.0" y="960" font-size="19" font-weight="700" fill="#0F172A">Assisted mode</text>
+<text x="1725.0" y="988" font-size="14" fill="#475569">• Operator applies on behalf of a citizen</text>
+<text x="1725.0" y="1007" font-size="14" fill="#475569">• Franchise logins (K1, B1, G1, AJSK, BSK)</text>
+<rect x="2149.0" y="1068" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2167.5" y="1082" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M13</text>
+<g filter="url(#sh)"><rect x="1204.0" y="1116" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1220.0" y="1146" font-size="19" font-weight="700" fill="#0F172A">Workflow player (officer)</text>
+<text x="1220.0" y="1174" font-size="14" fill="#475569">• Role-Based Access Control (RBAC)</text>
+<text x="1220.0" y="1193" font-size="14" fill="#475569">• Task queues, remarks and history</text>
+<text x="1220.0" y="1212" font-size="14" fill="#475569">• Monitoring and management dashboard</text>
+<text x="1220.0" y="1231" font-size="14" fill="#475569">• Automated notification system</text>
+<rect x="1651.0" y="1254" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="1666.0" y="1268" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M9</text>
+<g filter="url(#sh)"><rect x="1709.0" y="1116" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1725.0" y="1146" font-size="19" font-weight="700" fill="#0F172A">Grievance redressal</text>
+<text x="1725.0" y="1174" font-size="14" fill="#475569">• Policy in line with service delivery acts</text>
+<text x="1725.0" y="1193" font-size="14" fill="#475569">• Automatic escalation and routing by rules</text>
+<text x="1725.0" y="1212" font-size="14" fill="#475569">• Up to three appellate levels</text>
+<text x="1725.0" y="1231" font-size="14" fill="#475569">• Tracking, notifications, pain-point dashboard</text>
+<rect x="2149.0" y="1254" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2167.5" y="1268" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M15</text>
+<g filter="url(#sh)"><rect x="1204.0" y="1302" width="487.0" height="187" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1220.0" y="1332" font-size="19" font-weight="700" fill="#0F172A">Listed in the journey slide (slide 5)</text>
+<text x="1220.0" y="1360" font-size="14" fill="#475569">• Action forms, derived services, business rules</text>
+<text x="1220.0" y="1379" font-size="14" fill="#475569">• Bulk module and FIFO (named, not explained)</text>
+<text x="1220.0" y="1398" font-size="14" fill="#475569">• Audio captcha, configurable login, configurable reference</text>
+<text x="1220.0" y="1417" font-size="14" fill="#475569">number</text>
+<text x="1220.0" y="1436" font-size="14" fill="#475569">• Secured APIs</text>
+<rect x="1644.0" y="1459" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="1662.5" y="1473" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M21</text>
+<rect x="1180" y="1553" width="1040" height="252" rx="20" fill="#E8F7EF" stroke="#4DB583" stroke-width="1.8"/><circle cx="1210" cy="1583" r="15" fill="#4DB583"/><text x="1210" y="1589" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">7</text><text x="1236" y="1590" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Reports: SPReport</text>
+<g filter="url(#sh)"><rect x="1204.0" y="1613" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1220.0" y="1643" font-size="19" font-weight="700" fill="#0F172A">Reports and dashboards</text>
+<text x="1220.0" y="1671" font-size="14" fill="#475569">• Service-specific analytical and monitoring reports</text>
+<text x="1220.0" y="1690" font-size="14" fill="#475569">• Customizable templates and filters</text>
+<text x="1220.0" y="1709" font-size="14" fill="#475569">• Interactive dashboards and visualisations</text>
+<rect x="1644.0" y="1751" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="1662.5" y="1765" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M16</text>
+<g filter="url(#sh)"><rect x="1709.0" y="1613" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="1725.0" y="1643" font-size="19" font-weight="700" fill="#0F172A">Data and access</text>
+<text x="1725.0" y="1671" font-size="14" fill="#475569">• Integrates external data sources</text>
+<text x="1725.0" y="1690" font-size="14" fill="#475569">• Role-based access control</text>
+<text x="1725.0" y="1709" font-size="14" fill="#475569">• Export in various formats</text>
+<text x="1725.0" y="1728" font-size="14" fill="#475569">• Unique URL for a report</text>
+<rect x="2149.0" y="1751" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2167.5" y="1765" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M16</text>
+<rect x="2300" y="130" width="1040" height="529" rx="20" fill="#FBEFF4" stroke="#D9779A" stroke-width="1.8"/><circle cx="2330" cy="160" r="15" fill="#D9779A"/><text x="2330" y="166" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">8</text><text x="2356" y="167" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Integrations with external systems</text>
+<g filter="url(#sh)"><rect x="2324.0" y="190" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2340.0" y="220" font-size="19" font-weight="700" fill="#0F172A">Identity, KYC and signing</text>
+<text x="2340.0" y="248" font-size="14" fill="#475569">• Aadhaar, eKYC</text>
+<text x="2340.0" y="267" font-size="14" fill="#475569">• DigiLocker, JanParichay</text>
+<text x="2340.0" y="286" font-size="14" fill="#475569">• eSign (digital signature)</text>
+<text x="2340.0" y="305" font-size="14" fill="#475569">• eTaal</text>
+<rect x="2764.0" y="328" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2782.5" y="342" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M14</text>
+<g filter="url(#sh)"><rect x="2829.0" y="190" width="487.0" height="168" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2845.0" y="220" font-size="19" font-weight="700" fill="#0F172A">Payment gateways</text>
+<text x="2845.0" y="248" font-size="14" fill="#475569">• BharatKosh, SBI ePay, PayU, BillDesk</text>
+<text x="2845.0" y="267" font-size="14" fill="#475569">• ICICI EazyPay, CSC eWallet, eTreasury</text>
+<text x="2845.0" y="286" font-size="14" fill="#475569">• Others &quot;and more&quot;</text>
+<rect x="3269.0" y="328" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="3287.5" y="342" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M11</text>
+<g filter="url(#sh)"><rect x="2324.0" y="376" width="487.0" height="130" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2340.0" y="406" font-size="19" font-weight="700" fill="#0F172A">Money transfer</text>
+<text x="2340.0" y="434" font-size="14" fill="#475569">• DBT payments through PFMS</text>
+<rect x="2764.0" y="476" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2782.5" y="490" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M14</text>
+<g filter="url(#sh)"><rect x="2829.0" y="376" width="487.0" height="130" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2845.0" y="406" font-size="19" font-weight="700" fill="#0F172A">Messaging</text>
+<text x="2845.0" y="434" font-size="14" fill="#475569">• Sandes, WhatsApp, SMS, email</text>
+<text x="2845.0" y="453" font-size="14" fill="#475569">• Bhashini (language) in the journey slide</text>
+<rect x="3269.0" y="476" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="3287.5" y="490" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M12</text>
+<g filter="url(#sh)"><rect x="2324.0" y="524" width="487.0" height="111" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2340.0" y="554" font-size="19" font-weight="700" fill="#0F172A">RESTful API</text>
+<text x="2340.0" y="582" font-size="14" fill="#475569">• Configurable interface to any REST API</text>
+<rect x="2764.0" y="605" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="2782.5" y="619" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M14</text>
+<g filter="url(#sh)"><rect x="2829.0" y="524" width="487.0" height="111" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2845.0" y="554" font-size="19" font-weight="700" fill="#0F172A">Data sharing</text>
+<text x="2845.0" y="582" font-size="14" fill="#475569">• Configurable API, synchronous and asynchronous</text>
+<rect x="3269.0" y="605" width="37" height="20" rx="10" fill="#E2E8F0"/><text x="3287.5" y="619" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M14</text>
+<rect x="2300" y="699" width="1040" height="233" rx="20" fill="#F1EDFF" stroke="#9B83F0" stroke-width="1.8"/><circle cx="2330" cy="729" r="15" fill="#9B83F0"/><text x="2330" y="735" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">9</text><text x="2356" y="736" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Mobile enablement</text>
+<g filter="url(#sh)"><rect x="2324.0" y="759" width="487.0" height="149" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2340.0" y="789" font-size="19" font-weight="700" fill="#0F172A">Mobile app</text>
+<text x="2340.0" y="817" font-size="14" fill="#475569">• Customizable ServicePlus mobile app</text>
+<text x="2340.0" y="836" font-size="14" fill="#475569">• Services launched dynamically on mobile</text>
+<text x="2340.0" y="855" font-size="14" fill="#475569">• Real-time access on the go</text>
+<rect x="2771.0" y="878" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="2786.0" y="892" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M8</text>
+<g filter="url(#sh)"><rect x="2829.0" y="759" width="487.0" height="149" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2845.0" y="789" font-size="19" font-weight="700" fill="#0F172A">Web and other apps</text>
+<text x="2845.0" y="817" font-size="14" fill="#475569">• Responsive forms on all devices</text>
+<text x="2845.0" y="836" font-size="14" fill="#475569">• Services on other apps via secure API</text>
+<rect x="3276.0" y="878" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="3291.0" y="892" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M8</text>
+<rect x="2300" y="972" width="1040" height="214" rx="20" fill="#E6F6F7" stroke="#4BB6BD" stroke-width="1.8"/><circle cx="2330" cy="1002" r="15" fill="#4BB6BD"/><text x="2330" y="1008" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">10</text><text x="2356" y="1009" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Security as claimed</text>
+<g filter="url(#sh)"><rect x="2324.0" y="1032" width="992.0" height="130" rx="12" fill="#fff" stroke="#CBD5E1" stroke-width="1.7"/></g>
+<text x="2340.0" y="1062" font-size="19" font-weight="700" fill="#0F172A">Stated by NIC</text>
+<text x="2340.0" y="1090" font-size="14" fill="#475569">• SSL/TLS encryption and OAuth 2.0 authentication</text>
+<text x="2340.0" y="1109" font-size="14" fill="#475569">• Secured APIs. Audit results and controls are not described.</text>
+<rect x="3276.0" y="1132" width="30" height="20" rx="10" fill="#E2E8F0"/><text x="3291.0" y="1146" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">M3</text>
+<rect x="2300" y="1226" width="1040" height="393" rx="20" fill="#F3F4F6" stroke="#8D96A4" stroke-width="1.8"/><circle cx="2330" cy="1256" r="15" fill="#8D96A4"/><text x="2330" y="1262" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">11</text><text x="2356" y="1263" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">NIC roadmap (slide 21): planned, not confirmed</text>
+<g filter="url(#sh)"><rect x="2324.0" y="1286" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2340.0" y="1316" font-size="19" font-weight="700" fill="#0F172A">Sept 2024</text>
+<text x="2340.0" y="1344" font-size="14" fill="#475569">• Bhashini; data discovery with Elasticsearch and RabbitMQ</text>
+<g filter="url(#sh)"><rect x="2829.0" y="1286" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2845.0" y="1316" font-size="19" font-weight="700" fill="#0F172A">Nov 2024</text>
+<text x="2845.0" y="1344" font-size="14" fill="#475569">• Upgraded SPReport with live data</text>
+<g filter="url(#sh)"><rect x="2324.0" y="1395" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2340.0" y="1425" font-size="19" font-weight="700" fill="#0F172A">April 2025</text>
+<text x="2340.0" y="1453" font-size="14" fill="#475569">• Microservices architecture</text>
+<g filter="url(#sh)"><rect x="2829.0" y="1395" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2845.0" y="1425" font-size="19" font-weight="700" fill="#0F172A">July 2025</text>
+<text x="2845.0" y="1453" font-size="14" fill="#475569">• Docker containers instead of virtual machines</text>
+<g filter="url(#sh)"><rect x="2324.0" y="1504" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2340.0" y="1534" font-size="19" font-weight="700" fill="#0F172A">May 2026</text>
+<text x="2340.0" y="1562" font-size="14" fill="#475569">• Web apps generated through ServicePlus</text>
+<rect x="2300" y="1659" width="1040" height="393" rx="20" fill="#F3F4F6" stroke="#8D96A4" stroke-width="1.8"/><circle cx="2330" cy="1689" r="15" fill="#8D96A4"/><text x="2330" y="1695" font-size="16" font-weight="800" fill="#fff" text-anchor="middle">12</text><text x="2356" y="1696" font-size="19" font-weight="700" fill="#1E293B" letter-spacing="0.3">Not disclosed by NIC</text>
+<g filter="url(#sh)"><rect x="2324.0" y="1719" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2340.0" y="1749" font-size="19" font-weight="700" fill="#0F172A">Database and storage</text>
+<text x="2340.0" y="1777" font-size="14" fill="#475569">• Product, schema and document storage</text>
+<g filter="url(#sh)"><rect x="2829.0" y="1719" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2845.0" y="1749" font-size="19" font-weight="700" fill="#0F172A">Hosting and deployment</text>
+<text x="2845.0" y="1777" font-size="14" fill="#475569">• Servers, tenants, availability, recovery</text>
+<g filter="url(#sh)"><rect x="2324.0" y="1828" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2340.0" y="1858" font-size="19" font-weight="700" fill="#0F172A">Source and internals</text>
+<text x="2340.0" y="1886" font-size="14" fill="#475569">• Code, component boundaries, versions</text>
+<g filter="url(#sh)"><rect x="2829.0" y="1828" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2845.0" y="1858" font-size="19" font-weight="700" fill="#0F172A">Data export</text>
+<text x="2845.0" y="1886" font-size="14" fill="#475569">• Whether services and applications can be exported</text>
+<g filter="url(#sh)"><rect x="2324.0" y="1937" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2340.0" y="1967" font-size="19" font-weight="700" fill="#0F172A">Multi-tenant separation</text>
+<text x="2340.0" y="1995" font-size="14" fill="#475569">• How tenants are separated</text>
+<g filter="url(#sh)"><rect x="2829.0" y="1937" width="487.0" height="91" rx="12" fill="#FFFBF2" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5"/></g>
+<text x="2845.0" y="1967" font-size="19" font-weight="700" fill="#0F172A">Security audit</text>
+<text x="2845.0" y="1995" font-size="14" fill="#475569">• Controls and results</text>
+</svg>

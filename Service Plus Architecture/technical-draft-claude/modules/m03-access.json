@@ -1,0 +1,206 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Roles and Access",
+  "output": "m03-access.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "officer",
+   "type": "external",
+   "label": "Officer",
+   "sublabel": "opens a case",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "who you are, your roles",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pdp",
+   "type": "backend",
+   "label": "Access Check",
+   "sublabel": "office + role + case",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "svc",
+   "type": "backend",
+   "label": "Platform services",
+   "sublabel": "ask before they act",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "dir",
+   "type": "backend",
+   "label": "Office Directory",
+   "sublabel": "postings, areas",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "is the case assigned?",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "audit",
+   "type": "backend",
+   "label": "Reports and Audit",
+   "sublabel": "access log",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "officer-apim",
+   "to": "apim",
+   "from": "officer",
+   "label": "request"
+  },
+  {
+   "id": "apim-iam",
+   "to": "iam",
+   "from": "apim",
+   "label": "check token"
+  },
+  {
+   "id": "apim-pdp",
+   "to": "pdp",
+   "from": "apim",
+   "label": "allowed?"
+  },
+  {
+   "id": "svc-pdp",
+   "to": "pdp",
+   "from": "svc",
+   "label": "allowed?"
+  },
+  {
+   "id": "pdp-dir",
+   "to": "dir",
+   "from": "pdp",
+   "label": "office, area"
+  },
+  {
+   "id": "pdp-wf",
+   "to": "wf",
+   "from": "pdp",
+   "label": "assigned?"
+  },
+  {
+   "id": "pdp-audit",
+   "to": "audit",
+   "from": "pdp",
+   "label": "log",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The identity server proves who is calling and gives their roles",
+    "The Access Check then looks at office, area and whether the case is assigned to them",
+    "Only then does a service act"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "WSO2 Identity Server roles and tokens",
+    "One Access Check service shared by every module",
+    "Office Directory and Workflow Engine as the facts it checks"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "A designation alone never opens every case",
+    "Citizens see only their own applications",
+    "Every allow and deny is logged"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the directory is unreachable, access is denied, not allowed",
+    "Wrong access is fixed by changing the posting, not by exceptions",
+    "Denied attempts are visible to administrators"
+   ]
+  }
+ ]
+}

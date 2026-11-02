@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "2361a312-4e2a-413c-ae38-30d9f9ad035e",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+  "specification": {
+    "sha256": "b2095d14a74987f0ba2f0db10f6e62baa0f2034b77b07cab696f26dce32ac015",
+    "bytes": 3582
+  },
+  "artifact": {
+    "sha256": "14e1f3ac8fef9c1cfa8724027564cce3841e3b7f00232e75aaee17a29c2d2c72",
+    "bytes": 820985
+  }
+}

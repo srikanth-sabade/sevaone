@@ -1,0 +1,34 @@
+# APIM's Publisher/Devportal/Admin React SPAs self-reference their own OAuth2
+# login machinery (/oauth2/authorize, /oidc/checksession, ...) using this
+# server_url. It defaults to https://localhost:${mgt.transport.https.port},
+# i.e. APIM's *internal* container port (9443) -- which is correct for a bare
+# install, but wrong here: docker-compose maps that internal 9443 to the host's
+# 9444 (9443 is reserved for WSO2 IS). Left at the default, the SPA's login
+# redirect goes to whatever actually answers on host port 9443 (WSO2 IS, or
+# Caddy's fallback route to it) instead of APIM itself, and IS correctly replies
+# "Cannot find an application associated with the given consumer key" since
+# that OAuth app was registered in APIM's own database, not IS's. Overriding
+# server_url to the real external port fixes Publisher/Devportal login for both
+# direct (https://localhost:9444/publisher) and Caddy-proxied
+# (https://localhost:9443/publisher) access -- the SPA always talks straight to
+# APIM's own port for its own login, regardless of which door you walked in.
+[apim.idp]
+server_url = "https://localhost:9444"
+authorize_endpoint = "https://localhost:9444/oauth2/authorize"
+oidc_logout_endpoint = "https://localhost:9444/oidc/logout"
+oidc_check_session_endpoint = "https://localhost:9444/oidc/checksession"
+
+# The [apim.idp] block above only fixes the *frontend* (settings.js) values the
+# React SPA reads. The actual server-side OAuth2 authorize/login flow (e.g. the
+# /authenticationendpoint/login.do redirect) is built by the underlying Tomcat
+# connector's own idea of "my port", independent of [apim.idp] -- confirmed
+# live: without this block, that redirect still targets the internal 9443 and
+# gets served by the wrong product (WSO2 IS answers instead of APIM there,
+# since IS also listens on the docker network at 9443 and Caddy's default
+# route lands on it), producing the exact "Cannot find an application
+# associated with the given consumer key" error. `proxyPort` is Tomcat's own,
+# standard reverse-proxy setting for "report this port in generated redirects
+# instead of the port I'm actually listening on" -- it fixes every
+# server-side self-reference in one shot, including this one.
+[transport.https.properties]
+proxyPort = 9444

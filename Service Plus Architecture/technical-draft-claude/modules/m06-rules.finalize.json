@@ -1,0 +1,389 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "startedAt": "2026-10-18T09:42:27.951Z",
+  "specification": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.json",
+    "sha256": "b2095d14a74987f0ba2f0db10f6e62baa0f2034b77b07cab696f26dce32ac015",
+    "bytes": 3582
+  },
+  "artifact": {
+    "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+    "sha256": "14e1f3ac8fef9c1cfa8724027564cce3841e3b7f00232e75aaee17a29c2d2c72",
+    "bytes": 820985
+  },
+  "stages": {
+    "validate": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": null,
+      "execution": "embedded-in-deliver",
+      "command": [
+        "/home/srikanth/.nvm/versions/node/v24.19.0/bin/node",
+        "/home/srikanth/.agents/skills/archify/bin/archify.mjs",
+        "deliver",
+        "architecture",
+        "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.json",
+        "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": true,
+        "command": "validate",
+        "specification": {
+          "sha256": "b2095d14a74987f0ba2f0db10f6e62baa0f2034b77b07cab696f26dce32ac015",
+          "bytes": 3582
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        }
+      }
+    },
+    "deliver": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 203,
+      "command": [
+        "/home/srikanth/.nvm/versions/node/v24.19.0/bin/node",
+        "/home/srikanth/.agents/skills/archify/bin/archify.mjs",
+        "deliver",
+        "architecture",
+        "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.json",
+        "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "receiptId": "6000e903-d41c-4c62-a8f4-a61a3e93536b",
+        "ok": true,
+        "command": "deliver",
+        "type": "architecture",
+        "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.json",
+        "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "specification": {
+          "sha256": "b2095d14a74987f0ba2f0db10f6e62baa0f2034b77b07cab696f26dce32ac015",
+          "bytes": 3582
+        },
+        "artifact": {
+          "sha256": "14e1f3ac8fef9c1cfa8724027564cce3841e3b7f00232e75aaee17a29c2d2c72",
+          "bytes": 820985
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        },
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      }
+    },
+    "check": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 76,
+      "command": [
+        "/home/srikanth/.nvm/versions/node/v24.19.0/bin/node",
+        "/home/srikanth/.agents/skills/archify/bin/archify.mjs",
+        "check",
+        "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "--require-provenance"
+      ],
+      "receipt": {
+        "ok": true,
+        "file": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "artifact": {
+          "sha256": "14e1f3ac8fef9c1cfa8724027564cce3841e3b7f00232e75aaee17a29c2d2c72",
+          "bytes": 820985
+        },
+        "checks": [
+          {
+            "name": "single_svg",
+            "ok": true,
+            "details": [
+              "found 1 <svg> block(s)"
+            ]
+          },
+          {
+            "name": "finite_svg",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "orthogonal_arrows",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "label_route_clearance",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_crossings",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_corridors",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "container_border_runs",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "route_rhythm",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "legend_clearance",
+            "ok": true,
+            "details": []
+          }
+        ],
+        "composition": {
+          "schemaVersion": 1,
+          "profile": "showcase",
+          "status": "pass",
+          "summary": {
+            "errors": 0,
+            "warnings": 0
+          },
+          "metrics": {
+            "properCrossings": 0,
+            "resolvedCrossovers": 0,
+            "ambiguousCorridors": 0,
+            "arrowheadCollisions": 0,
+            "containerBorderRuns": 0,
+            "labelRouteClearanceIssues": 0,
+            "labelCanvasOverflowIssues": 0,
+            "minLabelRouteClearance": 22.8,
+            "desktopReadabilityIssues": 0,
+            "viewportHeightIssues": 0,
+            "minProjectedNodeTextPx": 7.5,
+            "maxBends": 3,
+            "routesOverSuggestedBends": 1,
+            "maxStretch": 1,
+            "routesOverSuggestedStretch": 0,
+            "minSegmentPx": 24,
+            "minInteriorSegmentPx": 59,
+            "shortSegmentCount": 0,
+            "shortEndpointSegmentCount": 0,
+            "shortInteriorSegmentCount": 0,
+            "microSegmentCount": 0
+          },
+          "suggestedLimits": {
+            "bendsPerRelationship": 2,
+            "stretch": 1.35,
+            "segmentPx": 16,
+            "microSegmentPx": 8
+          },
+          "routeReview": {
+            "crossings": [],
+            "detours": [
+              {
+                "relationship": {
+                  "id": "eng-rl",
+                  "from": "eng",
+                  "to": "rl",
+                  "label": "read rules",
+                  "collectionIndex": 4,
+                  "artifactIndex": 5
+                },
+                "bends": 3,
+                "stretch": 1
+              }
+            ]
+          },
+          "leadingSpace": {
+            "measured": true,
+            "emptyTopPx": 40,
+            "emptyTopRatio": 0.098,
+            "occupiedTop": 40,
+            "viewBoxTop": 0,
+            "canvasHeight": 408,
+            "typicalNodeHeight": 60,
+            "reviewSuggested": false
+          },
+          "desktopReadability": {
+            "budgetBasis": "recognized-declared-wide",
+            "readerContract": "declared-wide-v1",
+            "availableDiagramWidth": 1153.125,
+            "actualBudgetPx": 1153.125,
+            "actualReaderWidth": 1183.125,
+            "desiredReaderWidth": 1183.125,
+            "viewportCap": 1376,
+            "limit": "source-size",
+            "requestedTargetPx": 7.5,
+            "requestedTargetMet": true,
+            "hardFloorPx": 6,
+            "hardFloorMet": true,
+            "minimumOwner": {
+              "kind": "edge",
+              "id": "owner-apim",
+              "from": "owner",
+              "to": "apim"
+            },
+            "minimumSourceTextPx": 8,
+            "minimumProjectedTextPx": 7.5,
+            "semanticTextCount": 26
+          },
+          "issues": []
+        },
+        "provenance": "current",
+        "deliveryReceiptId": "6000e903-d41c-4c62-a8f4-a61a3e93536b"
+      }
+    },
+    "browser-check": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": 8,
+      "command": [
+        "/home/srikanth/.nvm/versions/node/v24.19.0/bin/node",
+        "/home/srikanth/.agents/skills/archify/bin/archify.mjs",
+        "browser-check",
+        "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "--json",
+        "--require-provenance"
+      ],
+      "execution": "in-process",
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "browser-check",
+        "evidenceKind": "automated-browser",
+        "status": "fail",
+        "visualReview": "not-requested",
+        "provenance": "current",
+        "deliveryReceiptId": "6000e903-d41c-4c62-a8f4-a61a3e93536b",
+        "artifact": {
+          "path": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+          "sha256": "14e1f3ac8fef9c1cfa8724027564cce3841e3b7f00232e75aaee17a29c2d2c72",
+          "bytes": 820985
+        },
+        "state": {
+          "detail": "read",
+          "motion": "still"
+        },
+        "chrome": {
+          "status": "not-checked",
+          "executable": null
+        },
+        "diagnostics": [
+          {
+            "code": "viewer/evidence-path-conflict",
+            "severity": "error",
+            "message": "browser-check will not replace the existing unowned evidence path \"/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json\".",
+            "subject": {
+              "artifact": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+              "evidencePath": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json"
+            },
+            "evidence": {
+              "reason": {
+                "code": "ownership-artifact-mismatch"
+              }
+            },
+            "supportedFixes": [
+              "move the conflicting file aside, or choose a separate --out-dir, then rerun browser-check"
+            ]
+          }
+        ],
+        "containment": {
+          "status": "fail",
+          "policy": "fit-or-reader-declared-readable-vertical-scroll",
+          "viewports": []
+        },
+        "themeStates": {
+          "status": "fail",
+          "viewports": []
+        },
+        "readability": {
+          "status": "fail",
+          "minimumProjectedNodeTextPx": 6,
+          "viewports": []
+        },
+        "viewerChrome": {
+          "status": "fail",
+          "viewports": []
+        },
+        "captures": {
+          "status": "not-requested",
+          "screenshots": [],
+          "contactSheet": null
+        },
+        "sidecars": {
+          "receipt": "m06-rules.browser-check.json",
+          "files": []
+        },
+        "error": "browser-check will not replace the existing unowned evidence path \"/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json\"."
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "viewer/evidence-path-conflict",
+      "severity": "error",
+      "message": "browser-check will not replace the existing unowned evidence path \"/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json\".",
+      "subject": {
+        "artifact": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.html",
+        "evidencePath": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json"
+      },
+      "evidence": {
+        "reason": {
+          "code": "ownership-artifact-mismatch"
+        }
+      },
+      "supportedFixes": [
+        "move the conflicting file aside, or choose a separate --out-dir, then rerun browser-check"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.finalize.json",
+    "summaryReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.finalize-summary.json",
+    "browserCheckReceipt": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m06-rules.browser-check.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "browser-check",
+  "finishedAt": "2026-10-18T09:42:28.307Z",
+  "durationMs": 356,
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-18T09:16:30.403Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  }
+}

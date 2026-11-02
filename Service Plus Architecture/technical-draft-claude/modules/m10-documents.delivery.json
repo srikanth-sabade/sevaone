@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "1c5b3fef-8993-49a1-aa21-77048ee7be09",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m10-documents.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m10-documents.html",
+  "specification": {
+    "sha256": "2132e49ab0b4e8198ad3ad1de462001033e7448dafa12d467995914a60f6fe0a",
+    "bytes": 4168
+  },
+  "artifact": {
+    "sha256": "0d41540c6603c4d89b8f87e1c15686f0e64082146fe3310a5c8570b0263b0180",
+    "bytes": 825989
+  }
+}

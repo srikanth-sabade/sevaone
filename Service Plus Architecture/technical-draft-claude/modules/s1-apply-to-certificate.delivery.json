@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "be4849c5-9f3c-4044-8862-161ea18a2909",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/s1-apply-to-certificate.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/s1-apply-to-certificate.html",
+  "specification": {
+    "sha256": "e5a735b85582b655fdbc2cd7bc1adaccd152ad26f6b59d32f845e230f2b08057",
+    "bytes": 4804
+  },
+  "artifact": {
+    "sha256": "aba2eccc7962df0b496f60230663a04d9a4bb33f4459f6aa79247c7f12bb636b",
+    "bytes": 823505
+  }
+}

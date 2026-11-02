@@ -1,0 +1,247 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Officer Task and Case Work",
+  "output": "m09-officer-work.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "officer",
+   "type": "external",
+   "label": "Officer",
+   "sublabel": "opens the work list",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "who is calling",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "files",
+   "type": "database",
+   "label": "Object storage",
+   "sublabel": "papers uploaded",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "task",
+   "type": "backend",
+   "label": "Task API",
+   "sublabel": "my cases, claim, act",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "access",
+   "type": "backend",
+   "label": "Access Check",
+   "sublabel": "office + role + case",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "search",
+   "type": "database",
+   "label": "Search index",
+   "sublabel": "find cases fast",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "moves the case",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "case",
+   "type": "database",
+   "label": "Case data",
+   "sublabel": "history, remarks",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "officer-apim",
+   "to": "apim",
+   "from": "officer",
+   "label": "open list"
+  },
+  {
+   "id": "apim-iam",
+   "to": "iam",
+   "from": "apim",
+   "label": "check token"
+  },
+  {
+   "id": "apim-task",
+   "to": "task",
+   "from": "apim",
+   "label": "tasks"
+  },
+  {
+   "id": "task-files",
+   "to": "files",
+   "from": "task",
+   "label": "papers"
+  },
+  {
+   "id": "task-access",
+   "to": "access",
+   "from": "task",
+   "label": "allowed?"
+  },
+  {
+   "id": "task-search",
+   "to": "search",
+   "from": "task",
+   "label": "my list"
+  },
+  {
+   "id": "task-wf",
+   "to": "wf",
+   "from": "task",
+   "label": "claim, act",
+   "variant": "emphasis"
+  },
+  {
+   "id": "wf-case",
+   "to": "case",
+   "from": "wf",
+   "label": "history"
+  },
+  {
+   "id": "wf-bus",
+   "to": "bus",
+   "from": "wf",
+   "label": "events",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The officer sees only cases they may process",
+    "The case file shows what was submitted, the papers, past actions and remarks",
+    "They claim a case, then forward, approve, reject or ask for a correction"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Task API in front of the Workflow Engine",
+    "OpenSearch for fast search and filters",
+    "Object storage for the papers"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Every action has a fixed ID; the button text is only a label",
+    "Claiming stops two officers working one case",
+    "Overdue cases are shown first"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the engine is busy the action is retried safely, never done twice",
+    "A reassigned case keeps its full history",
+    "If search is down the list still loads from the database"
+   ]
+  }
+ ]
+}

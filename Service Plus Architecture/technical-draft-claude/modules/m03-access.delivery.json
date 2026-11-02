@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "9bf2833a-073a-48b4-ab21-c9e96968965f",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m03-access.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m03-access.html",
+  "specification": {
+    "sha256": "c8a571d6ed237e0aa5cd2d54dd68bcb1c809957f13d7e474db0b6bdcf16ded4c",
+    "bytes": 3336
+  },
+  "artifact": {
+    "sha256": "77e1664f1dda3d654a535dfa3f5a19c2391a67c72814a6dd068f53eac5ccf9b8",
+    "bytes": 819150
+  }
+}

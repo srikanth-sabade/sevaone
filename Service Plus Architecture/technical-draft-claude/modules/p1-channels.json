@@ -1,0 +1,243 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Channels and the AI Assistant",
+  "output": "p1-channels.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "web",
+   "type": "frontend",
+   "label": "Citizen web portal",
+   "sublabel": "React",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mob",
+   "type": "frontend",
+   "label": "Mobile app",
+   "sublabel": "Flutter",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "off",
+   "type": "frontend",
+   "label": "Officer workspace",
+   "sublabel": "web",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "adm",
+   "type": "frontend",
+   "label": "Admin and Studio",
+   "sublabel": "web",
+   "pos": [
+    40,
+    400
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    100
+   ],
+   "size": [
+    150,
+    240
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "sign-in",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "svc",
+   "type": "backend",
+   "label": "Platform services",
+   "sublabel": "all the modules",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "aigw",
+   "type": "backend",
+   "label": "AI Gateway",
+   "sublabel": "limits and logs AI calls",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "per-state data",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ai",
+   "type": "external",
+   "label": "AI assistant",
+   "sublabel": "stays on the GPU server",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "web-apim",
+   "from": "web",
+   "to": "apim",
+   "label": "HTTPS"
+  },
+  {
+   "id": "mob-apim",
+   "from": "mob",
+   "to": "apim",
+   "label": "HTTPS"
+  },
+  {
+   "id": "off-apim",
+   "from": "off",
+   "to": "apim",
+   "label": "HTTPS"
+  },
+  {
+   "id": "adm-apim",
+   "from": "adm",
+   "to": "apim",
+   "label": "HTTPS"
+  },
+  {
+   "id": "apim-iam",
+   "from": "apim",
+   "to": "iam",
+   "label": "check token"
+  },
+  {
+   "id": "apim-svc",
+   "from": "apim",
+   "to": "svc",
+   "label": "api"
+  },
+  {
+   "id": "apim-aigw",
+   "from": "apim",
+   "to": "aigw",
+   "label": "chat"
+  },
+  {
+   "id": "svc-pg",
+   "from": "svc",
+   "to": "pg",
+   "label": "data"
+  },
+  {
+   "id": "aigw-ai",
+   "from": "aigw",
+   "to": "ai",
+   "label": "ask"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Four front ends all use the same APIs through the API Manager",
+    "The mobile app and web portal show the same services and forms",
+    "The AI assistant answers questions; it does not decide cases"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "React for the web, Flutter for mobile",
+    "WSO2 API Manager and Identity Server for every call",
+    "An AI Gateway in front of the assistant"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "The assistant sees only what the signed-in person may see",
+    "AI calls are limited, logged and cannot change data"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the assistant is down everything else works",
+    "The AI server is separate; this platform only calls it"
+   ]
+  }
+ ]
+}

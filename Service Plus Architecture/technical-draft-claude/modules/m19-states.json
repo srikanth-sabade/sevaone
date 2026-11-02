@@ -1,0 +1,212 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "States on the Platform",
+  "output": "m19-states.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "padmin",
+   "type": "external",
+   "label": "Platform admin",
+   "sublabel": "adds a state",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "sadmin",
+   "type": "external",
+   "label": "State admin",
+   "sublabel": "runs their state",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "one organisation per state",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "tn",
+   "type": "backend",
+   "label": "Tenant Service",
+   "sublabel": "add a state, settings",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "db",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "a schema per state",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cfg",
+   "type": "database",
+   "label": "State settings",
+   "sublabel": "name, languages, gateways",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "padmin-apim",
+   "to": "apim",
+   "from": "padmin",
+   "label": "add state"
+  },
+  {
+   "id": "sadmin-apim",
+   "to": "apim",
+   "from": "sadmin",
+   "label": "manage"
+  },
+  {
+   "id": "apim-iam",
+   "to": "iam",
+   "from": "apim",
+   "label": "check token"
+  },
+  {
+   "id": "apim-tn",
+   "to": "tn",
+   "from": "apim",
+   "label": "manage"
+  },
+  {
+   "id": "tn-iam",
+   "to": "iam",
+   "from": "tn",
+   "label": "create org"
+  },
+  {
+   "id": "tn-db",
+   "to": "db",
+   "from": "tn",
+   "label": "create schema"
+  },
+  {
+   "id": "tn-cfg",
+   "to": "cfg",
+   "from": "tn",
+   "label": "settings"
+  },
+  {
+   "id": "tn-bus",
+   "to": "bus",
+   "from": "tn",
+   "label": "state added",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "A state is a tenant; departments and service units sit inside it",
+    "Adding a state creates its organisation, its database schema and its settings",
+    "Each state gets its own name, languages, branding and web address"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "WSO2 Identity Server organisations",
+    "One PostgreSQL with a schema per state",
+    "A Tenant Service that sets up and removes states"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "A state sees only its own data",
+    "Platform support reaches a state only with explicit approval",
+    "Every setting is per state, never shared by accident"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A half-finished state setup is rolled back",
+    "A state can be suspended without touching others",
+    "Backups and restores can be done per state"
+   ]
+  }
+ ]
+}

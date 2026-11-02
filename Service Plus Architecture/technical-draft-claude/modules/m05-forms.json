@@ -1,0 +1,251 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Form Builder",
+  "output": "m05-forms.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "owner",
+   "type": "external",
+   "label": "Service owner",
+   "sublabel": "builds forms",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizens",
+   "sublabel": "fill the form",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "officer",
+   "type": "external",
+   "label": "Officers",
+   "sublabel": "step forms",
+   "pos": [
+    40,
+    400
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "fb",
+   "type": "backend",
+   "label": "Form Builder",
+   "sublabel": "drag and drop, versions",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "lib",
+   "type": "database",
+   "label": "Form library",
+   "sublabel": "every version kept",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "fr",
+   "type": "backend",
+   "label": "Form Renderer",
+   "sublabel": "same on web and mobile",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "val",
+   "type": "backend",
+   "label": "Validation",
+   "sublabel": "field and server checks",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "which form each step uses",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "receives the data",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "owner-apim",
+   "to": "apim",
+   "from": "owner",
+   "label": "design"
+  },
+  {
+   "id": "citizen-apim",
+   "to": "apim",
+   "from": "citizen",
+   "label": "fill form"
+  },
+  {
+   "id": "officer-apim",
+   "to": "apim",
+   "from": "officer",
+   "label": "step form"
+  },
+  {
+   "id": "apim-fb",
+   "to": "fb",
+   "from": "apim",
+   "label": "design"
+  },
+  {
+   "id": "apim-fr",
+   "to": "fr",
+   "from": "apim",
+   "label": "open form"
+  },
+  {
+   "id": "fb-lib",
+   "to": "lib",
+   "from": "fb",
+   "label": "save version"
+  },
+  {
+   "id": "lib-fr",
+   "to": "fr",
+   "from": "lib",
+   "label": "load form"
+  },
+  {
+   "id": "fr-val",
+   "to": "val",
+   "from": "fr",
+   "label": "check"
+  },
+  {
+   "id": "val-app",
+   "to": "app",
+   "from": "val",
+   "label": "submit"
+  },
+  {
+   "id": "wf-lib",
+   "to": "lib",
+   "from": "wf",
+   "label": "form per step"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Forms are stored as versioned definitions, not code",
+    "Sections, fields, conditions, document uploads and languages are all in the definition",
+    "The same renderer draws the form on web and mobile"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "JSON form definitions in PostgreSQL",
+    "An open-source form builder for the drag-and-drop screen",
+    "Validation in the form and again on the server"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "A published form never changes; a change makes a new version",
+    "Submitted applications keep the form version they used",
+    "Applicant forms and officer step forms use the same builder"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A field check that fails shows the reason beside the field",
+    "If an outside check is down the form can be saved as a draft",
+    "Server checks always win over what the screen allowed"
+   ]
+  }
+ ]
+}

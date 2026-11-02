@@ -1,0 +1,249 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "Handing a Citizen to a Department Portal",
+  "output": "s3-handover.html",
+  "quality_profile": "showcase"
+ },
+ "participants": [
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizen",
+   "sublabel": "chooses the service"
+  },
+  {
+   "id": "cat",
+   "type": "backend",
+   "label": "Catalogue Service",
+   "sublabel": "knows the type"
+  },
+  {
+   "id": "hand",
+   "type": "backend",
+   "label": "Handover Service",
+   "sublabel": "makes the token"
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "Identity Server",
+   "sublabel": "signs the token"
+  },
+  {
+   "id": "dept",
+   "type": "external",
+   "label": "Department portal",
+   "sublabel": "does the work"
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "API Manager",
+   "sublabel": "callback entry"
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "App Service",
+   "sublabel": "keeps the record"
+  }
+ ],
+ "segments": [
+  {
+   "from": 146,
+   "to": 336,
+   "label": "Hand over"
+  },
+  {
+   "from": 338,
+   "to": 464,
+   "label": "In the department"
+  },
+  {
+   "from": 466,
+   "to": 560,
+   "label": "Result comes back"
+  }
+ ],
+ "messages": [
+  {
+   "id": "m0",
+   "from": "citizen",
+   "to": "cat",
+   "y": 160,
+   "label": "open service",
+   "variant": "default"
+  },
+  {
+   "id": "m1",
+   "from": "cat",
+   "to": "citizen",
+   "y": 192,
+   "label": "handled by the department",
+   "variant": "return"
+  },
+  {
+   "id": "m2",
+   "from": "citizen",
+   "to": "hand",
+   "y": 224,
+   "label": "continue",
+   "variant": "default"
+  },
+  {
+   "id": "m3",
+   "from": "hand",
+   "to": "iam",
+   "y": 256,
+   "label": "make a short-lived token",
+   "variant": "security"
+  },
+  {
+   "id": "m4",
+   "from": "iam",
+   "to": "hand",
+   "y": 288,
+   "label": "signed token",
+   "variant": "return"
+  },
+  {
+   "id": "m5",
+   "from": "hand",
+   "to": "citizen",
+   "y": 320,
+   "label": "send to department with token",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m6",
+   "from": "citizen",
+   "to": "dept",
+   "y": 352,
+   "label": "open with token",
+   "variant": "default"
+  },
+  {
+   "id": "m7",
+   "from": "dept",
+   "to": "apim",
+   "y": 384,
+   "label": "is this token valid?",
+   "variant": "security"
+  },
+  {
+   "id": "m8",
+   "from": "apim",
+   "to": "dept",
+   "y": 416,
+   "label": "yes, citizen details",
+   "variant": "return"
+  },
+  {
+   "id": "m9",
+   "from": "dept",
+   "to": "citizen",
+   "y": 448,
+   "label": "form and payment there",
+   "variant": "return"
+  },
+  {
+   "id": "m10",
+   "from": "dept",
+   "to": "apim",
+   "y": 480,
+   "label": "callback: result, payment",
+   "variant": "security"
+  },
+  {
+   "id": "m11",
+   "from": "apim",
+   "to": "app",
+   "y": 512,
+   "label": "record result",
+   "variant": "default"
+  },
+  {
+   "id": "m12",
+   "from": "app",
+   "to": "citizen",
+   "y": 544,
+   "label": "status updated",
+   "variant": "dashed"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "citizen",
+   "from": 155,
+   "to": 554
+  },
+  {
+   "participant": "cat",
+   "from": 155,
+   "to": 202
+  },
+  {
+   "participant": "hand",
+   "from": 219,
+   "to": 330
+  },
+  {
+   "participant": "iam",
+   "from": 251,
+   "to": 298
+  },
+  {
+   "participant": "dept",
+   "from": 347,
+   "to": 490
+  },
+  {
+   "participant": "apim",
+   "from": 379,
+   "to": 522
+  },
+  {
+   "participant": "app",
+   "from": 507,
+   "to": 554
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The catalogue knows each service is \"handed over\", so the citizen is not shown a form we do not own",
+    "A short-lived signed token carries who the citizen is",
+    "The department asks us to check the token before it trusts it"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "WSO2 Identity Server signs tokens; WSO2 API Manager receives callbacks",
+    "Callbacks are signed and carry the application reference"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "A token works once and expires quickly",
+    "A callback can be repeated without making a second record"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the citizen stops halfway, the application shows \"with department\" and can be resumed",
+    "If the callback never arrives, the status is asked for again",
+    "A failed handover tells the citizen clearly and starts nothing"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,215 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "Correction and Resubmission",
+  "output": "s4-correction.html",
+  "quality_profile": "showcase"
+ },
+ "participants": [
+  {
+   "id": "officer",
+   "type": "external",
+   "label": "Officer",
+   "sublabel": "finds a problem"
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "holds the case"
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "citizen side"
+  },
+  {
+   "id": "notif",
+   "type": "backend",
+   "label": "Notifications",
+   "sublabel": "messages"
+  },
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizen",
+   "sublabel": "fixes it"
+  }
+ ],
+ "segments": [
+  {
+   "from": 146,
+   "to": 272,
+   "label": "Ask"
+  },
+  {
+   "from": 274,
+   "to": 400,
+   "label": "Fix"
+  },
+  {
+   "from": 402,
+   "to": 464,
+   "label": "Decide"
+  },
+  {
+   "from": 466,
+   "to": 496,
+   "label": "If no reply"
+  }
+ ],
+ "messages": [
+  {
+   "id": "m0",
+   "from": "officer",
+   "to": "wf",
+   "y": 160,
+   "label": "ask for correction, with reason",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m1",
+   "from": "wf",
+   "to": "app",
+   "y": 192,
+   "label": "case waits for citizen",
+   "variant": "default"
+  },
+  {
+   "id": "m2",
+   "from": "wf",
+   "to": "notif",
+   "y": 224,
+   "label": "correction needed",
+   "variant": "dashed"
+  },
+  {
+   "id": "m3",
+   "from": "notif",
+   "to": "citizen",
+   "y": 256,
+   "label": "SMS and app message",
+   "variant": "dashed"
+  },
+  {
+   "id": "m4",
+   "from": "citizen",
+   "to": "app",
+   "y": 288,
+   "label": "open application",
+   "variant": "default"
+  },
+  {
+   "id": "m5",
+   "from": "app",
+   "to": "citizen",
+   "y": 320,
+   "label": "only the allowed parts can be edited",
+   "variant": "return"
+  },
+  {
+   "id": "m6",
+   "from": "citizen",
+   "to": "app",
+   "y": 352,
+   "label": "edit and resubmit",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m7",
+   "from": "app",
+   "to": "wf",
+   "y": 384,
+   "label": "resubmitted, same case",
+   "variant": "default"
+  },
+  {
+   "id": "m8",
+   "from": "wf",
+   "to": "officer",
+   "y": 416,
+   "label": "back in the same officer list",
+   "variant": "default"
+  },
+  {
+   "id": "m9",
+   "from": "officer",
+   "to": "wf",
+   "y": 448,
+   "label": "approve",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m10",
+   "from": "wf",
+   "to": "notif",
+   "y": 480,
+   "label": "reminder after the set days",
+   "variant": "dashed"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "officer",
+   "from": 155,
+   "to": 458
+  },
+  {
+   "participant": "wf",
+   "from": 155,
+   "to": 490
+  },
+  {
+   "participant": "app",
+   "from": 187,
+   "to": 394
+  },
+  {
+   "participant": "notif",
+   "from": 219,
+   "to": 490
+  },
+  {
+   "participant": "citizen",
+   "from": 251,
+   "to": 362
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The case is not closed and not new; it waits with the citizen",
+    "Only the parts the officer allowed can be changed",
+    "Earlier versions of the form stay on record"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Workflow Engine holds the state; Application Service shows the editable form",
+    "Notifications are sent from the event"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Corrections are limited to the stages and fields the service allows",
+    "A correction may need a new payment only if the service says so"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "No reply by the deadline: a reminder, then escalation",
+    "A failed message does not stop the case"
+   ]
+  }
+ ]
+}

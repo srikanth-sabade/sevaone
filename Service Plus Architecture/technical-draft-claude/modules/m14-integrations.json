@@ -1,0 +1,219 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Outside Connections",
+  "output": "m14-integrations.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "dept",
+   "type": "external",
+   "label": "Department systems",
+   "sublabel": "call our APIs",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "svc2",
+   "type": "backend",
+   "label": "Platform services",
+   "sublabel": "need outside data",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "keys, limits, versions",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mi",
+   "type": "backend",
+   "label": "WSO2 Micro Integrator",
+   "sublabel": "one connection point",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mon",
+   "type": "backend",
+   "label": "Monitoring",
+   "sublabel": "every call logged",
+   "pos": [
+    290,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "svc",
+   "type": "backend",
+   "label": "Platform services",
+   "sublabel": "receive the call",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ret",
+   "type": "backend",
+   "label": "Retry rules",
+   "sublabel": "timeout, retry, log",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "red",
+   "type": "external",
+   "label": "Department portal",
+   "sublabel": "handled there",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ext",
+   "type": "external",
+   "label": "Other systems",
+   "sublabel": "banks, DigiLocker, SMS",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "dept-apim",
+   "to": "apim",
+   "from": "dept",
+   "label": "call API"
+  },
+  {
+   "id": "apim-svc",
+   "to": "svc",
+   "from": "apim",
+   "label": "route"
+  },
+  {
+   "id": "svc-red",
+   "to": "red",
+   "from": "svc",
+   "label": "token"
+  },
+  {
+   "id": "svc2-mi",
+   "to": "mi",
+   "from": "svc2",
+   "label": "request"
+  },
+  {
+   "id": "mi-ret",
+   "to": "ret",
+   "from": "mi",
+   "label": "rules"
+  },
+  {
+   "id": "ret-ext",
+   "to": "ext",
+   "from": "ret",
+   "label": "APIs"
+  },
+  {
+   "id": "mi-mon",
+   "to": "mon",
+   "from": "mi",
+   "label": "log"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Departments reach us only through WSO2 API Manager, with their own keys and limits",
+    "When we need an outside system, the request goes through WSO2 Micro Integrator",
+    "Handing a citizen to a department portal uses a signed token and a callback"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "WSO2 API Manager and its developer portal",
+    "WSO2 Micro Integrator for all outbound links",
+    "Kafka for events about every call"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Every connection has an agreed contract and a named owner",
+    "Callbacks are signed and repeat-safe",
+    "No service talks to an outside system directly"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "Slow or failed calls are retried, then listed for the owner",
+    "A broken connection never loses a case",
+    "Monitoring shows which connection is failing"
+   ]
+  }
+ ]
+}

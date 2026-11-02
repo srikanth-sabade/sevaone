@@ -1,0 +1,65 @@
+sequenceDiagram
+    autonumber
+    actor C as Citizen Browser
+    participant UI as SevaOne UI (React)
+    participant D as Department System<br/>(portal + backend)
+    participant IS as WSO2 Identity Server (9443)
+    participant GW as WSO2 APIM<br/>(Department Gateway 8243)
+    participant BFF as SevaOne BFF (.NET 10)
+    participant R as Redis Cache
+    participant PG as PostgreSQL (portal schema)
+
+    Note over C,PG: Phase 1: Hand-off. SevaOne sends the citizen to the department
+    C->>UI: Click "Apply" on a department service
+    UI->>BFF: POST /api/v1/departments/{dept}/schemes/{code}/apply-token (citizen gateway)
+    BFF->>PG: Store hashed JWS apply-token (portal.sevaone_token, 30 min)
+    BFF-->>UI: Redirect URL carrying the encrypted one-time token
+    UI-->>C: Browser redirected to the department's own domain
+    C->>D: Open department URL with the encrypted token
+
+    Note over D,IS: Phase 2: The department proves who it is (machine identity)
+    D->>IS: POST /oauth2/token (client_credentials, scope dept:{code})
+    IS-->>D: Access token (Bearer)
+
+    Note over D,PG: Phase 3: The department redeems the citizen token
+    D->>GW: POST /api/v1/dept/user-details {token} + ApiKey + Bearer
+    Note right of GW: APIM checks the ApiKey (api_key-only scheme)<br/>and stamps X-SevaOne-Dept-Gateway-Secret
+    GW->>BFF: Forward request with the stamped secret
+    Note right of BFF: DeptGatewayAuthMiddleware rejects any request<br/>without the secret (fails closed)
+    BFF->>R: Look up the Bearer verdict (introspection cache)
+    alt Cache miss
+        BFF->>IS: POST /oauth2/introspect
+        IS-->>BFF: {active: true, scope: "dept:{code}"}
+        BFF->>R: Cache the verdict (60 s at most)
+    end
+    Note right of BFF: Department identity comes from the dept:{code} scope.<br/>A departmentId in the body must match it.
+    BFF->>PG: Decrypt token, look up hash, verify JWS and department
+    BFF->>PG: Redeem once (atomic), load citizen and service
+    BFF-->>D: 200 Citizen profile (token now consumed, via gateway)
+
+    Note over D,C: The citizen completes the real form and pays on the department's side
+
+    opt Fee reported to SevaOne
+        D->>GW: POST /api/v1/dept/payment-status {token, status, amount, txn}
+        GW->>BFF: Forward with secret (same identity checks)
+        BFF->>PG: Record payment status (token valid until midnight)
+        BFF-->>D: 200 OK
+    end
+
+    Note over D,PG: Phase 4: Completion and return to SevaOne
+    D->>GW: POST /api/v1/dept/get-acknowledgement {SevaOneUserId, ServiceId, Status, AcknowledgementId}
+    GW->>BFF: Forward with secret (same identity checks)
+    BFF->>PG: Create the application row once (SVK reference, Sakala due date)
+    BFF->>PG: Mint one-time completion token (10 min)
+    BFF-->>D: {linked: true, returnUrl, expiresAt}
+    D-->>C: Redirect browser to returnUrl
+    C->>BFF: GET /api/v1/apply/return?token=... (citizen gateway)
+    BFF-->>C: 302 redirect to the SevaOne dashboard
+
+    Note over D,PG: Phase 5: Ongoing status updates, long after the citizen has left
+    loop Whenever the department changes the status
+        D->>GW: POST /api/v1/dept/status-update {AcknowledgementId, Status, Note}
+        GW->>BFF: Forward with secret (same identity checks)
+        BFF->>PG: Apply the status change to the timeline
+        BFF-->>D: {accepted: true, changed}
+    end

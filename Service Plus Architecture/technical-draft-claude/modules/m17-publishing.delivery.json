@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "a2d28258-18a4-4de7-b9e3-a4fcc03d60be",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m17-publishing.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m17-publishing.html",
+  "specification": {
+    "sha256": "bf2de0ffaa9c9384580c591e9980fbdc30306a14bf41839b58ad707d915c7a7e",
+    "bytes": 4110
+  },
+  "artifact": {
+    "sha256": "492e3e331b87c6382b2995adca0c4403cb4a5de7da31ccea06ca4688ff28183e",
+    "bytes": 826265
+  }
+}

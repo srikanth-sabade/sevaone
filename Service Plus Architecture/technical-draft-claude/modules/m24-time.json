@@ -1,0 +1,227 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Time Limits and Tracking",
+  "output": "m24-time.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "owner",
+   "type": "external",
+   "label": "Service owner",
+   "sublabel": "sets the time limit",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "studio",
+   "type": "backend",
+   "label": "Service Studio",
+   "sublabel": "limit per service",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cal",
+   "type": "database",
+   "label": "Calendars",
+   "sublabel": "working days, holidays",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "runs the case",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "timer",
+   "type": "backend",
+   "label": "Deadline Timers",
+   "sublabel": "start, pause, stop",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "esc",
+   "type": "backend",
+   "label": "Escalation Rules",
+   "sublabel": "who is told, who takes over",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "notif",
+   "type": "backend",
+   "label": "Notifications",
+   "sublabel": "tells people",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rep",
+   "type": "backend",
+   "label": "Reports and Audit",
+   "sublabel": "late and overdue",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "shows the due date",
+   "pos": [
+    290,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "owner-studio",
+   "from": "owner",
+   "to": "studio",
+   "label": "set limit"
+  },
+  {
+   "id": "studio-wf",
+   "from": "studio",
+   "to": "wf",
+   "label": "publish"
+  },
+  {
+   "id": "wf-timer",
+   "from": "wf",
+   "to": "timer",
+   "label": "start clock"
+  },
+  {
+   "id": "cal-timer",
+   "from": "cal",
+   "to": "timer",
+   "label": "working days"
+  },
+  {
+   "id": "timer-esc",
+   "from": "timer",
+   "to": "esc",
+   "label": "late"
+  },
+  {
+   "id": "esc-notif",
+   "from": "esc",
+   "to": "notif",
+   "label": "tell",
+   "variant": "dashed"
+  },
+  {
+   "id": "timer-rep",
+   "from": "timer",
+   "to": "rep",
+   "label": "overdue",
+   "variant": "dashed"
+  },
+  {
+   "id": "wf-app",
+   "from": "wf",
+   "to": "app",
+   "label": "due date"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Each service has a time limit, such as 21 working days",
+    "A clock starts when the case starts and uses a working-day calendar",
+    "Late cases are escalated and counted in reports"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Deadline Timers in the Workflow Engine",
+    "A calendar per state with holidays",
+    "Notifications and Reports for the alerts"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "The clock can pause while waiting for the citizen if the service allows",
+    "Escalation authorities are set per service",
+    "The citizen sees the due date"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If a timer fails, the case is flagged for checking",
+    "A missed deadline never changes the decision",
+    "Calendar changes apply only to new clocks"
+   ]
+  }
+ ]
+}

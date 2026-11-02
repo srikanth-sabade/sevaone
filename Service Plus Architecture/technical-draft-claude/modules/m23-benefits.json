@@ -1,0 +1,228 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Benefit Payments (PFMS and DBT)",
+  "output": "m23-benefits.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "approved with a benefit",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ben",
+   "type": "backend",
+   "label": "Benefit Service",
+   "sublabel": "who, how much, release",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ver",
+   "type": "backend",
+   "label": "Account Check",
+   "sublabel": "bank account verified",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "led",
+   "type": "database",
+   "label": "Benefit records",
+   "sublabel": "kept separately",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "notif",
+   "type": "backend",
+   "label": "Notifications",
+   "sublabel": "tells the beneficiary",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mi",
+   "type": "backend",
+   "label": "WSO2 Micro Integrator",
+   "sublabel": "link to PFMS",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rec",
+   "type": "backend",
+   "label": "Matching Job",
+   "sublabel": "release status",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pf",
+   "type": "external",
+   "label": "PFMS and DBT",
+   "sublabel": "government payment system",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "wf-bus",
+   "from": "wf",
+   "to": "bus",
+   "label": "approved",
+   "variant": "dashed"
+  },
+  {
+   "id": "bus-ben",
+   "from": "bus",
+   "to": "ben",
+   "label": "event",
+   "variant": "dashed"
+  },
+  {
+   "id": "ben-ver",
+   "from": "ben",
+   "to": "ver",
+   "label": "check account"
+  },
+  {
+   "id": "ben-led",
+   "from": "ben",
+   "to": "led",
+   "label": "records"
+  },
+  {
+   "id": "ben-mi",
+   "from": "ben",
+   "to": "mi",
+   "label": "release order"
+  },
+  {
+   "id": "mi-pf",
+   "from": "mi",
+   "to": "pf",
+   "label": "APIs",
+   "variant": "emphasis"
+  },
+  {
+   "id": "mi-rec",
+   "from": "mi",
+   "to": "rec",
+   "label": "status"
+  },
+  {
+   "id": "ben-notif",
+   "from": "ben",
+   "to": "notif",
+   "label": "paid",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "After approval the Benefit Service prepares who is paid, how much and how",
+    "The bank account is verified before a release order is sent",
+    "Status comes back and is matched against the order"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "WSO2 Micro Integrator for the PFMS link",
+    "A separate benefit record store and a Matching Job"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "A benefit is paid once per approval",
+    "The amount comes from the approved case, never typed again",
+    "Money records are kept apart from application records"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A rejected account sends the case back for a correction",
+    "A release with no answer is checked again",
+    "Unmatched releases go to a finance problem list"
+   ]
+  }
+ ]
+}

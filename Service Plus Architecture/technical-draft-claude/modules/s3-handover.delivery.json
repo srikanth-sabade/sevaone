@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "334a2bf8-0265-41c0-8f86-2e92d36868da",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/s3-handover.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/s3-handover.html",
+  "specification": {
+    "sha256": "7de2f25649dae2a66719445d96b6cb6b3e810d7748b25e55c9b051ad9bb8ba79",
+    "bytes": 4466
+  },
+  "artifact": {
+    "sha256": "5fb50cfcce609e7e1689b1d5917d33091f49081762b62566940f0adc0ecf894b",
+    "bytes": 820346
+  }
+}

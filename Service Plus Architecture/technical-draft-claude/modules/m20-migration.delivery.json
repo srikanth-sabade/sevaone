@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "350d1c32-98d1-4743-bc8f-fa8110ae95ea",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m20-migration.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m20-migration.html",
+  "specification": {
+    "sha256": "06c347567f3402ac28a842088ac3bd527c5694c328e7be374d670f3d33708d2b",
+    "bytes": 3391
+  },
+  "artifact": {
+    "sha256": "9510b3fe5b5bc7af3b7aae8527d8ec2e0421f6e76a88078bd82bf26bc014d651",
+    "bytes": 818567
+  }
+}

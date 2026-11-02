@@ -1,0 +1,584 @@
+{
+ "schema_version": 1,
+ "diagram_type": "erd",
+ "meta": {
+  "title": "Data Model",
+  "output": "p4-data-model.html",
+  "quality_profile": "standard"
+ },
+ "layout": {
+  "mode": "grid",
+  "gapX": 60,
+  "gapY": 40
+ },
+ "entities": [
+  {
+   "id": "tenant",
+   "label": "tenant",
+   "tag": "people",
+   "row": 0,
+   "col": 0,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "code",
+     "type": "varchar(10)",
+     "key": "uk"
+    },
+    {
+     "name": "name",
+     "type": "varchar(80)"
+    }
+   ]
+  },
+  {
+   "id": "user_account",
+   "label": "user_account",
+   "tag": "people",
+   "row": 1,
+   "col": 0,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "tenant_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "tenant.id"
+    },
+    {
+     "name": "iam_subject",
+     "type": "varchar(64)",
+     "key": "uk"
+    },
+    {
+     "name": "type",
+     "type": "varchar(16)"
+    }
+   ]
+  },
+  {
+   "id": "posting",
+   "label": "posting",
+   "tag": "people",
+   "row": 2,
+   "col": 0,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "user_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "user_account.id"
+    },
+    {
+     "name": "office_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "office.id"
+    },
+    {
+     "name": "from_date",
+     "type": "date"
+    }
+   ]
+  },
+  {
+   "id": "office",
+   "label": "office",
+   "tag": "services",
+   "row": 0,
+   "col": 1,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "tenant_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "tenant.id"
+    },
+    {
+     "name": "name",
+     "type": "varchar(120)"
+    },
+    {
+     "name": "level",
+     "type": "varchar(24)"
+    }
+   ]
+  },
+  {
+   "id": "service",
+   "label": "service",
+   "tag": "services",
+   "row": 1,
+   "col": 1,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "tenant_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "tenant.id"
+    },
+    {
+     "name": "code",
+     "type": "varchar(32)",
+     "key": "uk"
+    },
+    {
+     "name": "kind",
+     "type": "varchar(16)"
+    }
+   ]
+  },
+  {
+   "id": "service_version",
+   "label": "service_version",
+   "tag": "services",
+   "row": 2,
+   "col": 1,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "service_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "service.id"
+    },
+    {
+     "name": "version",
+     "type": "int"
+    },
+    {
+     "name": "status",
+     "type": "varchar(16)"
+    }
+   ]
+  },
+  {
+   "id": "application",
+   "label": "application",
+   "tag": "applications",
+   "row": 0,
+   "col": 2,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "service_version_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "service_version.id"
+    },
+    {
+     "name": "applicant_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "user_account.id"
+    },
+    {
+     "name": "number",
+     "type": "varchar(32)",
+     "key": "uk"
+    },
+    {
+     "name": "status",
+     "type": "varchar(24)"
+    }
+   ]
+  },
+  {
+   "id": "application_file",
+   "label": "application_file",
+   "tag": "applications",
+   "row": 1,
+   "col": 2,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "application_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "application.id"
+    },
+    {
+     "name": "file_key",
+     "type": "varchar(120)"
+    }
+   ]
+  },
+  {
+   "id": "workflow_case",
+   "label": "workflow_case",
+   "tag": "applications",
+   "row": 2,
+   "col": 2,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "application_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "application.id"
+    },
+    {
+     "name": "current_step",
+     "type": "varchar(48)"
+    }
+   ]
+  },
+  {
+   "id": "task",
+   "label": "task",
+   "tag": "work and money",
+   "row": 0,
+   "col": 3,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "case_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "workflow_case.id"
+    },
+    {
+     "name": "office_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "office.id"
+    },
+    {
+     "name": "due_at",
+     "type": "timestamptz"
+    }
+   ]
+  },
+  {
+   "id": "case_action",
+   "label": "case_action",
+   "tag": "work and money",
+   "row": 1,
+   "col": 3,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "case_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "workflow_case.id"
+    },
+    {
+     "name": "action_id",
+     "type": "int"
+    },
+    {
+     "name": "by_user",
+     "type": "bigint",
+     "key": "fk",
+     "references": "user_account.id"
+    }
+   ]
+  },
+  {
+   "id": "payment",
+   "label": "payment",
+   "tag": "work and money",
+   "row": 2,
+   "col": 3,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "application_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "application.id"
+    },
+    {
+     "name": "amount_due",
+     "type": "numeric(12,2)"
+    },
+    {
+     "name": "status",
+     "type": "varchar(16)"
+    }
+   ]
+  },
+  {
+   "id": "certificate",
+   "label": "certificate",
+   "tag": "results",
+   "row": 0,
+   "col": 4,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "application_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "application.id"
+    },
+    {
+     "name": "number",
+     "type": "varchar(32)",
+     "key": "uk"
+    },
+    {
+     "name": "file_key",
+     "type": "varchar(120)"
+    }
+   ]
+  },
+  {
+   "id": "payment_attempt",
+   "label": "payment_attempt",
+   "tag": "results",
+   "row": 1,
+   "col": 4,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "payment_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "payment.id"
+    },
+    {
+     "name": "txn_no",
+     "type": "varchar(40)",
+     "key": "uk"
+    },
+    {
+     "name": "status",
+     "type": "varchar(16)"
+    }
+   ]
+  },
+  {
+   "id": "audit_event",
+   "label": "audit_event",
+   "tag": "results",
+   "row": 2,
+   "col": 4,
+   "attributes": [
+    {
+     "name": "id",
+     "type": "bigint",
+     "key": "pk"
+    },
+    {
+     "name": "tenant_id",
+     "type": "bigint",
+     "key": "fk",
+     "references": "tenant.id"
+    },
+    {
+     "name": "actor",
+     "type": "varchar(64)"
+    },
+    {
+     "name": "action",
+     "type": "varchar(48)"
+    }
+   ]
+  }
+ ],
+ "relationships": [
+  {
+   "id": "user_account-tenant",
+   "from": "user_account",
+   "to": "tenant",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "office-tenant",
+   "from": "office",
+   "to": "tenant",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "service-tenant",
+   "from": "service",
+   "to": "tenant",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "posting-user_account",
+   "from": "posting",
+   "to": "user_account",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "posting-office",
+   "from": "posting",
+   "to": "office",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "service_version-service",
+   "from": "service_version",
+   "to": "service",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "application-service_version",
+   "from": "application",
+   "to": "service_version",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "application-user_account",
+   "from": "application",
+   "to": "user_account",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "application_file-application",
+   "from": "application_file",
+   "to": "application",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "workflow_case-application",
+   "from": "workflow_case",
+   "to": "application",
+   "fromCardinality": "one",
+   "toCardinality": "one"
+  },
+  {
+   "id": "task-workflow_case",
+   "from": "task",
+   "to": "workflow_case",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "case_action-workflow_case",
+   "from": "case_action",
+   "to": "workflow_case",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "payment-application",
+   "from": "payment",
+   "to": "application",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "payment_attempt-payment",
+   "from": "payment_attempt",
+   "to": "payment",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  },
+  {
+   "id": "certificate-application",
+   "from": "certificate",
+   "to": "application",
+   "fromCardinality": "many",
+   "toCardinality": "one"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Every record belongs to a state, so a state sees only its own rows",
+    "Service versions pin the form, process and rules an application used",
+    "Money records are separate from application records"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "One PostgreSQL with a schema per state",
+    "Keys and table names are the same in every state"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "History tables are never updated or deleted",
+    "Applications keep the version they started with",
+    "Files are stored outside the database; only their keys are kept"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A failed write is retried, never half-saved",
+    "Backups and restores can be done per state",
+    "Migrations are rolled out state by state"
+   ]
+  }
+ ]
+}

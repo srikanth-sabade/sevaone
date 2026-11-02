@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "017488b9-237e-4abf-8725-08a3eb8d49eb",
+  "status": "current",
+  "command": "deliver",
+  "type": "erd",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p4-data-model.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/p4-data-model.html",
+  "specification": {
+    "sha256": "e7174fa126580d7349bd71ce2ecbaf02fecc30e2ce24ec336a9565b6c9088319",
+    "bytes": 10221
+  },
+  "artifact": {
+    "sha256": "4bd8c553d234422c1dac2f32d8a97bf2359aaf866d2aeef7537ba20fce5c1da0",
+    "bytes": 869977
+  }
+}

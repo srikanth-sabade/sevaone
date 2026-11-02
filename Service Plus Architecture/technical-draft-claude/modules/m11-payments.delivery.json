@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "e3ce6413-b506-4e5f-b929-180389ffb64e",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m11-payments.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m11-payments.html",
+  "specification": {
+    "sha256": "68fce7547493a337462e353b8c7f028fcc8003f42646defad41e3e9671dd4ba8",
+    "bytes": 3755
+  },
+  "artifact": {
+    "sha256": "c23a25a4d5651f7b625928a1413b2b9c0dbc72260b08898499b9036c02938feb",
+    "bytes": 822985
+  }
+}

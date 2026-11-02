@@ -1,0 +1,247 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Offices and Areas",
+  "output": "m02-offices.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "admin",
+   "type": "external",
+   "label": "Department admin",
+   "sublabel": "keeps offices up to date",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "lists",
+   "type": "external",
+   "label": "Official lists",
+   "sublabel": "LGD, offices",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "loader",
+   "type": "backend",
+   "label": "List Loader",
+   "sublabel": "scheduled import",
+   "pos": [
+    290,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "asks who handles a case",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "dir",
+   "type": "backend",
+   "label": "Office Directory",
+   "sublabel": "offices, areas, posts",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "directory data",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "iam",
+   "type": "security",
+   "label": "WSO2 Identity Server",
+   "sublabel": "roles from postings",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "audit",
+   "type": "backend",
+   "label": "Reports and Audit",
+   "sublabel": "every change kept",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "admin-apim",
+   "to": "apim",
+   "from": "admin",
+   "label": "maintain"
+  },
+  {
+   "id": "apim-dir",
+   "to": "dir",
+   "from": "apim",
+   "label": "api"
+  },
+  {
+   "id": "lists-loader",
+   "to": "loader",
+   "from": "lists",
+   "label": "monthly"
+  },
+  {
+   "id": "loader-dir",
+   "to": "dir",
+   "from": "loader",
+   "label": "load"
+  },
+  {
+   "id": "dir-pg",
+   "to": "pg",
+   "from": "dir",
+   "label": "data"
+  },
+  {
+   "id": "wf-dir",
+   "to": "dir",
+   "from": "wf",
+   "label": "who handles"
+  },
+  {
+   "id": "dir-iam",
+   "to": "iam",
+   "from": "dir",
+   "label": "roles"
+  },
+  {
+   "id": "dir-bus",
+   "to": "bus",
+   "from": "dir",
+   "label": "changes",
+   "variant": "dashed"
+  },
+  {
+   "id": "bus-audit",
+   "to": "audit",
+   "from": "bus",
+   "label": "log",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Each state has one shared directory of departments, offices, areas and posts",
+    "Officers hold dated postings to an office and a post",
+    "Other modules ask the directory who should handle a case"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "PostgreSQL schema per state",
+    "A scheduled loader for official area and office lists",
+    "Events on Kafka when something changes"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Offices and areas are kept apart and linked by a coverage map",
+    "A transfer has an effective date; past postings are never rewritten",
+    "A change is drafted and approved before it goes live"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "An area with no office shows in a problem list for the admin",
+    "Overlapping areas must be fixed before activation",
+    "Cases already assigned are not moved without a decision"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,228 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Grievances and Appeals",
+  "output": "m15-grievances.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizens",
+   "sublabel": "complain or appeal",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "link to the case",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "gr",
+   "type": "backend",
+   "label": "Grievance Service",
+   "sublabel": "complain, appeal",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "grievance data",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "levels, deadlines",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "notif",
+   "type": "backend",
+   "label": "Notifications",
+   "sublabel": "tell the citizen",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "off",
+   "type": "external",
+   "label": "Appeal officer",
+   "sublabel": "up to three levels",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "citizen-apim",
+   "to": "apim",
+   "from": "citizen",
+   "label": "complain"
+  },
+  {
+   "id": "apim-gr",
+   "to": "gr",
+   "from": "apim",
+   "label": "complain"
+  },
+  {
+   "id": "gr-app",
+   "to": "app",
+   "from": "gr",
+   "label": "linked case"
+  },
+  {
+   "id": "gr-pg",
+   "to": "pg",
+   "from": "gr",
+   "label": "save"
+  },
+  {
+   "id": "gr-wf",
+   "to": "wf",
+   "from": "gr",
+   "label": "start appeal",
+   "variant": "emphasis"
+  },
+  {
+   "id": "wf-off",
+   "to": "off",
+   "from": "wf",
+   "label": "task"
+  },
+  {
+   "id": "wf-bus",
+   "to": "bus",
+   "from": "wf",
+   "label": "events",
+   "variant": "dashed"
+  },
+  {
+   "id": "bus-notif",
+   "to": "notif",
+   "from": "bus",
+   "label": "tell",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "A citizen raises a complaint or an appeal against a case",
+    "It is linked to the original case and goes to the right authority",
+    "Escalation moves it up to three levels"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "The same Workflow Engine for appeal steps",
+    "Grievance Service on PostgreSQL",
+    "Notifications on Kafka events"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "A technical support ticket is not an appeal",
+    "An appeal never changes the original case record",
+    "Deadlines and escalation rules are set per service"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "An overdue appeal escalates automatically",
+    "If notification fails the status still updates",
+    "The citizen can always see where the appeal stands"
+   ]
+  }
+ ]
+}

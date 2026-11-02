@@ -1,0 +1,78 @@
+sequenceDiagram
+    autonumber
+    actor C as Citizen / Operator
+    participant UI as SevaOne UI (React)
+    participant BFF as SevaOne BFF (.NET 10)
+    participant R as Redis Cache
+    participant PG as PostgreSQL
+    participant IS as WSO2 Identity Server (9443)
+    participant GW as WSO2 APIM (Gateway 8243)
+    participant D as Department System<br/>(URL 1 and URL 2 caller)
+    participant S as Department or Sakala GSE<br/>(URL 3 Status API)
+
+    Note over C,PG: Phase 1: Login (already in place). Citizen or operator signs in through WSO2 Identity Server
+    C->>UI: Log in (citizen: OTP or DigiLocker, operator: franchise login)
+    UI->>BFF: POST /api/v1/auth/... or /api/v1/operator/login
+    BFF->>IS: SCIM2 find-or-create, then JWT-bearer grant (citizen, operator or admin issuer)
+    IS-->>BFF: Access and refresh tokens
+    BFF-->>UI: HttpOnly session cookies
+
+    Note over C,PG: Phase 2: Handoff. WSO2 Identity Server mints the Token
+    C->>UI: Click Apply on a department service
+    UI->>BFF: POST /api/v1/departments/{dept}/schemes/{code}/apply-token
+    BFF->>PG: Create the handoff (unique edcsApplicationRefNo, user, assistedmode, ServiceId)
+    BFF->>IS: JWT-bearer grant: signed assertion with scope dept:{code} svc:{id}
+    IS-->>BFF: Opaque access token (the Token, single use, 30 min)
+    BFF->>PG: Store the Token hash against the handoff
+    BFF-->>UI: Form fields: UserId, edcsApplicationRefNo, Token, assistedmode, ServiceId
+    UI-->>C: Auto-submitting POST form to the department
+
+    Note over C,D: Phase 3: URL 1. The department works exactly as it does with Seva Sindhu today
+    C->>D: POST form to the Department URL (URL 1)
+    opt Department asks SevaOne to check the Token (method not defined yet)
+        D->>GW: Token check API (Basic credentials)
+        GW->>IS: Introspect the Token (client credentials held at the gateway)
+        IS-->>GW: {active, scope}
+        GW-->>D: Valid or invalid
+    end
+    D-->>C: HTTP 200, access allowed
+    C->>D: Fill the application form and pay the department fee
+
+    Note over D,PG: Phase 4: URL 2. The acknowledgement comes in through WSO2 APIM
+    D->>D: Generate the final acknowledgement
+    D->>GW: POST /api/TokenIntegration/department-update (JSON, Authorization: Basic)
+    Note right of GW: APIM checks the Basic credentials, the IP allow-list,<br/>the department's throttle tier and the payload size.<br/>It adds the department identity and the gateway secret.
+    GW->>BFF: Forward with department identity and gateway secret
+    BFF->>R: Look up the Token verdict
+    alt Cache miss
+        BFF->>IS: POST /oauth2/introspect
+        IS-->>BFF: {active: true, scope: "dept:{code}"}
+        BFF->>R: Cache the verdict (60 s at most)
+    end
+    Note right of BFF: The scope department must equal the Basic credentials' department.<br/>The Token must match the stored handoff and EdcsApplicationRefNo.
+    alt Token valid and handoff matches
+        BFF->>PG: Save payment details and acknowledgement (idempotent on the two reference numbers)
+        BFF->>PG: Set status to SUCCESS, write the outbox event
+        BFF->>IS: Revoke the Token (single use is now complete)
+        BFF-->>GW: {DepartmentApplicationUpdateId, EdcsApplicationRefNo, DepartmentApplicationRefNo}
+        GW-->>D: 200 with the same body
+        D-->>C: Redirect the browser back to SevaOne
+        C->>UI: Return to SevaOne
+        UI->>BFF: Get the acknowledgement
+        BFF->>PG: Read the saved response
+        BFF-->>UI: Acknowledgement to print
+    else Token invalid or save failed
+        BFF-->>GW: {"Message": "Data Not Inserted"}
+        GW-->>D: Failure body
+        BFF->>PG: Show the transaction as Failed
+        Note over D,GW: The department calls URL 2 again until it succeeds
+    end
+
+    Note over BFF,S: Phase 5: URL 3. SevaOne checks the status through an outbound WSO2 APIM API
+    loop Whenever SevaOne needs the status
+        BFF->>GW: GET status for the department (outbound API)
+        GW->>S: POST {GscNumber} (retry, timeout and throttle at the gateway)
+        S-->>GW: Application status
+        GW-->>BFF: Application status
+        BFF->>PG: Update the status timeline
+    end

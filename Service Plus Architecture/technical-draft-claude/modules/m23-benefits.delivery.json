@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "f0bc1755-3047-4acc-8d4c-db3e8fe85c8d",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m23-benefits.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m23-benefits.html",
+  "specification": {
+    "sha256": "d65f4557f2f48a9fdc2f60fd217c607e04e73b7e3290448b6fdb07057a2275d2",
+    "bytes": 3611
+  },
+  "artifact": {
+    "sha256": "8d1e77d755049cd8b4bef3bbb574993c3210e44ab8a2a098178e8118f35929d2",
+    "bytes": 821227
+  }
+}

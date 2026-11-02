@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4399a4b0-3fa0-4e41-bd2d-c69e94df2009",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m08-applications.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m08-applications.html",
+  "specification": {
+    "sha256": "3b1880c0d32481c9a8a2a791376485d4cf356877cbac4640572f0a782da94616",
+    "bytes": 3121
+  },
+  "artifact": {
+    "sha256": "2d801cee17a3a5f8a1a9d26cbfc40f64ec2c1bced74c245278bec405f67e3a64",
+    "bytes": 817558
+  }
+}

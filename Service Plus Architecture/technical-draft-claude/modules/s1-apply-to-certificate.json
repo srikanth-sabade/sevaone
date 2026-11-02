@@ -1,0 +1,280 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "From Apply to Certificate",
+  "output": "s1-apply-to-certificate.html",
+  "quality_profile": "showcase"
+ },
+ "participants": [
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizen",
+   "sublabel": "web or mobile"
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "App Service",
+   "sublabel": "draft, submit"
+  },
+  {
+   "id": "rules",
+   "type": "backend",
+   "label": "Rules Engine",
+   "sublabel": "documents, fee"
+  },
+  {
+   "id": "pay",
+   "type": "backend",
+   "label": "Payments",
+   "sublabel": "fee and receipt"
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "runs the case"
+  },
+  {
+   "id": "officer",
+   "type": "external",
+   "label": "Officer",
+   "sublabel": "work list"
+  },
+  {
+   "id": "doc",
+   "type": "backend",
+   "label": "Documents",
+   "sublabel": "certificate"
+  },
+  {
+   "id": "notif",
+   "type": "backend",
+   "label": "Notifications",
+   "sublabel": "messages"
+  }
+ ],
+ "segments": [
+  {
+   "from": 146,
+   "to": 272,
+   "label": "Apply"
+  },
+  {
+   "from": 274,
+   "to": 400,
+   "label": "Submit and pay"
+  },
+  {
+   "from": 402,
+   "to": 496,
+   "label": "Process"
+  },
+  {
+   "from": 498,
+   "to": 624,
+   "label": "Issue"
+  }
+ ],
+ "messages": [
+  {
+   "id": "m0",
+   "from": "citizen",
+   "to": "app",
+   "y": 160,
+   "label": "sign in and apply",
+   "variant": "default"
+  },
+  {
+   "id": "m1",
+   "from": "app",
+   "to": "rules",
+   "y": 192,
+   "label": "which papers and fee?",
+   "variant": "default"
+  },
+  {
+   "id": "m2",
+   "from": "rules",
+   "to": "app",
+   "y": 224,
+   "label": "papers list, amount",
+   "variant": "return"
+  },
+  {
+   "id": "m3",
+   "from": "app",
+   "to": "citizen",
+   "y": 256,
+   "label": "form and fee shown",
+   "variant": "return"
+  },
+  {
+   "id": "m4",
+   "from": "citizen",
+   "to": "app",
+   "y": 288,
+   "label": "submit with papers",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m5",
+   "from": "app",
+   "to": "pay",
+   "y": 320,
+   "label": "fee due",
+   "variant": "default"
+  },
+  {
+   "id": "m6",
+   "from": "citizen",
+   "to": "pay",
+   "y": 352,
+   "label": "pays online",
+   "variant": "security"
+  },
+  {
+   "id": "m7",
+   "from": "pay",
+   "to": "app",
+   "y": 384,
+   "label": "paid",
+   "variant": "dashed"
+  },
+  {
+   "id": "m8",
+   "from": "app",
+   "to": "wf",
+   "y": 416,
+   "label": "start case",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m9",
+   "from": "wf",
+   "to": "officer",
+   "y": 448,
+   "label": "case in work list",
+   "variant": "default"
+  },
+  {
+   "id": "m10",
+   "from": "officer",
+   "to": "wf",
+   "y": 480,
+   "label": "approve",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m11",
+   "from": "wf",
+   "to": "doc",
+   "y": 512,
+   "label": "approved",
+   "variant": "dashed"
+  },
+  {
+   "id": "m12",
+   "from": "doc",
+   "to": "notif",
+   "y": 544,
+   "label": "certificate ready",
+   "variant": "dashed"
+  },
+  {
+   "id": "m13",
+   "from": "notif",
+   "to": "citizen",
+   "y": 576,
+   "label": "SMS and app message",
+   "variant": "dashed"
+  },
+  {
+   "id": "m14",
+   "from": "doc",
+   "to": "citizen",
+   "y": 608,
+   "label": "certificate with QR",
+   "variant": "return"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "citizen",
+   "from": 155,
+   "to": 618
+  },
+  {
+   "participant": "app",
+   "from": 155,
+   "to": 426
+  },
+  {
+   "participant": "rules",
+   "from": 187,
+   "to": 234
+  },
+  {
+   "participant": "pay",
+   "from": 315,
+   "to": 394
+  },
+  {
+   "participant": "wf",
+   "from": 411,
+   "to": 522
+  },
+  {
+   "participant": "officer",
+   "from": 443,
+   "to": 490
+  },
+  {
+   "participant": "doc",
+   "from": 507,
+   "to": 618
+  },
+  {
+   "participant": "notif",
+   "from": 539,
+   "to": 586
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Every step passes through the API Manager, which checks the sign-in token first",
+    "The Application Service saves the application, then starts a case",
+    "The officer decides in the Workflow Engine; the certificate follows from the decision event"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Each box is a module from the earlier pages",
+    "Messages shown with dashes are events, not waiting calls"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "The citizen is never asked twice for the same paper",
+    "A decision and its certificate are separate: a failed certificate does not undo the decision"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If payment is not confirmed the case waits; see the payment flow",
+    "If the officer asks for a correction the case returns to the citizen; see the correction flow"
+   ]
+  }
+ ]
+}

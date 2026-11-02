@@ -1,0 +1,183 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Service Search",
+  "output": "m25-search.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "cit",
+   "type": "external",
+   "label": "Citizens",
+   "sublabel": "search or browse",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cat",
+   "type": "backend",
+   "label": "Catalogue Service",
+   "sublabel": "publishes changes",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "srch",
+   "type": "backend",
+   "label": "Search Service",
+   "sublabel": "words and life events",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "tr",
+   "type": "external",
+   "label": "Translation service",
+   "sublabel": "Bhashini",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "feed",
+   "type": "backend",
+   "label": "Index Feeder",
+   "sublabel": "updates on publish",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "idx",
+   "type": "database",
+   "label": "Search index",
+   "sublabel": "OpenSearch",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "cit-apim",
+   "from": "cit",
+   "to": "apim",
+   "label": "find service"
+  },
+  {
+   "id": "apim-srch",
+   "from": "apim",
+   "to": "srch",
+   "label": "search"
+  },
+  {
+   "id": "srch-idx",
+   "from": "srch",
+   "to": "idx",
+   "label": "query"
+  },
+  {
+   "id": "srch-tr",
+   "from": "srch",
+   "to": "tr",
+   "label": "translate"
+  },
+  {
+   "id": "cat-feed",
+   "from": "cat",
+   "to": "feed",
+   "label": "changes"
+  },
+  {
+   "id": "feed-idx",
+   "from": "feed",
+   "to": "idx",
+   "label": "update"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "The citizen types in their own language or picks a life event",
+    "The Search Service finds matching services and shows who can apply",
+    "The list updates when a service is published or retired"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "OpenSearch for the index",
+    "Bhashini for translation",
+    "The Catalogue Service stays the source of truth"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Search shows only services available to that state and channel",
+    "Results never show retired services as open"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If search is down, the full list still opens from the catalogue",
+    "If translation fails the original language is shown"
+   ]
+  }
+ ]
+}

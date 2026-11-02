@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SevaOne — Citizen User Journey</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --ink: #1a2332;
+      --muted: #5a6578;
+      --line: #c5cdd8;
+      --accent: #0b6e4f;
+      --accent-soft: #e6f4ef;
+      --existing: #1d4ed8;
+      --existing-soft: #e8effc;
+      --new: #b45309;
+      --new-soft: #fff4e8;
+      --dept: #0e7490;
+      --dept-soft: #e0f7fa;
+      --decision: #7c3aed;
+      --decision-soft: #f3eefa;
+      --shadow: 0 1px 2px rgba(26, 35, 50, 0.06), 0 8px 24px rgba(26, 35, 50, 0.06);
+      --radius: 12px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 10% -10%, #e8f5f0 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 100% 0%, #e0f7fa 0%, transparent 50%),
+        var(--bg);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    header { margin-bottom: 2rem; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 54rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .toc a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      box-shadow: var(--shadow);
+    }
+
+    .toc a:hover { border-color: var(--accent); color: var(--accent); }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin: 1.5rem 0 0;
+      padding: 1rem 1.15rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--muted);
+    }
+
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      flex-shrink: 0;
+    }
+
+    .swatch.seva { background: var(--accent-soft); border-color: var(--accent); }
+    .swatch.existing { background: var(--existing-soft); border-color: var(--existing); }
+    .swatch.new { background: var(--new-soft); border-color: var(--new); }
+    .swatch.dept { background: var(--dept-soft); border-color: var(--dept); }
+    .swatch.decision { background: var(--decision-soft); border-color: var(--decision); }
+    .swatch.end { background: #eef2f7; border-color: #64748b; }
+
+    section {
+      margin-top: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    section h2 {
+      margin: 0;
+      padding: 1rem 1.25rem;
+      font-size: 1.05rem;
+      border-bottom: 1px solid var(--line);
+      background: #fafbfc;
+    }
+
+    section h2 .tag {
+      display: inline-block;
+      margin-left: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .tag.seva { color: var(--accent); background: var(--accent-soft); }
+    .tag.existing { color: var(--existing); background: var(--existing-soft); }
+    .tag.new { color: var(--new); background: var(--new-soft); }
+    .tag.dept { color: var(--dept); background: var(--dept-soft); }
+
+    .diagram {
+      width: 100%;
+      height: auto;
+      display: block;
+      padding: 1.25rem 0.75rem 1.5rem;
+    }
+
+    .notes {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .note {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      box-shadow: var(--shadow);
+    }
+
+    .note h3 { margin: 0 0 0.4rem; font-size: 0.95rem; }
+    .note p { margin: 0; font-size: 0.88rem; color: var(--muted); }
+
+    footer {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">SevaOne · Citizen journey</div>
+      <h1>From login → department portal → back to SevaOne</h1>
+      <p class="lede">
+        Complete self-service path: the citizen signs in on SevaOne, chooses a service,
+        is sent to the department website (for example Nadakacheri) to finish the form and payment,
+        then returns to the SevaOne dashboard with their application reference.
+      </p>
+      <nav class="toc" aria-label="Sections">
+        <a href="#full-loop">Full loop</a>
+        <a href="#login">Login (existing / new)</a>
+        <a href="#apply-handoff">Apply &amp; handoff</a>
+        <a href="#dept-work">Work on department portal</a>
+        <a href="#return">Return to SevaOne</a>
+      </nav>
+      <div class="legend" aria-label="Diagram legend">
+        <span><i class="swatch seva"></i> SevaOne portal</span>
+        <span><i class="swatch dept"></i> Department portal</span>
+        <span><i class="swatch existing"></i> Existing user</span>
+        <span><i class="swatch new"></i> New user</span>
+        <span><i class="swatch decision"></i> Decision</span>
+        <span><i class="swatch end"></i> Done</span>
+      </div>
+    </header>
+
+    <!-- ========== FULL LOOP ========== -->
+    <section id="full-loop" aria-labelledby="full-loop-title">
+      <h2 id="full-loop-title">
+        Full loop at a glance
+        <span class="tag seva">Citizen view</span>
+      </h2>
+      <svg class="diagram" viewBox="0 0 1040 560" role="img" aria-label="Full citizen journey from SevaOne to department and back">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+          </marker>
+          <marker id="arr-seva" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6e4f" />
+          </marker>
+          <marker id="arr-dept" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e7490" />
+          </marker>
+          <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+            <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1a2332" flood-opacity="0.08" />
+          </filter>
+        </defs>
+
+        <!-- Phase bands -->
+        <rect x="24" y="36" width="320" height="28" rx="8" fill="#e6f4ef" />
+        <text x="184" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#0b6e4f">1 · On SevaOne</text>
+        <rect x="360" y="36" width="320" height="28" rx="8" fill="#e0f7fa" />
+        <text x="520" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">2 · On department portal</text>
+        <rect x="696" y="36" width="320" height="28" rx="8" fill="#e6f4ef" />
+        <text x="856" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#0b6e4f">3 · Back on SevaOne</text>
+
+        <!-- Row of steps -->
+        <rect x="40" y="90" width="140" height="72" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" filter="url(#soft)" />
+        <text x="110" y="120" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Sign in</text>
+        <text x="110" y="140" text-anchor="middle" font-size="10" fill="#5a6578">Login / register</text>
+
+        <line x1="180" y1="126" x2="208" y2="126" stroke="#0b6e4f" stroke-width="1.5" marker-end="url(#arr-seva)" />
+
+        <rect x="208" y="90" width="140" height="72" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" filter="url(#soft)" />
+        <text x="278" y="120" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Pick a service</text>
+        <text x="278" y="140" text-anchor="middle" font-size="10" fill="#5a6578">Chat or catalogue · Apply</text>
+
+        <line x1="348" y1="126" x2="376" y2="126" stroke="#0b6e4f" stroke-width="1.5" marker-end="url(#arr-seva)" />
+
+        <rect x="376" y="90" width="150" height="72" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" filter="url(#soft)" />
+        <text x="451" y="116" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Secure handoff</text>
+        <text x="451" y="134" text-anchor="middle" font-size="10" fill="#5a6578">One-time pass created</text>
+        <text x="451" y="150" text-anchor="middle" font-size="10" fill="#5a6578">Browser redirected</text>
+
+        <!-- Big arrow into dept -->
+        <path d="M 526 126 H 560" fill="none" stroke="#0e7490" stroke-width="2" marker-end="url(#arr-dept)" />
+        <text x="543" y="112" text-anchor="middle" font-size="10" font-weight="700" fill="#0e7490">→</text>
+
+        <rect x="560" y="90" width="150" height="72" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" filter="url(#soft)" />
+        <text x="635" y="116" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Dept checks pass</text>
+        <text x="635" y="134" text-anchor="middle" font-size="10" fill="#5a6578">Behind the scenes</text>
+        <text x="635" y="150" text-anchor="middle" font-size="10" fill="#5a6578">Citizen form opens</text>
+
+        <line x1="710" y1="126" x2="738" y2="126" stroke="#0e7490" stroke-width="1.5" marker-end="url(#arr-dept)" />
+
+        <rect x="738" y="90" width="150" height="72" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" filter="url(#soft)" />
+        <text x="813" y="116" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Citizen works</text>
+        <text x="813" y="134" text-anchor="middle" font-size="10" fill="#5a6578">Fill form · upload</text>
+        <text x="813" y="150" text-anchor="middle" font-size="10" fill="#5a6578">Pay fee · get ack</text>
+
+        <line x1="888" y1="126" x2="916" y2="126" stroke="#0e7490" stroke-width="1.5" marker-end="url(#arr-dept)" />
+
+        <rect x="900" y="90" width="100" height="72" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" filter="url(#soft)" />
+        <text x="950" y="126" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Ack page</text>
+        <text x="950" y="144" text-anchor="middle" font-size="10" fill="#5a6578">Reference #</text>
+
+        <!-- Down and back -->
+        <path d="M 950 162 V 220 H 520" fill="none" stroke="#0b6e4f" stroke-width="2" marker-end="url(#arr-seva)" />
+        <text x="740" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#0b6e4f">Auto-return (or Log out → SevaOne)</text>
+
+        <rect x="360" y="220" width="320" height="72" rx="10" fill="#eef2f7" stroke="#64748b" stroke-width="1.5" filter="url(#soft)" />
+        <text x="520" y="250" text-anchor="middle" font-size="13" font-weight="600" fill="#1a2332">SevaOne Dashboard</text>
+        <text x="520" y="270" text-anchor="middle" font-size="11" fill="#5a6578">See application · track status · recent activity</text>
+
+        <!-- Swimlane story -->
+        <rect x="40" y="330" width="960" height="200" rx="12" fill="#fafbfc" stroke="#c5cdd8" />
+        <text x="60" y="360" font-size="13" font-weight="700" fill="#1a2332">What the citizen experiences (plain language)</text>
+        <text x="60" y="388" font-size="12" fill="#5a6578">1. They log in once on SevaOne — no separate department username.</text>
+        <text x="60" y="412" font-size="12" fill="#5a6578">2. They choose something like Income Certificate and tap Apply.</text>
+        <text x="60" y="436" font-size="12" fill="#5a6578">3. Their browser opens the department site (e.g. Nadakacheri). SevaOne already told that site who they are.</text>
+        <text x="60" y="460" font-size="12" fill="#5a6578">4. They complete the department form, pay the fee, and see an acknowledgement with a reference number.</text>
+        <text x="60" y="484" font-size="12" fill="#5a6578">5. After a short countdown (or Log out), they land back on SevaOne Dashboard to track the application.</text>
+        <text x="60" y="508" font-size="12" fill="#5a6578">Logging out on the department site only ends the department visit — it does not sign them out of SevaOne.</text>
+      </svg>
+    </section>
+
+    <!-- ========== LOGIN ========== -->
+    <section id="login" aria-labelledby="login-title">
+      <h2 id="login-title">
+        Part A — Sign in (existing vs new)
+        <span class="tag seva">SevaOne</span>
+      </h2>
+      <svg class="diagram" viewBox="0 0 1040 640" role="img" aria-label="Citizen login for existing and new users">
+        <defs>
+          <marker id="a-ex" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d4ed8" />
+          </marker>
+          <marker id="a-nw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#b45309" />
+          </marker>
+          <marker id="a-gy" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+          </marker>
+        </defs>
+
+        <text x="520" y="28" text-anchor="middle" font-size="13" font-weight="600" fill="#0b6e4f">Shared — no separate Sign Up button</text>
+
+        <rect x="400" y="42" width="240" height="48" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" />
+        <text x="520" y="71" text-anchor="middle" font-size="13" font-weight="600" fill="#1a2332">Open SevaOne → Login</text>
+
+        <line x1="520" y1="90" x2="520" y2="112" stroke="#64748b" stroke-width="1.5" marker-end="url(#a-gy)" />
+
+        <rect x="380" y="112" width="280" height="48" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" />
+        <text x="520" y="141" text-anchor="middle" font-size="13" font-weight="600" fill="#1a2332">Prove identity (WSO2)</text>
+
+        <line x1="520" y1="160" x2="520" y2="188" stroke="#64748b" stroke-width="1.5" marker-end="url(#a-gy)" />
+
+        <polygon points="520,188 620,238 520,288 420,238" fill="#f3eefa" stroke="#7c3aed" stroke-width="1.5" />
+        <text x="520" y="230" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Already registered</text>
+        <text x="520" y="248" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">with complete profile?</text>
+
+        <text x="260" y="228" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">YES — Existing</text>
+        <text x="780" y="228" text-anchor="middle" font-size="12" font-weight="700" fill="#b45309">NO — New / incomplete</text>
+
+        <path d="M 420 238 H 260 V 310" fill="none" stroke="#1d4ed8" stroke-width="1.75" marker-end="url(#a-ex)" />
+        <path d="M 620 238 H 780 V 310" fill="none" stroke="#b45309" stroke-width="1.75" marker-end="url(#a-nw)" />
+
+        <!-- Existing -->
+        <rect x="140" y="310" width="240" height="52" rx="10" fill="#e8effc" stroke="#1d4ed8" stroke-width="1.5" />
+        <text x="260" y="341" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Email OTP (password login)</text>
+
+        <line x1="260" y1="362" x2="260" y2="386" stroke="#1d4ed8" stroke-width="1.5" marker-end="url(#a-ex)" />
+
+        <rect x="140" y="386" width="240" height="52" rx="10" fill="#e8effc" stroke="#1d4ed8" stroke-width="1.5" />
+        <text x="260" y="417" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Session started (signed in)</text>
+
+        <line x1="260" y1="438" x2="260" y2="462" stroke="#1d4ed8" stroke-width="1.5" marker-end="url(#a-ex)" />
+
+        <rect x="140" y="462" width="240" height="52" rx="10" fill="#eef2f7" stroke="#64748b" stroke-width="1.5" />
+        <text x="260" y="493" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Ready to browse &amp; apply</text>
+
+        <!-- New -->
+        <rect x="660" y="310" width="240" height="52" rx="10" fill="#fff4e8" stroke="#b45309" stroke-width="1.5" />
+        <text x="780" y="341" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Skip OTP · create account</text>
+
+        <line x1="780" y1="362" x2="780" y2="386" stroke="#b45309" stroke-width="1.5" marker-end="url(#a-nw)" />
+
+        <rect x="660" y="386" width="240" height="52" rx="10" fill="#fff4e8" stroke="#b45309" stroke-width="1.5" />
+        <text x="780" y="417" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Fill Register (name, mobile…)</text>
+
+        <line x1="780" y1="438" x2="780" y2="462" stroke="#b45309" stroke-width="1.5" marker-end="url(#a-nw)" />
+
+        <rect x="660" y="462" width="240" height="52" rx="10" fill="#eef2f7" stroke="#64748b" stroke-width="1.5" />
+        <text x="780" y="493" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Profile complete · ready to apply</text>
+
+        <rect x="140" y="540" width="760" height="72" rx="12" fill="#fafbfc" stroke="#c5cdd8" />
+        <text x="160" y="570" font-size="12" fill="#5a6578">Both paths end signed in on SevaOne. Registration is automatic on first login — citizens never need a separate Sign Up.</text>
+        <text x="160" y="594" font-size="12" fill="#5a6578">Next: choose a service and Apply — that starts Part B (handoff to the department).</text>
+      </svg>
+    </section>
+
+    <!-- ========== APPLY HANDOFF ========== -->
+    <section id="apply-handoff" aria-labelledby="apply-title">
+      <h2 id="apply-title">
+        Part B — Apply on SevaOne → redirect to department
+        <span class="tag seva">Handoff</span>
+      </h2>
+      <svg class="diagram" viewBox="0 0 1040 420" role="img" aria-label="Apply and redirect to department portal">
+        <defs>
+          <marker id="a-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6e4f" />
+          </marker>
+          <marker id="a-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e7490" />
+          </marker>
+        </defs>
+
+        <rect x="40" y="40" width="200" height="80" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" />
+        <text x="140" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0b6e4f">1</text>
+        <text x="140" y="92" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Choose service</text>
+        <text x="140" y="108" text-anchor="middle" font-size="10" fill="#5a6578">e.g. Income Certificate</text>
+
+        <line x1="240" y1="80" x2="270" y2="80" stroke="#0b6e4f" stroke-width="1.5" marker-end="url(#a-s)" />
+
+        <rect x="270" y="40" width="200" height="80" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" />
+        <text x="370" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0b6e4f">2</text>
+        <text x="370" y="92" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Tap Apply</text>
+        <text x="370" y="108" text-anchor="middle" font-size="10" fill="#5a6578">Must be signed in</text>
+
+        <line x1="470" y1="80" x2="500" y2="80" stroke="#0b6e4f" stroke-width="1.5" marker-end="url(#a-s)" />
+
+        <rect x="500" y="40" width="220" height="80" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" />
+        <text x="610" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#0b6e4f">3</text>
+        <text x="610" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">SevaOne creates a pass</text>
+        <text x="610" y="106" text-anchor="middle" font-size="10" fill="#5a6578">One-time · ~30 minutes</text>
+
+        <line x1="720" y1="80" x2="750" y2="80" stroke="#0b6e4f" stroke-width="1.5" marker-end="url(#a-s)" />
+
+        <rect x="750" y="40" width="250" height="80" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="875" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">4</text>
+        <text x="875" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Browser opens dept site</text>
+        <text x="875" y="106" text-anchor="middle" font-size="10" fill="#5a6578">Nadakacheri (example)</text>
+
+        <path d="M 875 120 V 170" fill="none" stroke="#0e7490" stroke-width="1.5" marker-end="url(#a-d)" />
+
+        <rect x="40" y="170" width="960" height="100" rx="12" fill="#e0f7fa" stroke="#0e7490" stroke-width="1" />
+        <text x="60" y="200" font-size="13" font-weight="600" fill="#0e7490">Handoff moment</text>
+        <text x="60" y="224" font-size="12" fill="#5a6578">The citizen leaves SevaOne and lands on the department’s own website. The link carries a short-lived secure pass</text>
+        <text x="60" y="244" font-size="12" fill="#5a6578">so the department can trust them without asking them to log in again. SevaOne also remembers where to send them back (Dashboard).</text>
+
+        <rect x="40" y="290" width="960" height="100" rx="12" fill="#fafbfc" stroke="#c5cdd8" />
+        <text x="60" y="320" font-size="13" font-weight="600" fill="#1a2332">Behind the scenes (not shown to the citizen)</text>
+        <text x="60" y="344" font-size="12" fill="#5a6578">Department servers call SevaOne: “Is this pass real?” → SevaOne confirms once, then the pass cannot be reused.</text>
+        <text x="60" y="368" font-size="12" fill="#5a6578">If needed, the department fetches basic citizen details (name, mobile — never full Aadhaar) to pre-fill the form.</text>
+      </svg>
+    </section>
+
+    <!-- ========== DEPT WORK ========== -->
+    <section id="dept-work" aria-labelledby="dept-title">
+      <h2 id="dept-title">
+        Part C — Citizen work on the department portal
+        <span class="tag dept">Department</span>
+      </h2>
+      <svg class="diagram" viewBox="0 0 1040 380" role="img" aria-label="Steps on the department portal">
+        <defs>
+          <marker id="a-d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e7490" />
+          </marker>
+        </defs>
+
+        <rect x="40" y="40" width="170" height="90" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="125" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">1</text>
+        <text x="125" y="92" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Welcome / form</text>
+        <text x="125" y="110" text-anchor="middle" font-size="10" fill="#5a6578">Details pre-filled</text>
+
+        <line x1="210" y1="85" x2="238" y2="85" stroke="#0e7490" stroke-width="1.5" marker-end="url(#a-d2)" />
+
+        <rect x="238" y="40" width="170" height="90" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="323" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">2</text>
+        <text x="323" y="92" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Complete fields</text>
+        <text x="323" y="110" text-anchor="middle" font-size="10" fill="#5a6578">District, purpose, docs</text>
+
+        <line x1="408" y1="85" x2="436" y2="85" stroke="#0e7490" stroke-width="1.5" marker-end="url(#a-d2)" />
+
+        <rect x="436" y="40" width="170" height="90" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="521" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">3</text>
+        <text x="521" y="92" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Pay the fee</text>
+        <text x="521" y="110" text-anchor="middle" font-size="10" fill="#5a6578">Dept payment gateway</text>
+
+        <line x1="606" y1="85" x2="634" y2="85" stroke="#0e7490" stroke-width="1.5" marker-end="url(#a-d2)" />
+
+        <rect x="634" y="40" width="170" height="90" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="719" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">4</text>
+        <text x="719" y="92" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Submit application</text>
+        <text x="719" y="110" text-anchor="middle" font-size="10" fill="#5a6578">Dept records it</text>
+
+        <line x1="804" y1="85" x2="832" y2="85" stroke="#0e7490" stroke-width="1.5" marker-end="url(#a-d2)" />
+
+        <rect x="832" y="40" width="170" height="90" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="917" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">5</text>
+        <text x="917" y="92" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Acknowledgement</text>
+        <text x="917" y="110" text-anchor="middle" font-size="10" fill="#5a6578">Reference number shown</text>
+
+        <rect x="40" y="170" width="960" height="180" rx="12" fill="#fafbfc" stroke="#c5cdd8" />
+        <text x="60" y="200" font-size="13" font-weight="600" fill="#1a2332">While they work on the department site</text>
+        <text x="60" y="228" font-size="12" fill="#5a6578">• They stay on the department’s screens for the whole application — form, payment, acknowledgement.</text>
+        <text x="60" y="252" font-size="12" fill="#5a6578">• Payment success can also be reported to SevaOne by the department (so SevaOne can show status later).</text>
+        <text x="60" y="276" font-size="12" fill="#5a6578">• The acknowledgement page starts a short countdown back to SevaOne Dashboard (survives refresh).</text>
+        <text x="60" y="300" font-size="12" fill="#5a6578">• Or they tap Log out / return — that only closes the department visit and sends them to SevaOne Dashboard.</text>
+        <text x="60" y="324" font-size="12" fill="#5a6578">• Their SevaOne sign-in is still active when they return (they do not need to log in again).</text>
+      </svg>
+    </section>
+
+    <!-- ========== RETURN ========== -->
+    <section id="return" aria-labelledby="return-title">
+      <h2 id="return-title">
+        Part D — Return to SevaOne
+        <span class="tag seva">Dashboard</span>
+      </h2>
+      <svg class="diagram" viewBox="0 0 1040 420" role="img" aria-label="Return from department to SevaOne dashboard">
+        <defs>
+          <marker id="a-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6e4f" />
+          </marker>
+          <marker id="a-rd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e7490" />
+          </marker>
+        </defs>
+
+        <!-- Two paths into return -->
+        <rect x="80" y="40" width="280" height="70" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="220" y="70" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Path 1 — After payment ack</text>
+        <text x="220" y="90" text-anchor="middle" font-size="10" fill="#5a6578">Countdown ~5s → redirect</text>
+
+        <rect x="680" y="40" width="280" height="70" rx="10" fill="#e0f7fa" stroke="#0e7490" stroke-width="1.5" />
+        <text x="820" y="70" text-anchor="middle" font-size="12" font-weight="600" fill="#1a2332">Path 2 — Log out on dept site</text>
+        <text x="820" y="90" text-anchor="middle" font-size="10" fill="#5a6578">Ends dept visit only</text>
+
+        <path d="M 220 110 V 150 H 520" fill="none" stroke="#0b6e4f" stroke-width="1.75" marker-end="url(#a-r)" />
+        <path d="M 820 110 V 150 H 520" fill="none" stroke="#0b6e4f" stroke-width="1.75" marker-end="url(#a-r)" />
+
+        <rect x="360" y="150" width="320" height="70" rx="10" fill="#e6f4ef" stroke="#0b6e4f" stroke-width="1.5" />
+        <text x="520" y="180" text-anchor="middle" font-size="13" font-weight="600" fill="#1a2332">Browser opens SevaOne /dashboard</text>
+        <text x="520" y="200" text-anchor="middle" font-size="10" fill="#5a6578">Same host as before (cookie still valid)</text>
+
+        <line x1="520" y1="220" x2="520" y2="250" stroke="#0b6e4f" stroke-width="1.5" marker-end="url(#a-r)" />
+
+        <rect x="280" y="250" width="480" height="70" rx="10" fill="#eef2f7" stroke="#64748b" stroke-width="1.5" />
+        <text x="520" y="280" text-anchor="middle" font-size="13" font-weight="600" fill="#1a2332">Citizen sees their application</text>
+        <text x="520" y="300" text-anchor="middle" font-size="10" fill="#5a6578">My applications · status · Recent activity (Signed in, Started an application…)</text>
+
+        <rect x="40" y="350" width="960" height="50" rx="10" fill="#fafbfc" stroke="#c5cdd8" />
+        <text x="520" y="380" text-anchor="middle" font-size="12" fill="#5a6578">Loop complete: SevaOne → Department → SevaOne. Citizen can apply for another service anytime while signed in.</text>
+      </svg>
+    </section>
+
+    <div class="notes">
+      <div class="note">
+        <h3>One sign-in</h3>
+        <p>Citizens authenticate on SevaOne only. The department trusts a one-time pass from SevaOne — they do not create a second login for this handoff.</p>
+      </div>
+      <div class="note">
+        <h3>Where the work happens</h3>
+        <p>Form filling and fee payment happen on the department portal. SevaOne is the front door and the place to track status afterwards.</p>
+      </div>
+      <div class="note">
+        <h3>Coming home</h3>
+        <p>After acknowledgement (or department Log out), the browser returns to SevaOne Dashboard. SevaOne session stays active.</p>
+      </div>
+    </div>
+
+    <footer>
+      Technical detail: <a href="./USER_JOURNEY.md">USER_JOURNEY.md</a>.
+      Open this file in a browser — no build step required.
+    </footer>
+  </main>
+</body>
+</html>

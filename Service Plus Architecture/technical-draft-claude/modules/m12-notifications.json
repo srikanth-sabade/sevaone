@@ -1,0 +1,232 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Notifications",
+  "output": "m12-notifications.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "tpl",
+   "type": "database",
+   "label": "Templates",
+   "sublabel": "per state, language",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "notif",
+   "type": "backend",
+   "label": "Notification Service",
+   "sublabel": "pick message, fill it",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pref",
+   "type": "database",
+   "label": "Contact details",
+   "sublabel": "phone, email, choice",
+   "pos": [
+    290,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mi",
+   "type": "backend",
+   "label": "WSO2 Micro Integrator",
+   "sublabel": "SMS, email, WhatsApp",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "retry",
+   "type": "backend",
+   "label": "Retry and Status",
+   "sublabel": "delivered or failed",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "sms",
+   "type": "external",
+   "label": "SMS gateway",
+   "sublabel": "",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mail",
+   "type": "external",
+   "label": "Email server",
+   "sublabel": "",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wa",
+   "type": "external",
+   "label": "WhatsApp",
+   "sublabel": "",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "bus-notif",
+   "to": "notif",
+   "from": "bus",
+   "label": "event",
+   "variant": "dashed"
+  },
+  {
+   "id": "notif-tpl",
+   "to": "tpl",
+   "from": "notif",
+   "label": "template"
+  },
+  {
+   "id": "notif-pref",
+   "to": "pref",
+   "from": "notif",
+   "label": "contact"
+  },
+  {
+   "id": "notif-mi",
+   "to": "mi",
+   "from": "notif",
+   "label": "send"
+  },
+  {
+   "id": "mi-sms",
+   "to": "sms",
+   "from": "mi",
+   "label": "SMS"
+  },
+  {
+   "id": "mi-mail",
+   "to": "mail",
+   "from": "mi",
+   "label": "email"
+  },
+  {
+   "id": "mi-wa",
+   "to": "wa",
+   "from": "mi",
+   "label": "WhatsApp"
+  },
+  {
+   "id": "mi-retry",
+   "to": "retry",
+   "from": "mi",
+   "label": "result"
+  },
+  {
+   "id": "retry-notif",
+   "to": "notif",
+   "from": "retry",
+   "label": "try again"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "A case event arrives (submitted, correction needed, paid, decided)",
+    "The service picks the template in the person's language and sends it by their chosen channel",
+    "Delivery status is kept for each message"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Kafka consumer in the Notification Service",
+    "Templates in PostgreSQL",
+    "WSO2 Micro Integrator for SMS, email and WhatsApp"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Only channels switched on for the state are used",
+    "Content and trigger points are set by the service owner",
+    "A person is never sent the same message twice for one event"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "A failed message is retried, then shown as failed",
+    "A failed message never undoes a decision",
+    "Failures are visible to support"
+   ]
+  }
+ ]
+}

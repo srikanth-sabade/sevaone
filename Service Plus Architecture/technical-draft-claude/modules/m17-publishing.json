@@ -1,0 +1,266 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Publishing and Versions",
+  "output": "m17-publishing.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "owner",
+   "type": "external",
+   "label": "Service owner",
+   "sublabel": "prepares changes",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "approver",
+   "type": "external",
+   "label": "Approver",
+   "sublabel": "reviews and approves",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rev",
+   "type": "backend",
+   "label": "Review and Approve",
+   "sublabel": "second person signs off",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "studio",
+   "type": "backend",
+   "label": "Service Studio",
+   "sublabel": "draft, test",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "lib",
+   "type": "database",
+   "label": "Version library",
+   "sublabel": "form, process, rules, templates",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "test",
+   "type": "backend",
+   "label": "Test Space",
+   "sublabel": "trial cases only",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pub",
+   "type": "backend",
+   "label": "Publisher",
+   "sublabel": "go live together",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "new version",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cat",
+   "type": "backend",
+   "label": "Catalogue Service",
+   "sublabel": "listed",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "owner-apim",
+   "to": "apim",
+   "from": "owner",
+   "label": "prepare"
+  },
+  {
+   "id": "apim-studio",
+   "to": "studio",
+   "from": "apim",
+   "label": "draft"
+  },
+  {
+   "id": "studio-lib",
+   "to": "lib",
+   "from": "studio",
+   "label": "save"
+  },
+  {
+   "id": "studio-test",
+   "to": "test",
+   "from": "studio",
+   "label": "try"
+  },
+  {
+   "id": "studio-rev",
+   "to": "rev",
+   "from": "studio",
+   "label": "ask approval"
+  },
+  {
+   "id": "approver-rev",
+   "to": "rev",
+   "from": "approver",
+   "label": "approve"
+  },
+  {
+   "id": "studio-pub",
+   "to": "pub",
+   "from": "studio",
+   "label": "go live"
+  },
+  {
+   "id": "pub-wf",
+   "to": "wf",
+   "from": "pub",
+   "label": "new version"
+  },
+  {
+   "id": "pub-cat",
+   "to": "cat",
+   "from": "pub",
+   "label": "listed"
+  },
+  {
+   "id": "pub-bus",
+   "to": "bus",
+   "from": "pub",
+   "label": "published",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Forms, process, rules and templates are saved together as one version",
+    "The version is tested, reviewed by a second person and then published",
+    "Publishing updates the catalogue and the Workflow Engine together"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "PostgreSQL version library",
+    "A Test Space with trial cases",
+    "Kafka event when a version goes live"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Running cases keep the version they started with",
+    "Only an approved version can go live",
+    "Retiring a service stops new applications, not existing ones"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If one part cannot be published, none go live",
+    "A bad version can be withdrawn back to the last good one",
+    "Every publish is recorded"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,266 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Documents and Certificates",
+  "output": "m10-documents.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "case approved",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Anyone with the QR",
+   "sublabel": "checks a certificate",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "tpl",
+   "type": "database",
+   "label": "Templates",
+   "sublabel": "versioned",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "doc",
+   "type": "backend",
+   "label": "Document Service",
+   "sublabel": "make, sign, issue",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pdf",
+   "type": "backend",
+   "label": "PDF Maker",
+   "sublabel": "template + case data",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "verify",
+   "type": "backend",
+   "label": "Verify Page",
+   "sublabel": "QR and number",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "sign",
+   "type": "backend",
+   "label": "Signing",
+   "sublabel": "DSC or eSign",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mi",
+   "type": "backend",
+   "label": "WSO2 Micro Integrator",
+   "sublabel": "eSign link",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "files",
+   "type": "database",
+   "label": "Object storage",
+   "sublabel": "issued copies",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ext",
+   "type": "external",
+   "label": "eSign service",
+   "sublabel": "government",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "bus-doc",
+   "to": "doc",
+   "from": "bus",
+   "label": "approved",
+   "variant": "dashed"
+  },
+  {
+   "id": "doc-tpl",
+   "to": "tpl",
+   "from": "doc",
+   "label": "template"
+  },
+  {
+   "id": "doc-pdf",
+   "to": "pdf",
+   "from": "doc",
+   "label": "make"
+  },
+  {
+   "id": "pdf-sign",
+   "to": "sign",
+   "from": "pdf",
+   "label": "sign"
+  },
+  {
+   "id": "sign-files",
+   "to": "files",
+   "from": "sign",
+   "label": "store"
+  },
+  {
+   "id": "sign-mi",
+   "to": "mi",
+   "from": "sign",
+   "label": "eSign"
+  },
+  {
+   "id": "mi-ext",
+   "to": "ext",
+   "from": "mi",
+   "label": "APIs"
+  },
+  {
+   "id": "citizen-apim",
+   "to": "apim",
+   "from": "citizen",
+   "label": "scan QR"
+  },
+  {
+   "id": "apim-verify",
+   "to": "verify",
+   "from": "apim",
+   "label": "check"
+  },
+  {
+   "id": "verify-doc",
+   "to": "doc",
+   "from": "verify",
+   "label": "is it real"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "When a case is approved or rejected an event reaches the Document Service",
+    "It fills the template with the case data, makes a PDF, signs it and stores it",
+    "Every certificate carries a number and a QR that anyone can check"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Versioned templates in PostgreSQL",
+    "A PDF service, government eSign or DSC through Micro Integrator",
+    "S3-compatible object storage for the issued copy"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "The issued copy is kept exactly as issued",
+    "A correction or cancellation makes a new record, never an edit",
+    "Verification shows only agreed fields"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If signing fails the case is decided but the certificate shows as pending and is retried",
+    "Retries are safe: one certificate per decision",
+    "Failures appear in a problem list"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,231 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Service Catalogue",
+  "output": "m04-catalogue.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "owner",
+   "type": "external",
+   "label": "Service owner",
+   "sublabel": "defines services",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizens",
+   "sublabel": "find a service",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "studio",
+   "type": "backend",
+   "label": "Service Studio",
+   "sublabel": "type, fees, documents",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "cat",
+   "type": "backend",
+   "label": "Catalogue Service",
+   "sublabel": "list, details, launch",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "service data",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "red",
+   "type": "backend",
+   "label": "Handover Service",
+   "sublabel": "token to department",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "search",
+   "type": "database",
+   "label": "Search index",
+   "sublabel": "OpenSearch",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "dept",
+   "type": "external",
+   "label": "Department portal",
+   "sublabel": "handled there",
+   "pos": [
+    1040,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "owner-apim",
+   "to": "apim",
+   "from": "owner",
+   "label": "design"
+  },
+  {
+   "id": "citizen-apim",
+   "to": "apim",
+   "from": "citizen",
+   "label": "find"
+  },
+  {
+   "id": "apim-studio",
+   "to": "studio",
+   "from": "apim",
+   "label": "design"
+  },
+  {
+   "id": "apim-cat",
+   "to": "cat",
+   "from": "apim",
+   "label": "browse"
+  },
+  {
+   "id": "studio-pg",
+   "to": "pg",
+   "from": "studio",
+   "label": "save"
+  },
+  {
+   "id": "studio-cat",
+   "to": "cat",
+   "from": "studio",
+   "label": "publish"
+  },
+  {
+   "id": "cat-search",
+   "to": "search",
+   "from": "cat",
+   "label": "search"
+  },
+  {
+   "id": "cat-red",
+   "to": "red",
+   "from": "cat",
+   "label": "handover"
+  },
+  {
+   "id": "red-dept",
+   "to": "dept",
+   "from": "red",
+   "label": "token"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Each service has a type: done inside the platform, collection only, or handed to a department",
+    "The catalogue shows who can apply, documents, fees and time",
+    "Launching reads the type and opens the right path"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "PostgreSQL for service entries",
+    "OpenSearch for finding services by words",
+    "Handover Service with signed tokens for department portals"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "The catalogue is always read live from published services",
+    "A service shows only where it is available and for which channel",
+    "Retired services stay visible in history"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the department portal is down the citizen sees a clear message and nothing is submitted",
+    "If search is down the list still opens",
+    "A handover that is interrupted can be resumed"
+   ]
+  }
+ ]
+}

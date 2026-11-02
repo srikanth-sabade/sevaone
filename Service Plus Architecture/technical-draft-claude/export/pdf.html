@@ -1,0 +1,252 @@
+<!doctype html><html><head><meta charset="utf-8"><style>@page{size:13.333in 7.5in;margin:0}*{box-sizing:border-box}body{margin:0;font-family:Calibri,Carlito,'Noto Sans',sans-serif;background:#fff;color:#1B3A3F}
+.p{width:13.333in;height:7.5in;padding:.35in .5in;page-break-after:always;overflow:hidden;position:relative}
+h1{font-size:30px;margin:0 0 4px}.sub{color:#5B6B70;font-size:15px;margin:0 0 10px}img{width:100%;max-height:5.9in;object-fit:contain;display:block}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:.25in;margin-top:.25in}
+.c{background:#fff;border:1px solid #D5DCDD;border-left:7px solid var(--k);border-radius:8px;padding:.16in .25in;min-height:2.75in}
+.c h2{margin:0 0 8px;font-size:20px;color:var(--k)}.c ul{margin:0;padding-left:20px;font-size:14.5px;line-height:1.35}.c li{margin-bottom:5px}
+.cover{display:flex;flex-direction:column;justify-content:center;padding:0 1.2in}.cover .bar{position:absolute;left:0;top:0;bottom:0;width:.35in;background:#0F766E}
+.ct2{font-size:48px;margin:0 0 14px}.ct{font-size:64px;margin:0 0 14px}.cs{font-size:30px;color:#0F766E;margin:0 0 8px;font-weight:600}.cd{font-size:18px;color:#5B6B70;margin:0}</style></head><body>
+<div class="p cover"><div class="bar"></div><h1 class="ct">SevaOne - Service Plus</h1><p class="cs">Architecture</p><p class="cd">Draft for discussion</p></div>
+<div class="p"><h1>High-Level Diagram</h1><p class="sub">Built on WSO2 Identity Server and WSO2 API Manager.</p><img src="high-level.png"></div>
+<div class="p"><h1>What each part does</h1><div class="g">
+<div class="c" style="--k:#C0392B"><h2>Sign-in and access</h2><ul><li>WSO2 Identity Server handles sign-in, roles and one set of users per state</li><li>WSO2 API Manager is the only way in: token check, limits, versions, API portal for departments</li><li>Officers get access by office and role, not by designation alone</li></ul></div>
+<div class="c" style="--k:#0E7490"><h2>How an application moves</h2><ul><li>Citizen applies through the front door</li><li>Application Service saves it and starts a case in the Workflow Engine</li><li>Office Directory says which office and role handle it</li><li>Every change also leaves an event on the bus</li></ul></div>
+<div class="c" style="--k:#059669"><h2>Events do the follow-up work</h2><ul><li>Payments, messages, certificates and history all react to events</li><li>A failure in one does not undo the application</li><li>Payments are matched against bank records, not trusted from the browser</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>What we use and why</h2><ul><li>Kafka for events: proven at scale and open source</li><li>WSO2 Micro Integrator for all outside connections, so every one is built and watched the same way</li><li>One PostgreSQL with a separate schema per state, so states stay apart without many databases</li><li>S3-compatible object storage for files and certificates, hosted by the government</li></ul></div>
+</div></div>
+<div class="p cover"><div class="bar"></div><h1 class="ct2">End-to-End Flows</h1><p class="cd">One application and its money, seen across all the modules.</p></div>
+<div class="p"><h1>From Apply to Certificate</h1><p class="sub">One application, start to finish, across the modules.</p><img src="s1-apply-to-certificate.png"></div>
+<div class="p"><h1>From Apply to Certificate: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Every step passes through the API Manager, which checks the sign-in token first</li><li>The Application Service saves the application, then starts a case</li><li>The officer decides in the Workflow Engine; the certificate follows from the decision event</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Each box is a module from the earlier pages</li><li>Messages shown with dashes are events, not waiting calls</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>The citizen is never asked twice for the same paper</li><li>A decision and its certificate are separate: a failed certificate does not undo the decision</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If payment is not confirmed the case waits; see the payment flow</li><li>If the officer asks for a correction the case returns to the citizen; see the correction flow</li></ul></div>
+</div></div>
+<div class="p"><h1>Payment, Including When It Is Unclear</h1><p class="sub">What happens when a payment succeeds, fails or never answers.</p><img src="s2-payment.png"></div>
+<div class="p"><h1>Payment, Including When It Is Unclear: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The Payment Service keeps the amount due, the attempt, the receipt and the money received as four separate things</li><li>A gateway callback marks the attempt; a later bank file confirms it</li><li>Only after matching is the payment confirmed to the application</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>A browser return or a screenshot never counts as proof</li><li>A repeated callback is ignored by its transaction number</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Payment never approves a case</li><li>Each state uses its own collection accounts and gateways</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>No answer from the gateway: the status is asked for again until it settles</li><li>If the application cannot be saved after payment, the money stays tied to the application and is applied or refunded</li><li>Anything unmatched goes to a finance problem list</li></ul></div>
+</div></div>
+<div class="p"><h1>Handing a Citizen to a Department Portal</h1><p class="sub">The token and callback path for services run by another department.</p><img src="s3-handover.png"></div>
+<div class="p"><h1>Handing a Citizen to a Department Portal: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The catalogue knows each service is &quot;handed over&quot;, so the citizen is not shown a form we do not own</li><li>A short-lived signed token carries who the citizen is</li><li>The department asks us to check the token before it trusts it</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>WSO2 Identity Server signs tokens; WSO2 API Manager receives callbacks</li><li>Callbacks are signed and carry the application reference</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A token works once and expires quickly</li><li>A callback can be repeated without making a second record</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the citizen stops halfway, the application shows &quot;with department&quot; and can be resumed</li><li>If the callback never arrives, the status is asked for again</li><li>A failed handover tells the citizen clearly and starts nothing</li></ul></div>
+</div></div>
+<div class="p"><h1>Correction and Resubmission</h1><p class="sub">The same case goes back to the citizen and returns to the same officer.</p><img src="s4-correction.png"></div>
+<div class="p"><h1>Correction and Resubmission: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The case is not closed and not new; it waits with the citizen</li><li>Only the parts the officer allowed can be changed</li><li>Earlier versions of the form stay on record</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Workflow Engine holds the state; Application Service shows the editable form</li><li>Notifications are sent from the event</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Corrections are limited to the stages and fields the service allows</li><li>A correction may need a new payment only if the service says so</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>No reply by the deadline: a reminder, then escalation</li><li>A failed message does not stop the case</li></ul></div>
+</div></div>
+<div class="p cover"><div class="bar"></div><h1 class="ct2">The 20 Modules</h1><p class="cd">Each module: how it works and what we use.</p></div>
+<div class="p"><h1>Accounts and Sign-in</h1><p class="sub">Module 1: how people get an account and log in.</p><img src="m01-accounts.png"></div>
+<div class="p"><h1>Accounts and Sign-in: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>A citizen registers and confirms the phone or email with a one-time code</li><li>An officer is added by an administrator, then activates the account</li><li>Sign-in happens only in the identity server; every service trusts its token</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>WSO2 Identity Server for accounts, passwords, OTP and MFA</li><li>Account Service for registration steps and approvals</li><li>PostgreSQL for profiles; Micro Integrator for SMS, email, DigiLocker and Aadhaar</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>One person, one account; citizen and officer work are separate workspaces</li><li>An officer cannot give themselves authority</li><li>A closed account keeps its history</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the code never arrives the account stays pending; the person can retry or use recovery</li><li>Locked or suspended accounts cannot sign in but nothing is deleted</li><li>Every sign-in and change is logged</li></ul></div>
+</div></div>
+<div class="p"><h1>Offices and Areas</h1><p class="sub">Module 2: the government structure the platform works from.</p><img src="m02-offices.png"></div>
+<div class="p"><h1>Offices and Areas: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Each state has one shared directory of departments, offices, areas and posts</li><li>Officers hold dated postings to an office and a post</li><li>Other modules ask the directory who should handle a case</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>PostgreSQL schema per state</li><li>A scheduled loader for official area and office lists</li><li>Events on Kafka when something changes</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Offices and areas are kept apart and linked by a coverage map</li><li>A transfer has an effective date; past postings are never rewritten</li><li>A change is drafted and approved before it goes live</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>An area with no office shows in a problem list for the admin</li><li>Overlapping areas must be fixed before activation</li><li>Cases already assigned are not moved without a decision</li></ul></div>
+</div></div>
+<div class="p"><h1>Roles and Access</h1><p class="sub">Module 3: who may see and do what.</p><img src="m03-access.png"></div>
+<div class="p"><h1>Roles and Access: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The identity server proves who is calling and gives their roles</li><li>The Access Check then looks at office, area and whether the case is assigned to them</li><li>Only then does a service act</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>WSO2 Identity Server roles and tokens</li><li>One Access Check service shared by every module</li><li>Office Directory and Workflow Engine as the facts it checks</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A designation alone never opens every case</li><li>Citizens see only their own applications</li><li>Every allow and deny is logged</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the directory is unreachable, access is denied, not allowed</li><li>Wrong access is fixed by changing the posting, not by exceptions</li><li>Denied attempts are visible to administrators</li></ul></div>
+</div></div>
+<div class="p"><h1>Service Catalogue</h1><p class="sub">Module 4: the list of services, and how each one is launched.</p><img src="m04-catalogue.png"></div>
+<div class="p"><h1>Service Catalogue: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Each service has a type: done inside the platform, collection only, or handed to a department</li><li>The catalogue shows who can apply, documents, fees and time</li><li>Launching reads the type and opens the right path</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>PostgreSQL for service entries</li><li>OpenSearch for finding services by words</li><li>Handover Service with signed tokens for department portals</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>The catalogue is always read live from published services</li><li>A service shows only where it is available and for which channel</li><li>Retired services stay visible in history</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the department portal is down the citizen sees a clear message and nothing is submitted</li><li>If search is down the list still opens</li><li>A handover that is interrupted can be resumed</li></ul></div>
+</div></div>
+<div class="p"><h1>Form Builder</h1><p class="sub">Module 5: how forms are built and shown.</p><img src="m05-forms.png"></div>
+<div class="p"><h1>Form Builder: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Forms are stored as versioned definitions, not code</li><li>Sections, fields, conditions, document uploads and languages are all in the definition</li><li>The same renderer draws the form on web and mobile</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>JSON form definitions in PostgreSQL</li><li>An open-source form builder for the drag-and-drop screen</li><li>Validation in the form and again on the server</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A published form never changes; a change makes a new version</li><li>Submitted applications keep the form version they used</li><li>Applicant forms and officer step forms use the same builder</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A field check that fails shows the reason beside the field</li><li>If an outside check is down the form can be saved as a draft</li><li>Server checks always win over what the screen allowed</li></ul></div>
+</div></div>
+<div class="p"><h1>Rules and Fees</h1><p class="sub">Module 6: who can apply, what is needed, what it costs.</p><img src="m06-rules.png"></div>
+<div class="p"><h1>Rules and Fees: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Rules are tables: if the applicant is in this category, ask for these documents and this fee</li><li>The Application Service asks the Rules Engine at the moment of applying</li><li>The same engine can pick the path in the workflow</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>A decision-table rules engine (DMN)</li><li>PostgreSQL for versioned rule tables</li><li>Fee Calculator feeding Payments</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Rules are versioned with the service and published together</li><li>Ordinary changes need no code; special cases use a reviewed extension</li><li>Fee exemptions are rules, not manual edits</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If no rule matches, the application cannot continue and an admin is told</li><li>A rule error never charges the citizen</li><li>Every decision records which rule version was used</li></ul></div>
+</div></div>
+<div class="p"><h1>Workflow Engine</h1><p class="sub">Module 7: how cases move through the steps a service owner designs.</p><img src="workflow.png"></div>
+<div class="p"><h1>Workflow Engine: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The service owner draws the steps in a browser editor and saves each change as a new version</li><li>Publishing a version makes it live; running cases keep the version they started with</li><li>The Application Service starts a case; the engine asks the Office Directory who handles it</li><li>Officers act through the API Manager, and the engine moves the case to its next step</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Flowable, an open-source BPMN engine, so we do not build our own</li><li>bpmn.io for drawing, PostgreSQL for versions and cases</li><li>Kafka for events, WSO2 Micro Integrator for outside checks</li><li>WSO2 Identity Server tokens tell the engine who is acting</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A button&#x27;s label never decides what happens; each action has a fixed ID</li><li>An officer can act only on cases for their office and role</li><li>Reviews can split and join; deadlines start timers and escalate</li><li>A correction sends the same case back to the citizen and then to the same officer</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A failed outside check is retried, then goes to a problem list for the office admin</li><li>A failed message never undoes a decision</li><li>Every step is recorded and cannot be edited later</li></ul></div>
+</div></div>
+<div class="p"><h1>Applications and Citizen Workspace</h1><p class="sub">Module 8: apply, save, submit and track.</p><img src="m08-applications.png"></div>
+<div class="p"><h1>Applications and Citizen Workspace: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>A citizen starts, saves a draft, uploads papers and submits</li><li>Submitting saves the application and starts a case</li><li>The citizen can track status and answer correction requests</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Application Service on PostgreSQL</li><li>S3-compatible object storage for papers</li><li>WSO2 API Manager and Identity Server for access</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Each submit carries a one-time key so a double tap never makes two applications</li><li>The citizen can edit only what the current stage allows</li><li>The acknowledgement is issued only after the save succeeds</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the network drops, the draft is kept and submit can be tried again</li><li>If starting the case fails the application is held and retried</li><li>Nothing is lost between save and start</li></ul></div>
+</div></div>
+<div class="p"><h1>Officer Task and Case Work</h1><p class="sub">Module 9: an officer&#x27;s work list and the case file.</p><img src="m09-officer-work.png"></div>
+<div class="p"><h1>Officer Task and Case Work: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The officer sees only cases they may process</li><li>The case file shows what was submitted, the papers, past actions and remarks</li><li>They claim a case, then forward, approve, reject or ask for a correction</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Task API in front of the Workflow Engine</li><li>OpenSearch for fast search and filters</li><li>Object storage for the papers</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Every action has a fixed ID; the button text is only a label</li><li>Claiming stops two officers working one case</li><li>Overdue cases are shown first</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the engine is busy the action is retried safely, never done twice</li><li>A reassigned case keeps its full history</li><li>If search is down the list still loads from the database</li></ul></div>
+</div></div>
+<div class="p"><h1>Documents and Certificates</h1><p class="sub">Module 10: making, signing and checking certificates.</p><img src="m10-documents.png"></div>
+<div class="p"><h1>Documents and Certificates: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>When a case is approved or rejected an event reaches the Document Service</li><li>It fills the template with the case data, makes a PDF, signs it and stores it</li><li>Every certificate carries a number and a QR that anyone can check</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Versioned templates in PostgreSQL</li><li>A PDF service, government eSign or DSC through Micro Integrator</li><li>S3-compatible object storage for the issued copy</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>The issued copy is kept exactly as issued</li><li>A correction or cancellation makes a new record, never an edit</li><li>Verification shows only agreed fields</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If signing fails the case is decided but the certificate shows as pending and is retried</li><li>Retries are safe: one certificate per decision</li><li>Failures appear in a problem list</li></ul></div>
+</div></div>
+<div class="p"><h1>Payments</h1><p class="sub">Module 11: fees, receipts and matching the money.</p><img src="m11-payments.png"></div>
+<div class="p"><h1>Payments: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The Payment Service keeps four things apart: the amount due, the attempt, the receipt and the money received</li><li>A gateway reply or callback changes the attempt; a later matching job confirms it against bank files</li><li>A paid event lets the application move on</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Micro Integrator for gateway links</li><li>PostgreSQL for payment records</li><li>A scheduled Matching Job; Kafka for the paid event</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A browser return or screenshot never proves payment</li><li>Payment never approves a case</li><li>Duplicate callbacks are ignored by transaction number</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A payment still pending is checked again until it settles</li><li>If the case save fails after payment the money is held against the application and refunded or applied</li><li>Unmatched transactions go to a finance problem list</li></ul></div>
+</div></div>
+<div class="p"><h1>Notifications</h1><p class="sub">Module 12: messages to citizens and officers.</p><img src="m12-notifications.png"></div>
+<div class="p"><h1>Notifications: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>A case event arrives (submitted, correction needed, paid, decided)</li><li>The service picks the template in the person&#x27;s language and sends it by their chosen channel</li><li>Delivery status is kept for each message</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Kafka consumer in the Notification Service</li><li>Templates in PostgreSQL</li><li>WSO2 Micro Integrator for SMS, email and WhatsApp</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Only channels switched on for the state are used</li><li>Content and trigger points are set by the service owner</li><li>A person is never sent the same message twice for one event</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A failed message is retried, then shown as failed</li><li>A failed message never undoes a decision</li><li>Failures are visible to support</li></ul></div>
+</div></div>
+<div class="p"><h1>Operators and Centres</h1><p class="sub">Module 13: assisted applications at service centres.</p><img src="m13-operators.png"></div>
+<div class="p"><h1>Operators and Centres: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>A centre is added to the directory and its operators are onboarded</li><li>The operator signs in and applies for a citizen</li><li>The application records both the citizen and the operator who helped</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Operator Service on PostgreSQL</li><li>Office Directory for centres</li><li>Spreadsheet import for operator lists</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>The applicant is always the citizen, never the operator</li><li>Operators see only the services their centre may offer</li><li>Wallets or commissions are added only if the government&#x27;s model needs them</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>An operator removed mid-way keeps their past work on record</li><li>Unverified operator accounts cannot apply</li><li>Assisted applications can be listed by centre and operator</li></ul></div>
+</div></div>
+<div class="p"><h1>Outside Connections</h1><p class="sub">Module 14: how the platform talks to other systems.</p><img src="m14-integrations.png"></div>
+<div class="p"><h1>Outside Connections: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Departments reach us only through WSO2 API Manager, with their own keys and limits</li><li>When we need an outside system, the request goes through WSO2 Micro Integrator</li><li>Handing a citizen to a department portal uses a signed token and a callback</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>WSO2 API Manager and its developer portal</li><li>WSO2 Micro Integrator for all outbound links</li><li>Kafka for events about every call</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Every connection has an agreed contract and a named owner</li><li>Callbacks are signed and repeat-safe</li><li>No service talks to an outside system directly</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>Slow or failed calls are retried, then listed for the owner</li><li>A broken connection never loses a case</li><li>Monitoring shows which connection is failing</li></ul></div>
+</div></div>
+<div class="p"><h1>Grievances and Appeals</h1><p class="sub">Module 15: complaints and appeals.</p><img src="m15-grievances.png"></div>
+<div class="p"><h1>Grievances and Appeals: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>A citizen raises a complaint or an appeal against a case</li><li>It is linked to the original case and goes to the right authority</li><li>Escalation moves it up to three levels</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>The same Workflow Engine for appeal steps</li><li>Grievance Service on PostgreSQL</li><li>Notifications on Kafka events</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A technical support ticket is not an appeal</li><li>An appeal never changes the original case record</li><li>Deadlines and escalation rules are set per service</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>An overdue appeal escalates automatically</li><li>If notification fails the status still updates</li><li>The citizen can always see where the appeal stands</li></ul></div>
+</div></div>
+<div class="p"><h1>Reports and Dashboards</h1><p class="sub">Module 16: reporting without slowing the live system.</p><img src="m16-reports.png"></div>
+<div class="p"><h1>Reports and Dashboards: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Reports read from a copy of the data, not the live tables</li><li>Events keep the copy up to date; a nightly read fills gaps</li><li>Dashboards show received, pending, overdue, payments and grievances</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>A read replica and a reporting store on PostgreSQL</li><li>Apache Superset as the dashboard tool</li><li>Kafka events for the feed</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Each measure is defined and agreed before a dashboard is built</li><li>Access follows the same roles and offices as everything else</li><li>Exports are logged</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the feed lags the dashboard shows when it was last updated</li><li>A broken report never touches live cases</li><li>Totals can be checked against case counts</li></ul></div>
+</div></div>
+<div class="p"><h1>Publishing and Versions</h1><p class="sub">Module 17: putting a service live safely.</p><img src="m17-publishing.png"></div>
+<div class="p"><h1>Publishing and Versions: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Forms, process, rules and templates are saved together as one version</li><li>The version is tested, reviewed by a second person and then published</li><li>Publishing updates the catalogue and the Workflow Engine together</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>PostgreSQL version library</li><li>A Test Space with trial cases</li><li>Kafka event when a version goes live</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Running cases keep the version they started with</li><li>Only an approved version can go live</li><li>Retiring a service stops new applications, not existing ones</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If one part cannot be published, none go live</li><li>A bad version can be withdrawn back to the last good one</li><li>Every publish is recorded</li></ul></div>
+</div></div>
+<div class="p"><h1>History and Operations</h1><p class="sub">Module 18: a record of everything, and keeping it running.</p><img src="m18-audit.png"></div>
+<div class="p"><h1>History and Operations: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Every action, decision, setting change and sign-in becomes an event</li><li>The Audit Log writes each one once and never changes it</li><li>Monitoring and traces show how the system is doing</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Kafka and an append-only PostgreSQL audit store</li><li>Prometheus and Grafana for monitoring</li><li>OpenTelemetry and Loki for traces and logs</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Audit records cannot be edited or deleted by anyone</li><li>Backups are tested by restoring them</li><li>Security checks are part of every module</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>An alarm goes to the support team when a service fails</li><li>Failed background jobs are retried and then listed</li><li>A recovery plan is rehearsed, not only written</li></ul></div>
+</div></div>
+<div class="p"><h1>States on the Platform</h1><p class="sub">Module 19: one platform for many states.</p><img src="m19-states.png"></div>
+<div class="p"><h1>States on the Platform: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>A state is a tenant; departments and service units sit inside it</li><li>Adding a state creates its organisation, its database schema and its settings</li><li>Each state gets its own name, languages, branding and web address</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>WSO2 Identity Server organisations</li><li>One PostgreSQL with a schema per state</li><li>A Tenant Service that sets up and removes states</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A state sees only its own data</li><li>Platform support reaches a state only with explicit approval</li><li>Every setting is per state, never shared by accident</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A half-finished state setup is rolled back</li><li>A state can be suspended without touching others</li><li>Backups and restores can be done per state</li></ul></div>
+</div></div>
+<div class="p"><h1>Moving Karnataka</h1><p class="sub">Module 20: bringing existing services and applications across.</p><img src="m20-migration.png"></div>
+<div class="p"><h1>Moving Karnataka: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The export is copied as it is into a staging area, never altered</li><li>Mapping turns it into the new model and reports what does not fit</li><li>The Loader writes services, applications, files, documents and payment references</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>A staging schema in PostgreSQL</li><li>An import service that can be re-run safely</li><li>Comparison reports and rehearsal runs</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Old application numbers and certificate QR checks keep working</li><li>Every row keeps where it came from</li><li>Open cases are restarted at the right step, not from the beginning</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>Rows that fail mapping go to a report, not silently dropped</li><li>A rehearsal is repeated until the numbers match</li><li>Cutover has a rollback that keeps decisions and payments made since</li></ul></div>
+</div></div>
+<div class="p cover"><div class="bar"></div><h1 class="ct2">More ServicePlus Features</h1><p class="cd">Features NIC lists that sit outside the first 20 modules.</p></div>
+<div class="p"><h1>Bulk Processing</h1><p class="sub">Extra feature (Module 21): act on many cases at once.</p><img src="m21-bulk.png"></div>
+<div class="p"><h1>Bulk Processing: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The officer selects many cases and one action</li><li>Each case becomes its own job, handled one at a time in the Workflow Engine</li><li>A report lists what worked and what failed</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>A Kafka queue for the jobs</li><li>The same Workflow Engine and access checks as single actions</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Every case still passes the access check</li><li>Each case keeps its own history entry</li><li>The same action ID is used as for a single case</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A failed case does not stop the rest</li><li>Failed cases are listed and can be retried</li><li>Running the same bulk request twice does not double-act</li></ul></div>
+</div></div>
+<div class="p"><h1>Derived Services</h1><p class="sub">Extra feature (Module 22): one approved service offers a follow-on service.</p><img src="m22-derived.png"></div>
+<div class="p"><h1>Derived Services: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>When a case is approved, a rule decides which service can follow, for example a licence after a registration</li><li>The citizen is offered it and the new draft is prefilled from the first case</li><li>The two applications stay linked</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Rules in the same rule tables</li><li>Events on Kafka, prefill by the Application Service</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>The follow-on service has its own rules, fees and workflow</li><li>Prefilled data can be changed by the citizen</li><li>The link to the first case is kept</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the first case is later cancelled the follow-on is flagged</li><li>If prefill fails the citizen starts a normal blank form</li></ul></div>
+</div></div>
+<div class="p"><h1>Benefit Payments (PFMS and DBT)</h1><p class="sub">Extra feature (Module 23): paying a benefit after approval.</p><img src="m23-benefits.png"></div>
+<div class="p"><h1>Benefit Payments (PFMS and DBT): how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>After approval the Benefit Service prepares who is paid, how much and how</li><li>The bank account is verified before a release order is sent</li><li>Status comes back and is matched against the order</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>WSO2 Micro Integrator for the PFMS link</li><li>A separate benefit record store and a Matching Job</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>A benefit is paid once per approval</li><li>The amount comes from the approved case, never typed again</li><li>Money records are kept apart from application records</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A rejected account sends the case back for a correction</li><li>A release with no answer is checked again</li><li>Unmatched releases go to a finance problem list</li></ul></div>
+</div></div>
+<div class="p"><h1>Time Limits and Tracking</h1><p class="sub">Extra feature (Module 24): statutory deadlines and who is told when late.</p><img src="m24-time.png"></div>
+<div class="p"><h1>Time Limits and Tracking: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Each service has a time limit, such as 21 working days</li><li>A clock starts when the case starts and uses a working-day calendar</li><li>Late cases are escalated and counted in reports</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Deadline Timers in the Workflow Engine</li><li>A calendar per state with holidays</li><li>Notifications and Reports for the alerts</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>The clock can pause while waiting for the citizen if the service allows</li><li>Escalation authorities are set per service</li><li>The citizen sees the due date</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If a timer fails, the case is flagged for checking</li><li>A missed deadline never changes the decision</li><li>Calendar changes apply only to new clocks</li></ul></div>
+</div></div>
+<div class="p"><h1>Service Search</h1><p class="sub">Extra feature (Module 25): finding the right service.</p><img src="m25-search.png"></div>
+<div class="p"><h1>Service Search: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>The citizen types in their own language or picks a life event</li><li>The Search Service finds matching services and shows who can apply</li><li>The list updates when a service is published or retired</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>OpenSearch for the index</li><li>Bhashini for translation</li><li>The Catalogue Service stays the source of truth</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Search shows only services available to that state and channel</li><li>Results never show retired services as open</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If search is down, the full list still opens from the catalogue</li><li>If translation fails the original language is shown</li></ul></div>
+</div></div>
+<div class="p cover"><div class="bar"></div><h1 class="ct2">Platform Views</h1><p class="cd">Channels, data, security and deployment across the whole platform.</p></div>
+<div class="p"><h1>Channels and the AI Assistant</h1><p class="sub">Who uses the platform, and how the AI assistant fits in.</p><img src="p1-channels.png"></div>
+<div class="p"><h1>Channels and the AI Assistant: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Four front ends all use the same APIs through the API Manager</li><li>The mobile app and web portal show the same services and forms</li><li>The AI assistant answers questions; it does not decide cases</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>React for the web, Flutter for mobile</li><li>WSO2 API Manager and Identity Server for every call</li><li>An AI Gateway in front of the assistant</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>The assistant sees only what the signed-in person may see</li><li>AI calls are limited, logged and cannot change data</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If the assistant is down everything else works</li><li>The AI server is separate; this platform only calls it</li></ul></div>
+</div></div>
+<div class="p"><h1>Data Model</h1><p class="sub">The main records, and how a state keeps its own.</p><img src="p4-data-model.png"></div>
+<div class="p"><h1>Data Model: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Every record belongs to a state, so a state sees only its own rows</li><li>Service versions pin the form, process and rules an application used</li><li>Money records are separate from application records</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>One PostgreSQL with a schema per state</li><li>Keys and table names are the same in every state</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>History tables are never updated or deleted</li><li>Applications keep the version they started with</li><li>Files are stored outside the database; only their keys are kept</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A failed write is retried, never half-saved</li><li>Backups and restores can be done per state</li><li>Migrations are rolled out state by state</li></ul></div>
+</div></div>
+<div class="p"><h1>Security</h1><p class="sub">Zones, keys, secrets and watching for trouble.</p><img src="p2-security.png"></div>
+<div class="p"><h1>Security: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Traffic is cleaned at the edge, then every call is checked at the API Manager</li><li>Services run in a private zone and use secrets from a vault, never from files</li><li>Certificates are signed with keys held in a hardware module</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>WSO2 Identity Server for sign-in and MFA</li><li>A secrets vault, an HSM for signing, TLS everywhere</li><li>Encrypted storage with a separate key per state</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>No service talks to the internet directly</li><li>Every action is written once and cannot be edited</li><li>Support staff reach a state only with approval</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>A strange pattern raises an alert to the support team</li><li>A leaked key can be replaced without stopping services</li><li>Backups are encrypted and restores are rehearsed</li></ul></div>
+</div></div>
+<div class="p"><h1>Deployment and Recovery</h1><p class="sub">How it is built, released, run and recovered.</p><img src="p3-deployment.png"></div>
+<div class="p"><h1>Deployment and Recovery: how it works and what we use</h1><div class="g">
+<div class="c" style="--k:#0E7490"><h2>How it works</h2><ul><li>Code goes through a build pipeline that tests and scans it, then makes signed images</li><li>Images are tried in a test environment, then released to the live platform after approval</li><li>Live runs several copies of each service so one failure does not stop service</li></ul></div>
+<div class="c" style="--k:#059669"><h2>What we use</h2><ul><li>Containers on a standard container platform (Kubernetes)</li><li>The government chooses where this runs: its own data centre or an approved cloud</li><li>Replicas, standby site and tested backups</li></ul></div>
+<div class="c" style="--k:#C0392B"><h2>Rules we keep</h2><ul><li>Nothing is changed by hand on live</li><li>A release can be rolled back</li><li>Each state can be backed up and restored on its own</li></ul></div>
+<div class="c" style="--k:#B7791F"><h2>When something fails</h2><ul><li>If a copy fails, another takes its place</li><li>If the main site is lost, the standby site takes over; recovery targets are agreed with the department</li><li>Alarms go to the support team before citizens notice</li></ul></div>
+</div></div>
+</body></html>

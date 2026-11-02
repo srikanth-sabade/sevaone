@@ -1,0 +1,327 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Deployment and Recovery",
+  "output": "p3-deployment.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "repo",
+   "type": "cloud",
+   "label": "Code repository",
+   "sublabel": "all source",
+   "pos": [
+    40,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "ci",
+   "type": "backend",
+   "label": "Build pipeline",
+   "sublabel": "build, test, scan",
+   "pos": [
+    290,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "reg",
+   "type": "database",
+   "label": "Image registry",
+   "sublabel": "signed images",
+   "pos": [
+    540,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "test",
+   "type": "backend",
+   "label": "Test environment",
+   "sublabel": "trial before live",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "users",
+   "type": "external",
+   "label": "Users",
+   "sublabel": "all channels",
+   "pos": [
+    40,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "lb",
+   "type": "cloud",
+   "label": "Load balancer",
+   "sublabel": "spreads traffic",
+   "pos": [
+    290,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "k8s",
+   "type": "backend",
+   "label": "Container platform",
+   "sublabel": "many copies of each service",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Kafka cluster",
+   "sublabel": "events",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "db",
+   "type": "database",
+   "label": "PostgreSQL primary",
+   "sublabel": "all data",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "rep",
+   "type": "database",
+   "label": "PostgreSQL replica",
+   "sublabel": "reports and backup",
+   "pos": [
+    790,
+    400
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "obj",
+   "type": "database",
+   "label": "Object storage",
+   "sublabel": "files, certificates",
+   "pos": [
+    540,
+    400
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "mon",
+   "type": "backend",
+   "label": "Monitoring",
+   "sublabel": "health and alarms",
+   "pos": [
+    290,
+    400
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "dr",
+   "type": "backend",
+   "label": "Standby site",
+   "sublabel": "takes over if needed",
+   "pos": [
+    1040,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "repo-ci",
+   "from": "repo",
+   "to": "ci",
+   "label": "push"
+  },
+  {
+   "id": "ci-reg",
+   "from": "ci",
+   "to": "reg",
+   "label": "build"
+  },
+  {
+   "id": "reg-test",
+   "from": "reg",
+   "to": "test",
+   "label": "deploy"
+  },
+  {
+   "id": "reg-k8s",
+   "from": "reg",
+   "to": "k8s",
+   "label": "approved"
+  },
+  {
+   "id": "users-lb",
+   "from": "users",
+   "to": "lb",
+   "label": "HTTPS"
+  },
+  {
+   "id": "lb-k8s",
+   "from": "lb",
+   "to": "k8s",
+   "label": "route"
+  },
+  {
+   "id": "k8s-bus",
+   "from": "k8s",
+   "to": "bus",
+   "label": "events"
+  },
+  {
+   "id": "k8s-db",
+   "from": "k8s",
+   "to": "db",
+   "label": "data"
+  },
+  {
+   "id": "db-rep",
+   "from": "db",
+   "to": "rep",
+   "label": "copy"
+  },
+  {
+   "id": "k8s-obj",
+   "from": "k8s",
+   "to": "obj",
+   "label": "files"
+  },
+  {
+   "id": "k8s-mon",
+   "from": "k8s",
+   "to": "mon",
+   "label": "health"
+  },
+  {
+   "id": "db-dr",
+   "from": "db",
+   "to": "dr",
+   "label": "copy"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "Code goes through a build pipeline that tests and scans it, then makes signed images",
+    "Images are tried in a test environment, then released to the live platform after approval",
+    "Live runs several copies of each service so one failure does not stop service"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Containers on a standard container platform (Kubernetes)",
+    "The government chooses where this runs: its own data centre or an approved cloud",
+    "Replicas, standby site and tested backups"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Nothing is changed by hand on live",
+    "A release can be rolled back",
+    "Each state can be backed up and restored on its own"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If a copy fails, another takes its place",
+    "If the main site is lost, the standby site takes over; recovery targets are agreed with the department",
+    "Alarms go to the support team before citizens notice"
+   ]
+  }
+ ],
+ "boundaries": [
+  {
+   "kind": "region",
+   "label": "Live site",
+   "wraps": [
+    "lb",
+    "k8s",
+    "bus",
+    "db",
+    "rep",
+    "obj",
+    "mon"
+   ]
+  },
+  {
+   "kind": "region",
+   "label": "Standby site",
+   "wraps": [
+    "dr"
+   ]
+  }
+ ]
+}

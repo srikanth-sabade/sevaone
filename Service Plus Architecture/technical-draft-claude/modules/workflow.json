@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": { "title": "Workflow Engine: How It Works", "output": "workflow.html", "quality_profile": "showcase" },
+  "components": [
+    { "id": "owner", "type": "external", "label": "Service owner", "sublabel": "draws the steps", "pos": [40, 40], "size": [120, 60] },
+    { "id": "officer", "type": "external", "label": "Officer", "sublabel": "acts on cases", "pos": [40, 280], "size": [120, 60] },
+    { "id": "apim", "type": "cloud", "label": "WSO2 API Manager", "sublabel": "the one front door", "pos": [230, 160], "size": [150, 64] },
+
+    { "id": "designer", "type": "backend", "label": "Process Designer", "sublabel": "browser editor (bpmn.io)", "pos": [450, 40], "size": [150, 60] },
+    { "id": "library", "type": "database", "label": "Process library", "sublabel": "every version kept", "pos": [690, 40], "size": [150, 60] },
+
+    { "id": "app", "type": "backend", "label": "Application Service", "sublabel": "citizen submits here", "pos": [450, 160], "size": [150, 60] },
+    { "id": "task", "type": "backend", "label": "Task API", "sublabel": "claim, forward, decide", "pos": [450, 280], "size": [150, 60] },
+    { "id": "timer", "type": "backend", "label": "Deadline timers", "sublabel": "reminders, escalation", "pos": [450, 400], "size": [150, 60] },
+
+    { "id": "engine", "type": "backend", "label": "Workflow Engine", "sublabel": "Flowable (BPMN)", "pos": [690, 160], "size": [160, 200], "tag": "runs every case" },
+    { "id": "cases", "type": "database", "label": "Case data", "sublabel": "PostgreSQL", "pos": [690, 400], "size": [150, 60] },
+
+    { "id": "org", "type": "backend", "label": "Office Directory", "sublabel": "office, role, area", "pos": [930, 40], "size": [150, 60] },
+    { "id": "mi", "type": "backend", "label": "WSO2 Micro Integrator", "sublabel": "outside checks", "pos": [930, 400], "size": [150, 60] },
+    { "id": "ext", "type": "external", "label": "Other systems", "sublabel": "departments, banks", "pos": [930, 520], "size": [150, 60] },
+
+    { "id": "bus", "type": "messagebus", "label": "Event bus", "sublabel": "Kafka", "pos": [1170, 40], "size": [120, 420] },
+    { "id": "notif", "type": "backend", "label": "Notifications", "sublabel": "tells citizen, officer", "pos": [1380, 160], "size": [150, 60] },
+    { "id": "doc", "type": "backend", "label": "Documents", "sublabel": "certificate on approval", "pos": [1380, 280], "size": [150, 60] },
+    { "id": "audit", "type": "backend", "label": "Reports and Audit", "sublabel": "who did what, when", "pos": [1380, 400], "size": [150, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Design time", "wraps": ["designer", "library"] },
+    { "kind": "region", "label": "Run time", "wraps": ["app", "task", "timer", "engine", "cases"] }
+  ],
+  "connections": [
+    { "id": "owner-apim", "from": "owner", "to": "apim", "label": "design" },
+    { "id": "officer-apim", "from": "officer", "to": "apim", "label": "work" },
+    { "id": "apim-designer", "from": "apim", "to": "designer", "label": "design" },
+    { "id": "apim-task", "from": "apim", "to": "task", "label": "tasks" },
+    { "id": "designer-library", "from": "designer", "to": "library", "label": "save version" },
+    { "id": "library-engine", "from": "library", "to": "engine", "label": "publish version", "variant": "emphasis" },
+    { "id": "app-engine", "from": "app", "to": "engine", "label": "start case", "variant": "emphasis" },
+    { "id": "task-engine", "from": "task", "to": "engine", "label": "act on case" },
+    { "id": "timer-engine", "from": "timer", "to": "engine", "label": "overdue" },
+    { "id": "engine-cases", "from": "engine", "to": "cases", "label": "steps, history" },
+    { "id": "engine-org", "from": "engine", "to": "org", "label": "who handles" },
+    { "id": "engine-mi", "from": "engine", "to": "mi", "label": "outside check" },
+    { "id": "mi-ext", "from": "mi", "to": "ext", "label": "APIs" },
+    { "id": "engine-bus", "from": "engine", "to": "bus", "label": "events (outbox)", "variant": "dashed" },
+    { "id": "bus-notif", "from": "bus", "to": "notif", "variant": "dashed" },
+    { "id": "bus-doc", "from": "bus", "to": "doc", "variant": "dashed" },
+    { "id": "bus-audit", "from": "bus", "to": "audit", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "How it works", "items": ["The service owner draws the steps in a browser editor and saves each change as a new version", "Publishing a version makes it live; running cases keep the version they started with", "The Application Service starts a case; the engine asks the Office Directory who handles it", "Officers act through the API Manager, and the engine moves the case to its next step"] },
+    { "dot": "emerald", "title": "What we use", "items": ["Flowable, an open-source BPMN engine, so we do not build our own", "bpmn.io for drawing, PostgreSQL for versions and cases", "Kafka for events, WSO2 Micro Integrator for outside checks", "WSO2 Identity Server tokens tell the engine who is acting"] },
+    { "dot": "rose", "title": "Rules we keep", "items": ["A button's label never decides what happens; each action has a fixed ID", "An officer can act only on cases for their office and role", "Reviews can split and join; deadlines start timers and escalate", "A correction sends the same case back to the citizen and then to the same officer"] },
+    { "dot": "amber", "title": "When something fails", "items": ["A failed outside check is retried, then goes to a problem list for the office admin", "A failed message never undoes a decision", "Every step is recorded and cannot be edited later"] }
+  ]
+}

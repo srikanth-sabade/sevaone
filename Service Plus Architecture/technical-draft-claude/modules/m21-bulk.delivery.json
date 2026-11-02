@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4e5b726c-8534-4b04-8c07-c548d43ca219",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m21-bulk.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m21-bulk.html",
+  "specification": {
+    "sha256": "cc75e3b6bd43ae309b67f8a5a7c9526de0cb9ab51af9ac61be000f13fb7d0e57",
+    "bytes": 3073
+  },
+  "artifact": {
+    "sha256": "89c146af2a84ac5a52f49ecd93ccf081019b214a09b2f9e00eb63f199b208e5e",
+    "bytes": 817786
+  }
+}

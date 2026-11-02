@@ -1,0 +1,187 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Applications and Citizen Workspace",
+  "output": "m08-applications.html",
+  "quality_profile": "showcase"
+ },
+ "components": [
+  {
+   "id": "citizen",
+   "type": "external",
+   "label": "Citizens",
+   "sublabel": "web + mobile app",
+   "pos": [
+    40,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "apim",
+   "type": "cloud",
+   "label": "WSO2 API Manager",
+   "sublabel": "the one front door",
+   "pos": [
+    290,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "app",
+   "type": "backend",
+   "label": "Application Service",
+   "sublabel": "draft, submit, track",
+   "pos": [
+    540,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "bus",
+   "type": "messagebus",
+   "label": "Event bus",
+   "sublabel": "Kafka",
+   "pos": [
+    540,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "pg",
+   "type": "database",
+   "label": "PostgreSQL",
+   "sublabel": "drafts, submitted",
+   "pos": [
+    790,
+    40
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "files",
+   "type": "database",
+   "label": "Object storage",
+   "sublabel": "uploaded papers",
+   "pos": [
+    790,
+    160
+   ],
+   "size": [
+    150,
+    60
+   ]
+  },
+  {
+   "id": "wf",
+   "type": "backend",
+   "label": "Workflow Engine",
+   "sublabel": "starts the case",
+   "pos": [
+    790,
+    280
+   ],
+   "size": [
+    150,
+    60
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "citizen-apim",
+   "to": "apim",
+   "from": "citizen",
+   "label": "apply"
+  },
+  {
+   "id": "apim-app",
+   "to": "app",
+   "from": "apim",
+   "label": "apply"
+  },
+  {
+   "id": "app-pg",
+   "to": "pg",
+   "from": "app",
+   "label": "save"
+  },
+  {
+   "id": "app-files",
+   "to": "files",
+   "from": "app",
+   "label": "papers"
+  },
+  {
+   "id": "app-wf",
+   "to": "wf",
+   "from": "app",
+   "label": "start case",
+   "variant": "emphasis"
+  },
+  {
+   "id": "app-bus",
+   "to": "bus",
+   "from": "app",
+   "label": "events",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "How it works",
+   "items": [
+    "A citizen starts, saves a draft, uploads papers and submits",
+    "Submitting saves the application and starts a case",
+    "The citizen can track status and answer correction requests"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What we use",
+   "items": [
+    "Application Service on PostgreSQL",
+    "S3-compatible object storage for papers",
+    "WSO2 API Manager and Identity Server for access"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Rules we keep",
+   "items": [
+    "Each submit carries a one-time key so a double tap never makes two applications",
+    "The citizen can edit only what the current stage allows",
+    "The acknowledgement is issued only after the save succeeds"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "When something fails",
+   "items": [
+    "If the network drops, the draft is kept and submit can be tried again",
+    "If starting the case fails the application is held and retried",
+    "Nothing is lost between save and start"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "2fbf38f4-5040-447b-aa15-90b850ec3138",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/candidate.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/technical-flow.html",
+  "specification": {
+    "sha256": "c24661232666362aa1b9d1bd0a6261c1bc62105c85caf3195cd0897873d1bbdd",
+    "bytes": 8876
+  },
+  "artifact": {
+    "sha256": "a0fe01857fdd22a139e789c0ebd0929537dbdb40b8233797b2f9a66f195ebdd5",
+    "bytes": 848900
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "92283dbb-cc48-4d5e-877e-1c5afb8c95ea",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m01-accounts.json",
+  "output": "/home/srikanth/Desktop/Projects/Codes/SevaOne-All/sevaone/Service Plus Architecture/technical-draft-claude/modules/m01-accounts.html",
+  "specification": {
+    "sha256": "466a1790df744a36ca45d0884664c283c0560d52debcdb46cec9c1b6d3ff7cb7",
+    "bytes": 4598
+  },
+  "artifact": {
+    "sha256": "fe3aba205d7686352f54a63b307ededbc337536f138bdb74c07d01b9b2ec88b5",
+    "bytes": 828974
+  }
+}
