@@ -1,0 +1,202 @@
+[server]
+hostname = "100.91.197.105"
+node_ip = "127.0.0.1"
+base_path = "https://$ref{server.hostname}:${carbon.management.port}"
+
+[super_admin]
+username = "admin"
+password = "admin"
+create_admin_account = true
+
+[user_store]
+type = "database_unique_id"
+
+# --- seva: Postgres datasources (replaces the default embedded H2) ---
+# 4 physical databases, matching the 4 datasources WSO2 IS ships by default:
+# registry_db (WSO2_CARBON_DB), shared_db (WSO2_SHARED_DB), identity_db, AgentIdentity.
+# Schema for each is pre-loaded by Docker-deploy/wso2/dbscripts/ before this container
+# ever starts - see Docker-deploy/scripts/setup-wso2.sh.
+[database.registry_db]
+type = "postgre"
+hostname = "postgres"
+port = "5432"
+name = "wso2_carbon"
+username = "wso2carbon"
+password = "wso2carbon"
+
+[database.shared_db]
+type = "postgre"
+hostname = "postgres"
+port = "5432"
+name = "wso2_shared"
+username = "wso2carbon"
+password = "wso2carbon"
+
+[database.identity_db]
+type = "postgre"
+hostname = "postgres"
+port = "5432"
+name = "wso2_identity"
+username = "wso2carbon"
+password = "wso2carbon"
+
+[datasource.AgentIdentity]
+id = "AgentIdentity"
+url = "jdbc:postgresql://postgres:5432/wso2_agent"
+username = "wso2carbon"
+password = "wso2carbon"
+driver = "org.postgresql.Driver"
+
+[keystore.primary]
+file_name = "wso2carbon.p12"
+password = "wso2carbon"
+type="PKCS12"
+
+[truststore]
+file_name="client-truststore.p12"
+password="wso2carbon"
+type="PKCS12"
+
+[account_recovery.endpoint.auth]
+hash= "66cd9688a2ae068244ea01e70f0e230f5623b7fa4cdecb65070a09ec06452262"
+
+[identity.auth_framework.endpoint]
+app_password= "dashboard"
+
+# --- seva docker overrides ---
+# FIDO/WebAuthn is unused for this PoC and blocks Carbon on JDK 11.0.20+.
+
+[authentication.authenticator.fido]
+enable = false
+
+# Email OTP MFA (step 2 after BasicAuthenticator).
+# KNOWN ISSUE: hostname below still points at the retired "mailhog" service (removed
+# from docker-compose.yml). Email OTP mail will fail to send until this is repointed
+# at a real SMTP provider (Brevo, planned) - see SESSION_HANDOFF.md.
+[authentication.authenticator.email_otp]
+name = "EmailOTP"
+enable = true
+
+[authentication.authenticator.email_otp.parameters]
+useEventHandlerBasedEmailSender = true
+EMAILOTPMandatory = true
+usecase = "local"
+secondaryUserstore = "primary"
+EmailOTPEnableByUserClaim = true
+CaptureAndUpdateEmailAddress = true
+showEmailAddressInUI = true
+tokenExpirationTime = 300000
+
+[output_adapter.email]
+from_address = "noreply@seva.local"
+username = ""
+password = ""
+hostname = "mailhog"
+port = 1025
+enable_start_tls = false
+enable_authentication = false
+
+# DCR docs use Basic auth; IS 6.1 REST APIs default to OAuth only.
+[[resource.access_control]]
+context = "(.*)/api/identity/oauth2/dcr/(.*)"
+secure = true
+http_method = "all"
+permissions = ["/permission/admin/manage/identity/applicationmgt"]
+scopes = ["internal_application_mgt_create", "internal_application_mgt_view", "internal_application_mgt_update", "internal_application_mgt_delete"]
+allowed_auth_handlers = ["BasicAuthentication"]
+
+[[resource.access_control]]
+context = "(.*)/api/identity/auth/v1.1/(.*)"
+secure = false
+http_method = "all"
+
+[oauth]
+prompt_consent = false
+
+[authentication.consent]
+prompt = false
+
+# --- apim key manager connector overrides ---
+# Required by the apim-km-wso2is connector (dropins + keymanager-operations.war,
+# installed via wso2-artifact-volume) so WSO2 APIM can use this IS as an external Key
+# Manager. Without this block, APIM's key-manager REST calls to this IS's DCR
+# endpoint fail — see backend/docs/WSO2_IS_APIM_SETUP.md for why.
+[[event_listener]]
+id = "token_revocation"
+type = "org.wso2.carbon.identity.core.handler.AbstractIdentityHandler"
+name = "org.wso2.is.notification.ApimOauthEventInterceptor"
+order = 1
+[event_listener.properties]
+notification_endpoint = "https://wso2apim:9443/internal/data/v1/notify"
+username = "${admin.username}"
+password = "${admin.password}"
+'header.X-WSO2-KEY-MANAGER' = "WSO2-IS"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/user-info/claims(.*)"
+secure = true
+http_method = "GET"
+permissions = "/permission/admin/manage/identity/usermgt/list"
+scopes = "internal_user_mgt_list"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/user-info/claims/generate(.*)"
+secure = true
+http_method = "POST"
+permissions = "/permission/admin/manage/identity/usermgt/list"
+scopes = "internal_user_mgt_list"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/dcr/register"
+secure = true
+http_method = "POST"
+permissions = "/permission/admin/manage/identity/applicationmgt/create"
+scopes = "internal_application_mgt_create"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/dcr/register(.*)"
+secure = true
+http_method = "GET"
+permissions = "/permission/admin/manage/identity/applicationmgt/view"
+scopes = "internal_application_mgt_view"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/dcr/register(.*)"
+secure = true
+http_method = "PUT"
+permissions = "/permission/admin/manage/identity/applicationmgt/update"
+scopes = "internal_application_mgt_update"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/dcr/register(.*)"
+secure = true
+http_method = "POST"
+permissions = "/permission/admin/manage/identity/applicationmgt/update"
+scopes = "internal_application_mgt_update"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/dcr/register(.*)"
+secure = true
+http_method = "DELETE"
+permissions = "/permission/admin/manage/identity/applicationmgt/delete"
+scopes = "internal_application_mgt_delete"
+
+[[resource.access_control]]
+context = "(.*)/keymanager-operations/revoke-one-time-token(.*)"
+secure = true
+http_method = "POST"
+permissions = "/permission/admin"
+
+[tenant_context.rewrite]
+custom_webapps = ["/keymanager-operations/"]
+
+# --- seva: allow the APIM key manager client to create SaaS apps ---
+# APIM's Key Manager client creates every OAuth application it manages
+# (including a plain Devportal "Generate Keys" click) as a SaaS application.
+# IS 7 ships SaaS app creation disabled by default, which fails DCR with
+# "SaaS application creation is disabled" (surfaces at APIM as error 900967,
+# "General Error"). identity.xml's <SaaS><EnableAppCreation> is templated
+# from this key at every boot -- editing identity.xml directly does not
+# survive a restart, it must go through deployment.toml.
+[saas]
+enable_app_creation = true
