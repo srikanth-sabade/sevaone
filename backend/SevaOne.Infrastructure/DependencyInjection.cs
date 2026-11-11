@@ -33,6 +33,10 @@ public static class DependencyInjection
         services.AddScoped<IGovAdminImportRepository, GovAdminImportRepository>();
         services.AddScoped<IServiceNoticeRepository, ServiceNoticeRepository>();
         services.AddScoped<IGovNotificationRepository, GovNotificationRepository>();
+        services.AddScoped<IGramaOneCentreRepository, GramaOneCentreRepository>();
+        services.AddScoped<IDigiLockerDocumentRepository, DigiLockerDocumentRepository>();
+        services.Configure<SevaOne.Infrastructure.Storage.ObjectStorageOptions>(config.GetSection(SevaOne.Infrastructure.Storage.ObjectStorageOptions.SectionName));
+        services.AddSingleton<SevaOne.Infrastructure.Storage.IObjectStorage, SevaOne.Infrastructure.Storage.MinioObjectStorage>();
         services.AddScoped<IGovDashboardRepository, GovDashboardRepository>();
         services.AddScoped<IGovAdminActivityLogRepository, GovAdminActivityLogRepository>();
         services.AddScoped<IDiscoveryRepository, DiscoveryRepository>();

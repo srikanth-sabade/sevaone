@@ -58,7 +58,7 @@ export function DepartmentsPage() {
               <Link
                 className="mt-3 inline-block text-sm font-medium text-[color:var(--gov-blue)] hover:underline"
                 to="/services"
-                search={{ q: undefined, department: d.code }}
+                search={{ q: undefined, department: d.code, category: undefined }}
               >
                 {t('deptsView')}
               </Link>

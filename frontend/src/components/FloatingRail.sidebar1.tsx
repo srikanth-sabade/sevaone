@@ -75,7 +75,7 @@ const CITIZEN_PRIMARY_NAV: NavItem[] = [
   },
   {
     to: '/services',
-    search: { q: undefined, department: undefined },
+    search: { q: undefined, department: undefined, category: undefined },
     labelKey: 'services',
     icon: LayoutGrid,
     match: (p) => p.startsWith('/services'),
@@ -116,7 +116,7 @@ const OPERATOR_PRIMARY_NAV: NavItem[] = [
   },
   {
     to: '/services',
-    search: { q: undefined, department: undefined },
+    search: { q: undefined, department: undefined, category: undefined },
     labelKey: 'services',
     icon: LayoutGrid,
     match: (p) => p.startsWith('/services'),
@@ -184,7 +184,7 @@ export function FloatingRailSidebar1() {
       case '/services':
         void navigate({
           to: '/services',
-          search: { q: undefined, department: undefined },
+          search: { q: undefined, department: undefined, category: undefined },
           hash: item.hash,
         }).then(afterNavigation)
         break

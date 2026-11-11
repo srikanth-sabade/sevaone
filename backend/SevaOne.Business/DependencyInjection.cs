@@ -35,6 +35,7 @@ public static class DependencyInjection
         services.AddScoped<IGovAdminActivityLogService, GovAdminActivityLogService>();
         services.AddScoped<IServiceNoticeService, ServiceNoticeService>();
         services.AddScoped<IGovNotificationService, GovNotificationService>();
+        services.AddScoped<IGramaOneCentreService, GramaOneCentreService>();
         services.AddScoped<IGovDashboardService, GovDashboardService>();
         services.AddScoped<IOperatorClaimService, OperatorClaimService>();
         services.AddScoped<IOperatorCitizenBindService, OperatorCitizenBindService>();

@@ -1,5 +1,7 @@
 import { flow } from './flowLog'
 import type {
+  DigiLockerDocument,
+  GramaOneCentre,
   ApplicationDetail,
   ApplicationSummary,
   Department,
@@ -157,17 +159,13 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(body),
     }),
-  digilockerDocuments: () =>
-    request<
-      {
-        documentName: string
-        documentType: string
-        documentUri: string
-        documentDescription: string
-        documentIssuer: string
-        documentUploadDate: string
-      }[]
-    >('/api/v1/me/digilocker/documents'),
+  digilockerDocuments: () => request<DigiLockerDocument[]>('/api/v1/me/digilocker/documents'),
+  nearestGramaOne: (lat: number, lon: number, limit = 5) =>
+    request<GramaOneCentre[]>(`/api/v1/centres/gramaone/nearest?lat=${lat}&lon=${lon}&limit=${limit}`),
+  gramaOneDistricts: () => request<string[]>('/api/v1/centres/gramaone/districts'),
+  searchGramaOne: (district: string, q?: string) =>
+    request<GramaOneCentre[]>(`/api/v1/centres/gramaone?district=${encodeURIComponent(district)}${q ? `&q=${encodeURIComponent(q)}` : ''}`),
+  digilockerSync: () => request<DigiLockerDocument[]>('/api/v1/me/digilocker/documents/sync', { method: 'POST' }),
   departments: () => request<Department[]>('/api/v1/departments'),
   schemes: (q?: string, department?: string, category?: string) => {
     const p = new URLSearchParams()
@@ -476,6 +474,7 @@ export const api = {
     dateOfBirth?: string
     gender?: string
     aadhaarLast4?: string
+    occupation?: string
   }) => request<Me>('/api/v1/me/profile', { method: 'PATCH', body: JSON.stringify(body) }),
   passwordLogin: (body: { username: string; password: string; returnTo?: string }) =>
     request<{

@@ -166,11 +166,64 @@ public sealed class DigiLockerClient : IDigiLockerClient
                 DocumentUri = ReadString(item, "DocumentURI") ?? ReadString(item, "DocumentUri") ?? string.Empty,
                 DocumentDescription = ReadString(item, "DocumentDescription") ?? string.Empty,
                 DocumentIssuer = ReadString(item, "DocumentIssuer") ?? string.Empty,
-                DocumentUploadDate = ReadString(item, "DocumentUploadDate") ?? string.Empty
+                DocumentUploadDate = ReadString(item, "DocumentUploadDate") ?? string.Empty,
+                Formats = ParseFormats(item)
             });
         }
 
         return list;
+    }
+
+    // CeG sends DocFormats as a JSON-encoded array of mime types (sometimes with embedded \r\n); unknown mimes are dropped.
+    private static List<string> ParseFormats(JsonElement item)
+    {
+        var raw = item.TryGetProperty("DocFormats", out var el)
+            ? (el.ValueKind == JsonValueKind.String ? el.GetString() : el.GetRawText())
+            : null;
+        var formats = new List<string>();
+        if (string.IsNullOrWhiteSpace(raw)) return formats;
+        try
+        {
+            using var doc = JsonDocument.Parse(raw);
+            if (doc.RootElement.ValueKind != JsonValueKind.Array) return formats;
+            foreach (var m in doc.RootElement.EnumerateArray())
+            {
+                var f = m.GetString() switch { "application/pdf" => "pdf", "application/xml" => "xml", "application/json" => "json", _ => null };
+                if (f is not null) formats.Add(f);
+            }
+        }
+        catch (JsonException) { }
+        return formats;
+    }
+
+    public async Task<DigiLockerDocumentContent> GetDocumentAsync(string digiLockerId, string docUri, int fileType, CancellationToken ct)
+    {
+        EnsureConfigured();
+        var ist = TimeZoneInfo.FindSystemTimeZoneById("Asia/Kolkata");
+        // Flat body, FileType as a string, TimeStamp as IST ddMMyyyyHHmmss -- the only shape the gateway accepts (confirmed against production).
+        var payload = new Dictionary<string, string>
+        {
+            ["DeptKey"] = _options.DeptKey,
+            ["DigilockerID"] = digiLockerId,
+            ["DocURI"] = docUri,
+            ["FileType"] = fileType.ToString(),
+            ["APIMac"] = ApiMac(_options.DeptKey, digiLockerId, docUri),
+            ["TimeStamp"] = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, ist).ToString("ddMMyyyyHHmmss")
+        };
+
+        var resp = ParseRespObject(await PostAsync("GetDocumentFromDigiLocker", payload, ct));
+        var b64 = ReadString(resp, "DocBytes");
+        if (string.IsNullOrWhiteSpace(b64))
+        {
+            throw new InvalidOperationException("DigiLocker did not return a document.");
+        }
+
+        return new DigiLockerDocumentContent
+        {
+            Name = ReadString(resp, "DocName") ?? "document",
+            MimeType = ReadString(resp, "DocType") ?? string.Empty,
+            Bytes = Convert.FromBase64String(b64)
+        };
     }
 
     private void EnsureConfigured()

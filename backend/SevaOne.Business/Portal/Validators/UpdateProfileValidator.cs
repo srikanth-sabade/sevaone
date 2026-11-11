@@ -19,6 +19,8 @@ public sealed class UpdateProfileValidator : AbstractValidator<UpdateProfileRequ
         // Must match portal.sevaone_user's ck_sevaone_user_gender check constraint exactly.
         RuleFor(x => x.Gender).Must(g => g is "Male" or "Female" or "Other" or "PreferNotToSay")
             .WithMessage("Gender must be one of Male, Female, Other, PreferNotToSay.");
+        RuleFor(x => x.Occupation).Must(o => OccupationCategories.IsValid(o))
+            .WithMessage("Occupation is not a recognised category.");
         RuleFor(x => x.AadhaarLast4).Matches(@"^\d{4}$").When(x => !string.IsNullOrWhiteSpace(x.AadhaarLast4));
     }
 }

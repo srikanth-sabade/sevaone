@@ -168,7 +168,7 @@ function buildServicesCrumbs(
   t: (key: MessageKey, vars?: Record<string, string | number>) => string,
   serviceName: string | undefined,
 ): Crumb[] {
-  const crumbs: Crumb[] = [{ label: t('services'), to: '/services', search: { q: undefined, department: undefined } }]
+  const crumbs: Crumb[] = [{ label: t('services'), to: '/services', search: { q: undefined, department: undefined, category: undefined } }]
   if (params.code) crumbs.push({ label: serviceName || params.code })
   return crumbs
 }
@@ -178,7 +178,7 @@ function buildApplyCrumbs(
   t: (key: MessageKey, vars?: Record<string, string | number>) => string,
   serviceName: string | undefined,
 ): Crumb[] {
-  const crumbs: Crumb[] = [{ label: t('services'), to: '/services', search: { q: undefined, department: undefined } }]
+  const crumbs: Crumb[] = [{ label: t('services'), to: '/services', search: { q: undefined, department: undefined, category: undefined } }]
   if (params.code) {
     crumbs.push({ label: serviceName || params.code, to: '/services/$code', params: { code: params.code } })
   }

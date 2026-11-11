@@ -15,6 +15,7 @@ using SevaOne.Infrastructure.Repositories.Discovery;
 using SevaOne.Infrastructure.Repositories.Orchestration;
 using SevaOne.Infrastructure.Repositories.Portal;
 using SevaOne.Infrastructure.Security;
+using SevaOne.Infrastructure.Storage;
 
 namespace SevaOne.Business.Portal.Services;
 
@@ -27,6 +28,8 @@ public sealed class PortalAuthService : IPortalAuthService
     private readonly ISevaSessionStore _sessions;
     private readonly ICitizenSessionService _citizenSessions;
     private readonly IPortalRepository _portal;
+    private readonly IDigiLockerDocumentRepository _documents;
+    private readonly IObjectStorage _storage;
     private readonly IOrchestrationRepository _orchestration;
     private readonly IAuditRepository _audit;
     private readonly IDiscoveryRepository _discovery;
@@ -45,6 +48,8 @@ public sealed class PortalAuthService : IPortalAuthService
         ISevaSessionStore sessions,
         ICitizenSessionService citizenSessions,
         IPortalRepository portal,
+        IDigiLockerDocumentRepository documents,
+        IObjectStorage storage,
         IOrchestrationRepository orchestration,
         IAuditRepository audit,
         IDiscoveryRepository discovery,
@@ -62,6 +67,8 @@ public sealed class PortalAuthService : IPortalAuthService
         _sessions = sessions;
         _citizenSessions = citizenSessions;
         _portal = portal;
+        _documents = documents;
+        _storage = storage;
         _orchestration = orchestration;
         _audit = audit;
         _discovery = discovery;
@@ -149,32 +156,104 @@ public sealed class PortalAuthService : IPortalAuthService
         };
 
         var established = await _citizenSessions.EstablishAsync(user, state.ReturnTo ?? "/", ct);
+
+        // DigiLocker serves content only while this login's session is valid, so copy the documents to object storage now.
+        // Best effort and time-boxed: a slow or failing gateway must never block sign-in (the page can re-sync later).
+        try
+        {
+            var citizen = await _portal.GetCitizenByWso2SubjectAsync(user.Subject, ct);
+            if (citizen is not null)
+            {
+                using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+                cts.CancelAfter(TimeSpan.FromSeconds(25));
+                await SyncDigiLockerDocumentsCoreAsync(citizen.Id, profile.Id, cts.Token);
+            }
+        }
+        catch (Exception ex)
+        {
+            _log.LogWarning(ex, "DigiLocker document sync after login failed for {Subject}", user.Subject);
+        }
+
         return new CompleteLoginResult(established.Tokens, established.ReturnTo);
     }
 
-    public async Task<IReadOnlyList<DigiLockerIssuedDocumentDto>> ListDigiLockerDocumentsAsync(CancellationToken ct)
-    {
-        if (_current.CitizenId is not { } id)
-        {
-            throw new ForbiddenException("Not authenticated.");
-        }
+    private const string DigiLockerSubjectPrefix = "digilocker:";
+    private static readonly (string Format, int FileType)[] DocumentFormats = [("pdf", 1), ("xml", 2), ("json", 3)];
 
+    private static string? DigiLockerIdOf(Citizen citizen) =>
+        !string.IsNullOrWhiteSpace(citizen.Wso2Subject) && citizen.Wso2Subject.StartsWith(DigiLockerSubjectPrefix, StringComparison.OrdinalIgnoreCase)
+            ? citizen.Wso2Subject[DigiLockerSubjectPrefix.Length..]
+            : null;
+
+    private Guid RequireCitizenId() =>
+        _current.CitizenId ?? throw new ForbiddenException("Not authenticated.");
+
+    private static DigiLockerDocumentDto ToDto(StoredDigiLockerDocument d) =>
+        new(d.Id, d.Name, d.DocType, d.Description, d.Issuer, d.UploadDate, d.Formats, d.StoredFormats, d.SyncedAt);
+
+    public async Task<IReadOnlyList<DigiLockerDocumentDto>> ListDigiLockerDocumentsAsync(CancellationToken ct) =>
+        (await _documents.ListAsync(RequireCitizenId(), ct)).Select(ToDto).ToList();
+
+    public async Task<IReadOnlyList<DigiLockerDocumentDto>> SyncDigiLockerDocumentsAsync(CancellationToken ct)
+    {
+        var id = RequireCitizenId();
         var citizen = await _portal.GetCitizenByIdAsync(id, ct)
                       ?? throw new NotFoundException("Citizen not found.");
-        const string prefix = "digilocker:";
-        if (string.IsNullOrWhiteSpace(citizen.Wso2Subject) || !citizen.Wso2Subject.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        var digiLockerId = DigiLockerIdOf(citizen)
+                           ?? throw new DomainException("This account is not linked to DigiLocker.");
+        try
         {
-            throw new DomainException("This account is not linked to DigiLocker.");
+            await SyncDigiLockerDocumentsCoreAsync(id, digiLockerId, ct);
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or HttpRequestException)
+        {
+            // Typically the DigiLocker session (held at the gateway) has expired; what is already stored stays available.
+            _log.LogWarning(ex, "DigiLocker document sync failed for citizen {CitizenId}", id);
+            throw new DomainException("DigiLocker could not be reached. Sign in with DigiLocker again to refresh your documents.");
         }
 
-        var documents = await _digiLocker.GetIssuedDocListAsync(citizen.Wso2Subject[prefix.Length..], ct);
-        return documents.Select(d => new DigiLockerIssuedDocumentDto(
-            d.DocumentName,
-            d.DocumentType,
-            d.DocumentUri,
-            d.DocumentDescription,
-            d.DocumentIssuer,
-            d.DocumentUploadDate)).ToList();
+        return await ListDigiLockerDocumentsAsync(ct);
+    }
+
+    private async Task SyncDigiLockerDocumentsCoreAsync(Guid citizenId, string digiLockerId, CancellationToken ct)
+    {
+        var issued = await _digiLocker.GetIssuedDocListAsync(digiLockerId, ct);
+        foreach (var d in issued)
+        {
+            if (string.IsNullOrWhiteSpace(d.DocumentUri)) continue;
+            var name = string.IsNullOrWhiteSpace(d.DocumentName) ? d.DocumentDescription : d.DocumentName;
+            var docId = await _documents.UpsertAsync(citizenId, d.DocumentUri, name, d.DocumentType, d.DocumentDescription, d.DocumentIssuer, d.DocumentUploadDate, d.Formats.ToArray(), ct);
+
+            // PDF is preferred and always attempted: the list does not always advertise it, and the gateway itself says whether it
+            // can supply it. A document with no PDF (the Aadhaar) falls back to the next format it advertises -- the web page renders
+            // the Aadhaar from its signed XML, as the mobile app does. The first format that downloads is the only one kept.
+            foreach (var (format, fileType) in DocumentFormats)
+            {
+                if (format != "pdf" && !d.Formats.Contains(format)) continue;
+                try
+                {
+                    var content = await _digiLocker.GetDocumentAsync(digiLockerId, d.DocumentUri, fileType, ct);
+                    var mime = string.IsNullOrWhiteSpace(content.MimeType) ? "application/octet-stream" : content.MimeType;
+                    var key = $"documents/{citizenId}/{docId}/{format}";
+                    await _storage.PutAsync(key, content.Bytes, mime, ct);
+                    await _documents.SaveFileAsync(docId, format, mime, content.Bytes.Length, Convert.ToHexString(SHA256.HashData(content.Bytes)).ToLowerInvariant(), key, ct);
+                    break;
+                }
+                catch (Exception ex) when (ex is InvalidOperationException or HttpRequestException or FormatException)
+                {
+                    _log.LogWarning(ex, "DigiLocker document {Doc} ({Format}) could not be fetched", docId, format);
+                }
+            }
+        }
+    }
+
+    public async Task<DigiLockerDocumentFile> GetDigiLockerDocumentFileAsync(Guid documentId, string format, CancellationToken ct)
+    {
+        var file = await _documents.GetFileAsync(RequireCitizenId(), documentId, format, ct)
+                   ?? throw new NotFoundException("This document is not available in that format.");
+        var bytes = await _storage.GetAsync(file.StorageKey, ct)
+                    ?? throw new NotFoundException("This document is not available in that format.");
+        return new DigiLockerDocumentFile($"{file.Name}.{format}", file.Mime, bytes);
     }
 
     public async Task<IReadOnlyList<AuditEntryDto>> GetMyAuditAsync(int take, CancellationToken ct)
@@ -413,6 +492,7 @@ public sealed class PortalAuthService : IPortalAuthService
         citizen.VillageName = request.VillageName?.Trim();
         citizen.DateOfBirth = request.DateOfBirth;
         citizen.Gender = request.Gender;
+        citizen.Occupation = string.IsNullOrWhiteSpace(request.Occupation) ? null : request.Occupation;
 
         // A citizen who already has a DigiLocker-verified Aadhaar (AadhaarHash set) keeps it --
         // request.AadhaarLast4 is ignored in that case. It's only ever used as the fallback for

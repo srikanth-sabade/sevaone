@@ -92,7 +92,7 @@ public sealed class PortalRepository : RepositoryBase, IPortalRepository
                 @Id, @Name, @Mobile, @MobileVerifiedAt, @Email, @Address, @District,
                 @Taluk, @StateName, @VillageName, @DateOfBirth, @Gender, @AadhaarMasked, @AadhaarHash,
                 @DigiLockerId, @Photo, @NameKannada, @AddressKannada, @DistrictKannada, @StateKannada, @VillageKannada,
-                @ProfileCompleted, @ProfileFinishPct, @UpdatedAt)
+                @ProfileCompleted, @ProfileFinishPct, @UpdatedAt, @Occupation)
             """;
         using var conn = _factory.CreateConnection();
         var cmd = new CommandDefinition(sql, citizen, cancellationToken: ct);

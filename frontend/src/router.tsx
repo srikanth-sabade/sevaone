@@ -1,5 +1,6 @@
-import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router'
+import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
 import { Shell } from './components/Shell'
+import { isCategoryId } from './lib/serviceCategories'
 import { AboutPage } from './pages/About'
 import { AdminCatalogPage } from './pages/AdminCatalog'
 import { AiBetaPage } from './pages/AiBeta'
@@ -11,7 +12,6 @@ import { DashboardPage } from './pages/Dashboard'
 import { DepartmentsPage } from './pages/Departments'
 import { GrievancePage } from './pages/Grievance'
 import { HelpPage } from './pages/Help'
-import { HomePage } from './pages/Home'
 import { NotFoundPage } from './pages/NotFound'
 import { KpiPage } from './pages/Kpi'
 import { LoginPage } from './pages/Login'
@@ -20,6 +20,8 @@ import { RegisterPage } from './pages/Register'
 import { ServiceCodePage } from './pages/ServiceCodePage'
 import { ServiceDetailPage } from './pages/ServiceDetail'
 import { ServicesPage } from './pages/Services'
+import { CentresPage } from './pages/Centres'
+import { DigiLockerPage } from './pages/DigiLocker'
 import { TrackPage } from './pages/Track'
 
 const rootRoute = createRootRoute({ component: Shell })
@@ -35,8 +37,11 @@ const indexRoute = createRoute({
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/home',
-  component: HomePage,
+  beforeLoad: () => {
+    throw redirect({ to: '/', search: { loginError: undefined } })
+  },
 })
+const oldHomeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/oldhomepage', component: () => <ChatPage legacy /> })
 const operatorRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/operator',
@@ -76,6 +81,7 @@ const servicesRoute = createRoute({
   validateSearch: (s: Record<string, unknown>) => ({
     q: typeof s.q === 'string' ? s.q : undefined,
     department: typeof s.department === 'string' ? s.department : undefined,
+    category: isCategoryId(s.category) ? s.category : undefined,
   }),
   component: ServicesPage,
 })
@@ -121,9 +127,14 @@ const serviceCodeRoute = createRoute({
   component: ServiceCodePage,
 })
 
+const digilockerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/digilocker', component: DigiLockerPage })
+
+const centresRoute = createRoute({ getParentRoute: () => rootRoute, path: '/centres', component: CentresPage })
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   homeRoute,
+  oldHomeRoute,
   operatorRoute,
   adminCatalogRoute,
   aiBetaRoute,
@@ -141,6 +152,8 @@ const routeTree = rootRoute.addChildren([
   kpiRoute,
   aboutRoute,
   grievanceRoute,
+  digilockerRoute,
+  centresRoute,
   serviceCodeRoute,
 ])
 

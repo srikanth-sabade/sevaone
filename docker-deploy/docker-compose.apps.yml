@@ -51,6 +51,10 @@ services:
       DeptGatewayAuth__Secret: gm9t0ux0G7RoImT50YAyv1HeEvgm35RX
       DigiLocker__DeptKey: ${DIGILOCKER_DEPT_KEY:?Set DIGILOCKER_DEPT_KEY in docker-deploy/.env}
       DigiLocker__HmacKey: ${DIGILOCKER_HMAC_KEY:?Set DIGILOCKER_HMAC_KEY in docker-deploy/.env}
+      ObjectStorage__Endpoint: minio:9000
+      ObjectStorage__AccessKey: ${MINIO_ROOT_USER:-sevaone}
+      ObjectStorage__SecretKey: ${MINIO_ROOT_PASSWORD:-sevaone-minio-dev}
+      ObjectStorage__Bucket: sevaone-documents
       Wso2CitizenIssuer__ClientId: ${WSO2_CITIZEN_ISSUER_CLIENT_ID:?Set WSO2_CITIZEN_ISSUER_CLIENT_ID in docker-deploy/.env}
       Wso2CitizenIssuer__ClientSecret: ${WSO2_CITIZEN_ISSUER_CLIENT_SECRET:?Set WSO2_CITIZEN_ISSUER_CLIENT_SECRET in docker-deploy/.env}
       Wso2CitizenIssuer__SigningKeyPem: ${WSO2_CITIZEN_ISSUER_SIGNING_KEY_PEM:?Set WSO2_CITIZEN_ISSUER_SIGNING_KEY_PEM in docker-deploy/.env}

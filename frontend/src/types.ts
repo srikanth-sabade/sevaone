@@ -12,6 +12,7 @@ export type Me = {
   villageName?: string | null
   dateOfBirth?: string | null
   gender?: string | null
+  occupation?: string | null
   aadhaarMasked?: string | null
   nameKannada?: string | null
   addressKannada?: string | null
@@ -220,4 +221,28 @@ export type AiChatResponse = {
   suggestedQuestions: string[]
   /** Optional top-level catalog service code when a service is resolved. */
   serviceCode?: string | null
+}
+
+export type DigiLockerDocument = {
+  id: string
+  name: string
+  type: string
+  description: string
+  issuer: string
+  uploadDate: string
+  formats: string[]
+  /** Formats already copied into SevaOne's storage -- still downloadable after the DigiLocker session ends. */
+  storedFormats: string[]
+  syncedAt: string
+}
+
+export type GramaOneCentre = {
+  id: number
+  district: string
+  taluk: string
+  gramPanchayat: string
+  village: string
+  latitude: number
+  longitude: number
+  distanceKm: number | null
 }

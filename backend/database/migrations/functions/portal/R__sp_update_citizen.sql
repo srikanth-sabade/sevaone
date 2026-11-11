@@ -3,6 +3,11 @@
 -- Flyway "R__" repeatable migration: re-applied automatically whenever this file's content
 -- changes (CREATE OR REPLACE is idempotent), unlike versioned V__ migrations which run once.
 
+-- Signature changed (p_occupation added): drop the previous overload so only one version exists.
+DROP FUNCTION IF EXISTS portal.sp_update_citizen(
+    uuid, text, text, timestamptz, text, text, text, text, text, text, date, text, text, text, text, bytea,
+    text, text, text, text, text, boolean, integer, timestamptz);
+
 CREATE OR REPLACE FUNCTION portal.sp_update_citizen(
     p_id uuid, p_name text, p_mobile text, p_mobile_verified_at timestamptz,
     p_email text, p_address text, p_district text, p_taluk text, p_state_name text, p_village_name text,
@@ -10,7 +15,7 @@ CREATE OR REPLACE FUNCTION portal.sp_update_citizen(
     p_digilocker_id text, p_photo bytea,
     p_name_kannada text, p_address_kannada text, p_district_kannada text, p_state_kannada text,
     p_village_kannada text, p_profile_completed boolean, p_profile_finish_pct integer,
-    p_updated_at timestamptz
+    p_updated_at timestamptz, p_occupation text
 )
 RETURNS TABLE (success boolean, message text)
 LANGUAGE plpgsql AS $$
@@ -28,7 +33,7 @@ BEGIN
         district_kannada = p_district_kannada, state_kannada = p_state_kannada,
         village_kannada = p_village_kannada,
         profile_completed = p_profile_completed, profile_finish_pct = p_profile_finish_pct,
-        updated_at = p_updated_at
+        updated_at = p_updated_at, occupation = p_occupation
     WHERE id = p_id;
 
     GET DIAGNOSTICS v_rows = ROW_COUNT;

@@ -67,7 +67,7 @@ export function ServiceDetailPage() {
           </button>
           <Link
             to="/services"
-            search={{ q: undefined, department: s.departmentCode }}
+            search={{ q: undefined, department: s.departmentCode, category: undefined }}
             className="px-3 py-1.5 text-sm text-muted-foreground underline underline-offset-2 transition hover:text-foreground"
           >
             {t('svcMoreFromDept')}

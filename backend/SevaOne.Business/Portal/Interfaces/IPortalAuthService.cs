@@ -5,7 +5,11 @@ public interface IPortalAuthService
 {
     Task<StartDigiLockerLoginResult> StartDigiLockerLoginAsync(StartDigiLockerLoginRequest request, CancellationToken ct);
     Task<CompleteLoginResult> CompleteDigiLockerLoginAsync(CompleteDigiLockerLoginRequest request, CancellationToken ct);
-    Task<IReadOnlyList<DigiLockerIssuedDocumentDto>> ListDigiLockerDocumentsAsync(CancellationToken ct);
+    /// <summary>The citizen's documents as stored in SevaOne -- works after the DigiLocker session has ended.</summary>
+    Task<IReadOnlyList<DigiLockerDocumentDto>> ListDigiLockerDocumentsAsync(CancellationToken ct);
+    /// <summary>Pulls the document list and every available file from DigiLocker into object storage. Needs a live DigiLocker session at the gateway.</summary>
+    Task<IReadOnlyList<DigiLockerDocumentDto>> SyncDigiLockerDocumentsAsync(CancellationToken ct);
+    Task<DigiLockerDocumentFile> GetDigiLockerDocumentFileAsync(Guid documentId, string format, CancellationToken ct);
 
     /// <summary>Sends an OTP to the given mobile number. Doesn't reveal whether the number is already registered — that's only surfaced after VerifyMobileLoginAsync confirms ownership.</summary>
     Task<StartMobileOtpResult> StartMobileLoginAsync(StartMobileOtpRequest request, CancellationToken ct);

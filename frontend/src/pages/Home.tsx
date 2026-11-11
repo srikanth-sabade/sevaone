@@ -92,7 +92,7 @@ export function HomePage() {
           <div className="mt-5 flex flex-wrap gap-2">
             <Link
               to="/services"
-              search={{ q: undefined, department: undefined }}
+              search={{ q: undefined, department: undefined, category: undefined }}
               className="inline-flex items-center gap-1.5 rounded-lg bg-[color:var(--gov-blue)] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
             >
               {t('homeBrowseServices')} <ArrowRight className="h-3.5 w-3.5" />
@@ -181,7 +181,7 @@ export function HomePage() {
           </div>
           <Link
             to="/services"
-            search={{ q: undefined, department: undefined }}
+            search={{ q: undefined, department: undefined, category: undefined }}
             className="hidden items-center gap-1 text-sm font-medium text-[color:var(--gov-blue)] hover:underline md:inline-flex"
           >
             {t('viewAll')} <ArrowRight className="h-4 w-4" />
@@ -192,7 +192,7 @@ export function HomePage() {
             <Link
               key={c.nameKey}
               to="/services"
-              search={{ q: c.q, department: undefined }}
+              search={{ q: c.q, department: undefined, category: undefined }}
               className="group surface-card rounded-2xl p-5 transition hover:border-[color:var(--gov-blue)]"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[color:var(--gov-blue)]/10 text-[color:var(--gov-blue)] transition group-hover:bg-[color:var(--gov-blue)] group-hover:text-white">

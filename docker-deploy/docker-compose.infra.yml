@@ -52,39 +52,17 @@ services:
   # binary under supervisord on the GPU box (that host has no Docker), so only S3_ENDPOINT differs between the two, never the code.
   # The API port is reachable only inside sevaone-net (the backend talks to "minio:9000"); the console is bound to loopback only.
   #
-  # TEMPORARILY DISABLED 2026-10-14: minio/minio and minio/mc are both gone from Docker Hub AND quay.io
-  # (anonymous pulls now 401/"object not found" on both registries - a real upstream break, not a local config
-  # issue). Re-enable once a working image source is confirmed (MinIO's own registry, a self-hosted mirror, or
-  # a pinned tag that still resolves somewhere).
-  # minio:
-  #   image: minio/minio:latest  # pin to a specific RELEASE.* tag once one is verified against what's actually on Docker Hub
-  #   restart: unless-stopped
-  #   environment:
-  #     MINIO_ROOT_USER: ${MINIO_ROOT_USER:-sevaone}
-  #     MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-sevaone-minio-dev}
-  #   command: server /data --console-address ":9001"
-  #   ports:
-  #     - "127.0.0.1:9001:9001"
-  #   volumes:
-  #     - miniodata:/data
-  #   healthcheck:
-  #     test: ["CMD", "mc", "ready", "local"]
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 20
-  #
-  # # One-shot: creates the bucket sevasindhu-backend writes to, then exits. Re-running is harmless (`mc mb --ignore-existing`).
-  # minio-init:
-  #   image: minio/mc:latest
-  #   restart: "no"
-  #   depends_on:
-  #     minio:
-  #       condition: service_healthy
-  #   entrypoint: >
-  #     /bin/sh -c "
-  #     mc alias set local http://minio:9000 ${MINIO_ROOT_USER:-sevaone} ${MINIO_ROOT_PASSWORD:-sevaone-minio-dev} &&
-  #     mc mb --ignore-existing local/${S3_BUCKET:-sevasindhu-mobile}
-  #     "
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-sevaone}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-sevaone-minio-dev}
+    command: server /data --console-address ":9001"
+    ports:
+      - "127.0.0.1:9011:9001"
+    volumes:
+      - miniodata:/data
 
 volumes:
   pgdata:

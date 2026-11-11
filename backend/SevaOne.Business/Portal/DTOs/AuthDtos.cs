@@ -56,15 +56,22 @@ public sealed record MeDto(
     string? StateKannada,
     string? VillageKannada,
     bool ProfileCompleted,
-    int ProfileFinishPct);
+    int ProfileFinishPct,
+    string? Occupation);
 
-public sealed record DigiLockerIssuedDocumentDto(
-    string DocumentName,
-    string DocumentType,
-    string DocumentUri,
-    string DocumentDescription,
-    string DocumentIssuer,
-    string DocumentUploadDate);
+/// <summary>One DigiLocker document as held by SevaOne. <c>Id</c> is opaque (never the DigiLocker URI); <c>StoredFormats</c> are the formats whose content is already in object storage and so still downloadable after the DigiLocker session ends.</summary>
+public sealed record DigiLockerDocumentDto(
+    Guid Id,
+    string Name,
+    string Type,
+    string Description,
+    string Issuer,
+    string UploadDate,
+    IReadOnlyList<string> Formats,
+    IReadOnlyList<string> StoredFormats,
+    DateTimeOffset SyncedAt);
+
+public sealed record DigiLockerDocumentFile(string Name, string MimeType, byte[] Bytes);
 
 public sealed record UpdateProfileRequest(
     string Name,
@@ -77,4 +84,15 @@ public sealed record UpdateProfileRequest(
     string? VillageName,
     DateOnly? DateOfBirth,
     string? Gender,
-    string? AadhaarLast4);
+    string? AadhaarLast4,
+    string? Occupation = null);
+
+public sealed record GramaOneCentreDto(
+    int Id,
+    string District,
+    string Taluk,
+    string GramPanchayat,
+    string Village,
+    double Latitude,
+    double Longitude,
+    double? DistanceKm);

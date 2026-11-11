@@ -57,6 +57,15 @@ public sealed class DigiLockerIssuedDocument
     public string DocumentDescription { get; set; } = string.Empty;
     public string DocumentIssuer { get; set; } = string.Empty;
     public string DocumentUploadDate { get; set; } = string.Empty;
+    /// <summary>Formats CeG says it can supply ("pdf", "xml", "json"). PDF is always attempted regardless -- the list does not always advertise it.</summary>
+    public List<string> Formats { get; set; } = [];
+}
+
+public sealed class DigiLockerDocumentContent
+{
+    public string Name { get; set; } = string.Empty;
+    public string MimeType { get; set; } = string.Empty;
+    public byte[] Bytes { get; set; } = [];
 }
 
 /// <summary>
@@ -75,4 +84,7 @@ public interface IDigiLockerClient
     Task<DigiLockerAadhaarDetails?> GetEAadhaarDetailsAsync(string digiLockerId, CancellationToken ct);
 
     Task<IReadOnlyList<DigiLockerIssuedDocument>> GetIssuedDocListAsync(string digiLockerId, CancellationToken ct);
+
+    /// <summary>CeG GetDocumentFromDigiLocker. fileType: 1 = PDF, 2 = XML, 3 = JSON. Throws when the citizen's DigiLocker access token (held by the gateway) has expired.</summary>
+    Task<DigiLockerDocumentContent> GetDocumentAsync(string digiLockerId, string docUri, int fileType, CancellationToken ct);
 }

@@ -37,11 +37,9 @@ export function GovernmentNotifications() {
     }
   }, [selected])
 
-  const notificationContent = query.isLoading ? (
-    <div className="rounded-2xl border border-dashed border-border px-5 py-7 text-sm text-muted-foreground">
-      {t('notificationsLoading')}
-    </div>
-  ) : query.data?.length ? (
+  if (!query.data?.length) return null
+
+  const notificationContent = (
     <div className="grid gap-3 sm:grid-cols-2">
       {query.data.map((notification) => (
         <button
@@ -68,10 +66,6 @@ export function GovernmentNotifications() {
           </div>
         </button>
       ))}
-    </div>
-  ) : (
-    <div className="rounded-2xl border border-dashed border-border px-5 py-7 text-sm text-muted-foreground">
-      {t('notificationsEmpty')}
     </div>
   )
 

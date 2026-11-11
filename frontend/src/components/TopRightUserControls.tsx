@@ -40,15 +40,25 @@ export function TopRightUserControls() {
 
   return (
     <div className="flex shrink-0 items-center gap-2">
-      <button
-        type="button"
+      <div
+        role="group"
         aria-label={lang === 'en' ? t('switchToKannada') : t('switchToEnglish')}
-        title={lang === 'en' ? t('switchToKannada') : t('switchToEnglish')}
-        onClick={() => setLang(lang === 'en' ? 'kn' : 'en')}
-        className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-[#5b616e] transition hover:border-[#ebe9f0] hover:bg-[#fafafb] hover:text-[#2f3542]"
+        className="flex items-center rounded-full border border-border bg-card p-0.5 text-xs font-medium"
       >
-        {lang === 'en' ? t('kannada') : t('english')}
-      </button>
+        {(['en', 'kn'] as const).map((l) => (
+          <button
+            key={l}
+            type="button"
+            aria-pressed={lang === l}
+            onClick={() => lang !== l && setLang(l)}
+            className={`cursor-pointer rounded-full px-3 py-1 transition ${
+              lang === l ? 'bg-[#5b4a8a] text-white' : 'text-[#5b616e] hover:text-[#2f3542]'
+            }`}
+          >
+            {l === 'en' ? 'English' : 'ಕನ್ನಡ'}
+          </button>
+        ))}
+      </div>
 
       {loaded && signedIn ? (
         <button
@@ -70,7 +80,7 @@ export function TopRightUserControls() {
           title={t('login')}
           aria-label={t('login')}
           onClick={onSignIn}
-          className={`flex items-center gap-1.5 rounded-full bg-[#5b4a8a] px-3 py-1.5 text-xs font-medium text-white transition hover:bg-[#4d3f75] ${
+          className={`flex min-w-[5.5rem] items-center justify-center gap-1.5 rounded-full bg-[#5b4a8a] px-3 py-1.5 text-xs font-medium text-white transition hover:bg-[#4d3f75] ${
             busy ? 'pointer-events-none opacity-60' : ''
           }`}
         >

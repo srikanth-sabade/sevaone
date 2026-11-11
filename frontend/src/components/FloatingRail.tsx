@@ -165,7 +165,7 @@ export function FloatingRail() {
       case '/services':
         void navigate({
           to: '/services',
-          search: { q: undefined, department: undefined },
+          search: { q: undefined, department: undefined, category: undefined },
           hash: item.hash,
         }).then(afterNavigation)
         break
@@ -211,19 +211,19 @@ export function FloatingRail() {
     }`
 
   const itemClass = (active: boolean, expanded: boolean) =>
-    `relative flex rounded-xl border py-2 text-left transition-all duration-150 ease-out ${
+    `shine relative flex rounded-xl border py-2 text-left transition-all duration-150 ease-out ${
       expanded && !lockCollapsed
         ? 'w-full items-start justify-start gap-2.5 px-2.5'
         : 'w-9 items-center justify-center gap-0 px-2'
     } ${
       active
         ? 'border-[color:var(--rail2-accent)]/40 bg-[color:var(--rail2-accent-soft)] text-[color:var(--rail2-accent)]'
-        : 'border-transparent text-[#5b616e] hover:border-[#ebe9f0] hover:bg-[#fafafb] hover:text-[#2f3542]'
+        : 'border-transparent text-[#2f3542] hover:border-[#ebe9f0] hover:bg-[#fafafb] hover:text-[#111827]'
     }`
 
   const iconClass = (active?: boolean) =>
     `h-4 w-4 shrink-0 transition-colors ${
-      active ? 'text-[color:var(--rail2-accent)]' : 'text-[#6b7280]'
+      active ? 'text-[color:var(--rail2-accent)]' : 'text-[#2f3542]'
     }`
 
   const renderPrimaryItem = (item: NavItem) => {
@@ -308,9 +308,9 @@ export function FloatingRail() {
                     onClick={() => void onLogout()}
                   >
                     {busy && authBusy === 'signing-out' ? (
-                      <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#6b7280]" />
+                      <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#2f3542]" />
                     ) : (
-                      <LogOut className="h-4 w-4 shrink-0 text-[#6b7280]" strokeWidth={1.75} />
+                      <LogOut className="h-4 w-4 shrink-0 text-[#2f3542]" strokeWidth={1.75} />
                     )}
                     <span className={labelClass(expanded)}>
                       <span className="block text-[0.8125rem] font-semibold leading-tight whitespace-nowrap text-[#2f3542]">

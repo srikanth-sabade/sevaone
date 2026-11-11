@@ -6,6 +6,7 @@
     <!-- Data access (Dapper, not EF Core) -->
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="Npgsql" Version="9.0.4" />
+    <PackageVersion Include="Minio" Version="6.0.3" />
     <!-- ASP.NET / hosting -->
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />

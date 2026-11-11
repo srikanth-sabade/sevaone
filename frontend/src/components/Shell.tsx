@@ -16,6 +16,7 @@ export function Shell() {
   const path = useRouterState({ select: (s) => s.location.pathname })
   const hideChrome =
     path === '/' ||
+    path === '/oldhomepage' ||
     path === '/login' ||
     path === '/register' ||
     path.startsWith('/handoff') ||

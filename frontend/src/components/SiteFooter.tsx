@@ -28,7 +28,7 @@ export function SiteFooter() {
           <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('footerGetThingsDone')}</h4>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li>
-              <Link to="/services" search={{ q: undefined, department: undefined }} className="hover:text-[color:var(--gov-blue)]">
+              <Link to="/services" search={{ q: undefined, department: undefined, category: undefined }} className="hover:text-[color:var(--gov-blue)]">
                 {t('footerAllServices')}
               </Link>
             </li>

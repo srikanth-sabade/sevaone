@@ -161,6 +161,22 @@ public sealed class AuthController : SevaControllerBase
     public async Task<IActionResult> DigiLockerDocuments(CancellationToken ct) =>
         Ok(await _auth.ListDigiLockerDocumentsAsync(ct));
 
+    /// <summary>Re-pulls the documents from DigiLocker into SevaOne's own storage. Only works while the citizen's DigiLocker session is still valid.</summary>
+    [Authorize]
+    [HttpPost("me/digilocker/documents/sync")]
+    public async Task<IActionResult> SyncDigiLockerDocuments(CancellationToken ct) =>
+        Ok(await _auth.SyncDigiLockerDocumentsAsync(ct));
+
+    [Authorize]
+    [HttpGet("me/digilocker/documents/{id:guid}/file")]
+    public async Task<IActionResult> DigiLockerDocumentFile(Guid id, [FromQuery] string format, CancellationToken ct)
+    {
+        if (format is not ("pdf" or "xml" or "json")) return BadRequest(new { title = "format must be pdf, xml or json." });
+        var file = await _auth.GetDigiLockerDocumentFileAsync(id, format, ct);
+        Response.Headers.CacheControl = "no-store";
+        return File(file.Bytes, file.MimeType, file.Name);
+    }
+
     /// <summary>The dashboard's "Recent Activity" feed. Fixed take, not a query param -- this
     /// is a small recent-history glance, not a paged audit browser.</summary>
     [Authorize]

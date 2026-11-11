@@ -1,3 +1,5 @@
+import { RecommendedServices } from '../components/RecommendedServices'
+import { OCCUPATIONS, occupationKey } from '../lib/occupations'
 import { Link, useSearch } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import {
@@ -108,6 +110,7 @@ export function DashboardPage() {
     dateOfBirth: '',
     gender: '',
     aadhaarLast4: '',
+    occupation: '',
   })
   const visibleNotifications = seededNotifications(me, notifications.data)
   const visibleActivity = seededActivity(me, audit.data)
@@ -128,6 +131,7 @@ export function DashboardPage() {
     ['Email address', me?.email],
     ['Date of birth', me?.dateOfBirth],
     ['Gender', me?.gender],
+    ['Occupation', me?.occupation],
     ['Aadhaar', me?.aadhaarMasked],
     ['Address', me?.address],
     ['District', me?.district],
@@ -161,6 +165,7 @@ export function DashboardPage() {
       dateOfBirth: me?.dateOfBirth?.slice(0, 10) ?? '',
       gender: me?.gender ?? '',
       aadhaarLast4: me?.aadhaarMasked?.slice(-4) ?? '',
+      occupation: me?.occupation ?? '',
     })
     setProfileOpen(true)
   }
@@ -182,6 +187,7 @@ export function DashboardPage() {
         dateOfBirth: profileForm.dateOfBirth || undefined,
         gender: profileForm.gender || undefined,
         aadhaarLast4: profileForm.aadhaarLast4 || undefined,
+        occupation: profileForm.occupation || undefined,
       })
       await useSession.getState().refresh()
       setProfileOpen(false)
@@ -264,7 +270,7 @@ export function DashboardPage() {
             </Link>
             <Link
               to="/services"
-              search={{ q: undefined, department: undefined }}
+              search={{ q: undefined, department: undefined, category: undefined }}
               className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-sm font-semibold text-[color:var(--gov-navy)] transition hover:border-[color:var(--gov-blue)]/35 hover:bg-[color:var(--gov-blue)]/5"
             >
               <LayoutGrid className="h-4 w-4" /> Services
@@ -536,6 +542,7 @@ export function DashboardPage() {
           </aside>
         </div>
 
+        <RecommendedServices occupation={me.occupation} onEdit={openProfileModal} />
         <section className="mt-6 rounded-3xl border border-border/80 bg-card p-5 shadow-[var(--shadow-soft)]">
           <div className="flex items-center gap-2">
             <h2 className="text-base font-semibold text-[color:var(--gov-navy)]">{t('dashActivity')}</h2>
@@ -687,6 +694,16 @@ export function DashboardPage() {
                   <option value="PreferNotToSay">{t('genderUnspecified')}</option>
                 </select>
                 <ProfileFieldHint filled={Boolean(profileForm.gender.trim())} required />
+              </label>
+              <label className="block">
+                <ProfileFieldLabel filled={Boolean(profileForm.occupation.trim())}>{t('occupationLabel')}</ProfileFieldLabel>
+                <select className="w-full rounded-lg border border-input bg-background px-3 py-2" value={profileForm.occupation} onChange={(event) => setProfileForm({ ...profileForm, occupation: event.target.value })}>
+                  <option value="">{t('selectPlaceholder')}</option>
+                  {OCCUPATIONS.map((code) => (
+                    <option key={code} value={code}>{t(occupationKey(code))}</option>
+                  ))}
+                </select>
+                <p className="mt-1 text-xs text-muted-foreground">{t('occupationHint')}</p>
               </label>
               <label className="block">
                 <ProfileFieldLabel filled={Boolean(profileForm.aadhaarLast4.trim())}>{t('regAadhaarLast4')}</ProfileFieldLabel>

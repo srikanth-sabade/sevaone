@@ -41,7 +41,7 @@ export function LandingPage() {
   const submit = (value: string) => {
     const query = value.trim()
     if (!query) return
-    void navigate({ to: '/services', search: { q: query, department: undefined } })
+    void navigate({ to: '/services', search: { q: query, department: undefined, category: undefined } })
   }
 
   const startVoice = () => {
@@ -300,9 +300,6 @@ export function LandingPage() {
           </Link>
           <Link to="/grievance" className="text-muted-foreground hover:text-foreground">
             Grievance
-          </Link>
-          <Link to="/home" className="text-muted-foreground hover:text-foreground">
-            Full portal
           </Link>
         </div>
         <div className="px-5 pb-6 text-center text-xs text-muted-foreground">

@@ -37,6 +37,9 @@ public sealed class Citizen : BaseModel
     public DateOnly? DateOfBirth { get; set; }
     public string? Gender { get; set; }
 
+    /// <summary>Occupation category code (see OccupationCategories); drives service recommendations.</summary>
+    public string? Occupation { get; set; }
+
     /// <summary>Name/address/district/state/village in the citizen's local language (Kannada),
     /// straight from eAadhaar's LData element -- only ever populated via DigiLocker login. Same
     /// District/StateName/VillageName split as the English fields above.</summary>
